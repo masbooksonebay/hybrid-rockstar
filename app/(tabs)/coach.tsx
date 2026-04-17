@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { View, Text, ScrollView, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, Platform, ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import Constants from "expo-constants";
 import { useApp } from "../../lib/context";
 import { COACH_ROB_SYSTEM_PROMPT } from "../../lib/coachPrompt";
 import { RULES, RuleSection } from "../../data/rules";
@@ -10,7 +11,7 @@ interface Message { role: "user" | "assistant"; content: string }
 
 const SUGGESTIONS = [
   "What are the station weights for my division?",
-  "How do I pace a Hyrox race?",
+  "How do I pace a hybrid race?",
   "What's the penalty for incomplete reps?",
   "How should I train in the 4 weeks before my race?",
   "What should I eat on race day?",
@@ -34,9 +35,9 @@ export default function CoachScreen() {
     setLoading(true);
 
     try {
-      const apiKey = process.env.EXPO_PUBLIC_ANTHROPIC_API_KEY;
+      const apiKey = Constants.expoConfig?.extra?.anthropicApiKey as string | undefined;
       if (!apiKey) {
-        setMessages([...updated, { role: "assistant", content: "API key not configured. Set EXPO_PUBLIC_ANTHROPIC_API_KEY in your environment." }]);
+        setMessages([...updated, { role: "assistant", content: "API key not configured. Set ANTHROPIC_API_KEY in your .env file." }]);
         setLoading(false);
         return;
       }
@@ -51,7 +52,7 @@ export default function CoachScreen() {
         },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
-          max_tokens: 1024,
+          max_tokens: 1000,
           system: COACH_ROB_SYSTEM_PROMPT + `\n\nUser's division: ${settings.division}. Gender: ${settings.gender}.`,
           messages: updated.map((m) => ({ role: m.role, content: m.content })),
         }),
@@ -96,7 +97,7 @@ export default function CoachScreen() {
           <ScrollView ref={scrollRef} contentContainerStyle={styles.chatContent} onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}>
             {messages.length === 0 && (
               <View style={styles.suggestions}>
-                <Text style={[styles.suggestTitle, { color: theme.textSecondary }]}>Ask Coach Rob anything about Hyrox</Text>
+                <Text style={[styles.suggestTitle, { color: theme.textSecondary }]}>Ask Coach Rob anything about hybrid racing</Text>
                 {SUGGESTIONS.map((s) => (
                   <TouchableOpacity key={s} style={[styles.suggestChip, { borderColor: theme.border }]} onPress={() => sendMessage(s)}>
                     <Text style={[styles.suggestText, { color: theme.text }]}>{s}</Text>
@@ -117,12 +118,12 @@ export default function CoachScreen() {
             <View style={{ height: 20 }} />
           </ScrollView>
 
-          <Text style={[styles.disclaimer, { color: theme.textSecondary }]}>AI responses are for training guidance only. Always verify rules at hyrox.com.</Text>
+          <Text style={[styles.disclaimer, { color: theme.textSecondary }]}>AI responses are for training guidance only. Always verify rules with the official race organization.</Text>
 
           <View style={[styles.inputRow, { backgroundColor: theme.card, borderTopColor: theme.border }]}>
             <TextInput
               style={[styles.input, { color: theme.text }]}
-              placeholder="Ask Coach Rob anything about Hyrox..."
+              placeholder="Ask Coach Rob anything about hybrid racing..."
               placeholderTextColor={theme.textSecondary}
               value={input}
               onChangeText={setInput}
@@ -136,7 +137,7 @@ export default function CoachScreen() {
         </>
       ) : (
         <ScrollView contentContainerStyle={styles.rulesContent}>
-          <Text style={[styles.rulesNote, { color: theme.textSecondary }]}>Source: hyrox.com — always verify for official competition.</Text>
+          <Text style={[styles.rulesNote, { color: theme.textSecondary }]}>Source: official race rules — always verify for competition.</Text>
           <View style={[styles.searchRow, { backgroundColor: theme.inputBg, borderColor: theme.border }]}>
             <Ionicons name="search" size={18} color={theme.textSecondary} />
             <TextInput style={[styles.searchInput, { color: theme.text }]} placeholder="Search rules..." placeholderTextColor={theme.textSecondary} value={rulesSearch} onChangeText={setRulesSearch} />

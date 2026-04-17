@@ -4,22 +4,23 @@
     {
       "title": "Equipment",
       "products": [
-        { "brand": "Concept2", "name": "SkiErg & Rower", "description": "The exact machines used at Hyrox. Train on what you race on.", "url": "https://www.amazon.com/s?k=concept2+skierg+rower&tag=profpeptide-20", "code": "" },
-        { "brand": "REP Fitness", "name": "Sleds, Wall Balls & Sandbags", "description": "Quality training equipment for station practice at home.", "url": "https://www.amazon.com/stores/RepFitness/page/F6EEA272-D0BD-4AA4-9E21-974E39F230A9?tag=profpeptide-20", "code": "" }
+        { "brand": "Concept2", "name": "SkiErg & Rower", "description": "The exact machines used at the race — train on what you race on." },
+        { "brand": "REP Fitness", "name": "Sleds, Wall Balls & Sandbags", "description": "Quality training equipment for station practice at home." },
+        { "brand": "Rogue Fitness", "name": "Station-ready gear", "description": "Sleds, sandbags, medicine balls, and barbells built for hybrid training volume." },
+        { "brand": "Titan Fitness", "name": "Value equipment for home gyms", "description": "Sleds, kettlebells, and racks at competitive pricing for hybrid athletes building home setups." }
       ]
     },
     {
       "title": "Accessories",
       "products": [
-        { "brand": "Gymreapers", "name": "Knee Sleeves & Lifting Grips", "description": "Knee support for lunges and grips for farmers carry.", "url": "https://www.amazon.com/stores/Gymreapers/page/9E2D91D7-8011-4AE5-83DF-C31D57DFD0C8?tag=profpeptide-20", "code": "" },
-        { "brand": "Nike", "name": "Metcon Training Shoes", "description": "Versatile cross-training shoe. Stable for lunges, light enough for running.", "url": "https://www.amazon.com/s?k=nike+metcon&tag=profpeptide-20", "code": "" }
+        { "brand": "Nike", "name": "Metcon Training Shoes", "description": "Versatile cross-training shoe. Stable for lunges, light enough for running." }
       ]
     },
     {
       "title": "Nutrition",
       "products": [
-        { "brand": "Nutricost", "name": "Creatine, Electrolytes & BCAAs", "description": "Clean supplements at honest prices. Third-party tested.", "url": "https://www.amazon.com/stores/Nutricost/page/BD5FA887-A3DD-4141-A2F1-AA814EEFEF41?tag=profpeptide-20", "code": "" },
-        { "brand": "LMNT", "name": "Electrolyte Drink Mix", "description": "Zero sugar electrolytes. Perfect for race day and long training sessions.", "url": "https://www.amazon.com/s?k=LMNT+electrolyte&tag=profpeptide-20", "code": "" }
+        { "brand": "Nutricost", "name": "Creatine, Electrolytes & BCAAs", "description": "Clean supplements at honest prices. Third-party tested." },
+        { "brand": "LMNT", "name": "Electrolyte Drink Mix", "description": "Zero sugar electrolytes. Perfect for race day and long training sessions." }
       ]
     }
   ]

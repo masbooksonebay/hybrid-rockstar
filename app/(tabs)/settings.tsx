@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Switch } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/context";
-import { DIVISIONS, GENDERS } from "../../constants/hyrox";
+import { DIVISIONS, GENDERS } from "../../constants/race";
 import { spacing, borderRadius } from "../../constants/theme";
 
 export default function SettingsScreen() {

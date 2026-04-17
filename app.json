@@ -4,12 +4,12 @@
     "slug": "hybrid-rockstar",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/app-icon-1024.png",
     "userInterfaceStyle": "dark",
     "newArchEnabled": false,
     "scheme": "hybridrockstar",
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/app-icon-1024.png",
       "resizeMode": "contain",
       "backgroundColor": "#0a0a0a"
     },
@@ -17,19 +17,21 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.hybridrockstar.app",
       "buildNumber": "1",
+      "icon": "./assets/app-icon-1024.png",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
+      "icon": "./assets/app-icon-1024.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/app-icon-1024.png",
         "backgroundColor": "#0a0a0a"
       },
       "package": "com.hybridrockstar.app"
     },
     "web": {
-      "favicon": "./assets/favicon.png",
+      "favicon": "./assets/app-icon-1024.png",
       "bundler": "metro"
     },
     "plugins": [

@@ -7,7 +7,7 @@ export const RULES: RuleSection[] = [
   {
     title: "General Race Rules",
     items: [
-      { heading: "Race format", body: "A Hyrox race consists of 8 x 1km runs, each followed by one functional workout station, completed in a fixed order. Total distance is 8km of running plus 8 stations." },
+      { heading: "Race format", body: "A hybrid race consists of 8 x 1km runs, each followed by one functional workout station, completed in a fixed order. Total distance is 8km of running plus 8 stations." },
       { heading: "Wave starts", body: "Athletes start in assigned waves at scheduled times. You must be in your wave corral before your start time. Late arrivals may be moved to a later wave or disqualified." },
       { heading: "Timing", body: "Chip timing is used. Your time starts when your wave crosses the start mat and ends when you cross the finish mat. Transition times between stations count toward your total." },
       { heading: "Course markings", body: "Follow all course markings and directions from marshals. Cutting the course or skipping sections results in disqualification." },

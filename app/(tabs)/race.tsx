@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View, Text, ScrollView, TouchableOpacity, TextInput, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/context";
-import { STATIONS } from "../../constants/hyrox";
+import { RACE_SEQUENCE } from "../../constants/race";
 import { spacing, borderRadius } from "../../constants/theme";
 
 export default function RaceScreen() {
@@ -93,17 +93,18 @@ export default function RaceScreen() {
           </>
         )}
 
-        {/* Station reference */}
+        {/* Race order — fixed official sequence, not rearrangeable */}
         <Text style={[styles.sectionHeader, { color: theme.textSecondary }]}>RACE ORDER</Text>
-        {STATIONS.map((s, i) => (
-          <View key={s.name} style={[styles.stationRow, { borderBottomColor: theme.border }]}>
+        {RACE_SEQUENCE.map((s) => (
+          <View key={s.order} style={[styles.stationRow, { borderBottomColor: theme.border }]}>
             <View style={[styles.stationNum, { backgroundColor: theme.accent + "20" }]}>
-              <Text style={[styles.stationNumText, { color: theme.accent }]}>{i + 1}</Text>
+              <Text style={[styles.stationNumText, { color: theme.accent }]}>{s.order}</Text>
             </View>
             <View style={{ flex: 1 }}>
               <Text style={[styles.stationName, { color: theme.text }]}>{s.name}</Text>
               <Text style={[styles.stationDist, { color: theme.textSecondary }]}>{s.distance || `${s.reps} reps`}</Text>
             </View>
+            <Ionicons name="lock-closed" size={14} color={theme.textSecondary} />
           </View>
         ))}
         <View style={{ height: 40 }} />
