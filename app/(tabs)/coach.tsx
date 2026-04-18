@@ -15,7 +15,6 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import { useHeaderHeight } from "@react-navigation/elements";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useApp } from "../../lib/context";
 import { COACH_ROB_SYSTEM_PROMPT } from "../../lib/coachPrompt";
 import { RULES } from "../../data/rules";
@@ -38,7 +37,6 @@ const SUGGESTIONS = [
 export default function CoachScreen() {
   const { theme, settings } = useApp();
   const headerHeight = useHeaderHeight();
-  const tabBarHeight = useBottomTabBarHeight();
   const [tab, setTab] = useState<"chat" | "rules">("chat");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -108,7 +106,7 @@ export default function CoachScreen() {
     <KeyboardAvoidingView
       style={[styles.container, { backgroundColor: theme.background }]}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? headerHeight + tabBarHeight + 12 : 0}
+      keyboardVerticalOffset={Platform.OS === "ios" ? headerHeight + 40 : 0}
     >
       <View style={[styles.tabRow, { borderBottomColor: theme.border }]}>
         <TouchableOpacity style={[styles.tab, tab === "chat" && { borderBottomColor: theme.accent, borderBottomWidth: 2 }]} onPress={() => setTab("chat")}>
@@ -129,7 +127,6 @@ export default function CoachScreen() {
           >
             {messages.length === 0 && (
               <View style={styles.suggestions}>
-                <Text style={[styles.suggestTitle, { color: theme.textSecondary }]}>Ask Coach Rob anything about hybrid racing</Text>
                 {SUGGESTIONS.map((s) => (
                   <TouchableOpacity key={s} style={[styles.suggestChip, { borderColor: theme.border }]} onPress={() => sendMessage(s)}>
                     <Text style={[styles.suggestText, { color: theme.text }]}>{s}</Text>
@@ -161,6 +158,7 @@ export default function CoachScreen() {
               onChangeText={setInput}
               onSubmitEditing={() => sendMessage(input)}
               returnKeyType="send"
+              blurOnSubmit={false}
             />
             <TouchableOpacity onPress={() => sendMessage(input)} disabled={loading || !input.trim()}>
               <Ionicons name="send" size={22} color={input.trim() ? theme.accent : theme.textSecondary} />

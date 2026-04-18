@@ -193,70 +193,6 @@
         "block_context": "Engine workouts progress across the block: Week 1 moderate transitions, Week 2 faster pace, Week 3 near race-pace, Week 4 recovery-flavored. The foundation today enables harder work later."
       }
     },
-    "simulation": {
-      "simulation_type": "compromised",
-      "title": "Compromised Workout: Run + Station Pair",
-      "stimulus": "Practice performing skill work under aerobic fatigue — the core hybrid-race challenge",
-      "full_rox": {
-        "estimated_duration_minutes": 60,
-        "structure": [
-          {
-            "heading": "Warm-up (10 min)",
-            "items": [
-              "5 min easy run, dynamic mobility",
-              "2 rounds: 10 air squats, 10 push-ups, 5 inchworms"
-            ]
-          },
-          {
-            "heading": "Main Block (45 min)",
-            "items": [
-              "3 rounds",
-              "1000m run (race pace or slightly slower)",
-              "20 wall balls",
-              "200m sandbag carry (or sled push if available, 50m out and back x 2)",
-              "10 burpees (standard, chest to floor)",
-              "Rest 3 min between rounds",
-              "Focus: maintain pace and form despite accumulated fatigue"
-            ]
-          },
-          {
-            "heading": "Cool-down (5 min)",
-            "items": []
-          }
-        ]
-      },
-      "quick_rox": {
-        "estimated_duration_minutes": 30,
-        "structure": [
-          {
-            "heading": "Warm-up (5 min)",
-            "items": [
-              "3 min easy jog, dynamic mobility"
-            ]
-          },
-          {
-            "heading": "Main Block (22 min)",
-            "items": [
-              "2 rounds",
-              "800m run",
-              "15 wall balls",
-              "150m sandbag carry (or sled push)",
-              "8 burpees",
-              "Rest 2 min between rounds"
-            ]
-          },
-          {
-            "heading": "Cool-down (3 min)",
-            "items": []
-          }
-        ]
-      },
-      "notes": {
-        "about": "This is a COMPROMISED workout — moderate intensity. The goal isn't to crush yourself; it's to practice moving well when your heart rate is elevated and your legs feel heavy. This is the skill that wins hybrid races: staying composed, technical, and paced when you're tired. Don't sprint the run and then flounder on the stations. Find a sustainable rhythm. Movement tips: 1000m run: pace it like you can maintain for all 3 rounds. Not a sprint. Wall balls: breathe through them. Don't hold your breath. Sandbag carry / sled: stay upright, grip firm, steady pace. Burpees: pace them — 10 in a row without resting. No failed reps, no rushed form.",
-        "week_context": "Week 1 Compromised — moderate intensity race-style practice. Your body is learning to work through fatigue without panic. Even weeks of the block will bring harder Race Simulations.",
-        "block_context": "Simulation alternates each week: Compromised (moderate, odd weeks) and Race Simulation (harder, even weeks). This keeps you practicing race skills without burning out. Deload week (Week 4) gets a shorter recovery-flavored simulation to maintain movement pattern without stress."
-      }
-    },
     "emom": {
       "title": "Foundation EMOM",
       "stimulus": "Build movement efficiency and pacing discipline through structured EMOM work",
@@ -325,6 +261,70 @@
         "about": "EMOM (Every Minute On the Minute) teaches pacing discipline. Each minute you have the work to do, but the rest you earn is dependent on how efficient you are. Don't crush each minute — aim to finish the work in 30-40 seconds and use the rest to recover. This trains consistent output, which is exactly what a hybrid race demands. Movement tips: Wall balls: find a rhythm — don't stop-start. Squat-drive-throw as one motion. Push press: quarter squat, explode up driving the bar overhead. Use legs, save shoulders. Romanian deadlift: hips back, slight knee bend, bar stays close to legs. Feel the hamstrings. Box step-ups: tall posture, drive through the working leg. Don't push off back leg.",
         "week_context": "Week 1 introduces the EMOM format at moderate volume and weight. You're learning your pacing — how fast can you complete each task and recover in the remaining time? That awareness is the whole point.",
         "block_context": "EMOMs progress across the block: Week 1 moderate (learn pacing), Week 2 faster cadence, Week 3 race-pace intensity, Week 4 skill-focused low intensity. The pacing sense you build here carries into race day."
+      }
+    },
+    "simulation": {
+      "simulation_type": "compromised",
+      "title": "Compromised Workout: Run + Station Pair",
+      "stimulus": "Practice performing skill work under aerobic fatigue — the core hybrid-race challenge",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy run, dynamic mobility",
+              "2 rounds: 10 air squats, 10 push-ups, 5 inchworms"
+            ]
+          },
+          {
+            "heading": "Main Block (45 min)",
+            "items": [
+              "3 rounds",
+              "1000m run (race pace or slightly slower)",
+              "20 wall balls",
+              "200m sandbag carry (or sled push if available, 50m out and back x 2)",
+              "10 burpees (standard, chest to floor)",
+              "Rest 3 min between rounds",
+              "Focus: maintain pace and form despite accumulated fatigue"
+            ]
+          },
+          {
+            "heading": "Cool-down (5 min)",
+            "items": []
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy jog, dynamic mobility"
+            ]
+          },
+          {
+            "heading": "Main Block (22 min)",
+            "items": [
+              "2 rounds",
+              "800m run",
+              "15 wall balls",
+              "150m sandbag carry (or sled push)",
+              "8 burpees",
+              "Rest 2 min between rounds"
+            ]
+          },
+          {
+            "heading": "Cool-down (3 min)",
+            "items": []
+          }
+        ]
+      },
+      "notes": {
+        "about": "This is a COMPROMISED workout — moderate intensity. The goal isn't to crush yourself; it's to practice moving well when your heart rate is elevated and your legs feel heavy. This is the skill that wins hybrid races: staying composed, technical, and paced when you're tired. Don't sprint the run and then flounder on the stations. Find a sustainable rhythm. Movement tips: 1000m run: pace it like you can maintain for all 3 rounds. Not a sprint. Wall balls: breathe through them. Don't hold your breath. Sandbag carry / sled: stay upright, grip firm, steady pace. Burpees: pace them — 10 in a row without resting. No failed reps, no rushed form.",
+        "week_context": "Week 1 Compromised — moderate intensity race-style practice. Your body is learning to work through fatigue without panic. Even weeks of the block will bring harder Race Simulations.",
+        "block_context": "Simulation alternates each week: Compromised (moderate, odd weeks) and Race Simulation (harder, even weeks). This keeps you practicing race skills without burning out. Deload week (Week 4) gets a shorter recovery-flavored simulation to maintain movement pattern without stress."
       }
     }
   }

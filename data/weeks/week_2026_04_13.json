@@ -1,0 +1,360 @@
+{
+  "week_start": "2026-04-13",
+  "block_id": "2026-04",
+  "block_week": 2,
+  "block_phase": "intensification",
+  "sessions": {
+    "strength": {
+      "title": "Intensification Strength",
+      "stimulus": "Increase intensity with heavier loads and fewer reps. Volume stays moderate, intensity climbs.",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy bike or row",
+              "Dynamic: leg swings, hip circles, thoracic rotations",
+              "2 sets: bodyweight squats x 10, push-ups x 8",
+              "2-3 lighter sets building to working weight"
+            ]
+          },
+          {
+            "heading": "Back Squat (20 min)",
+            "items": [
+              "5 sets x 6 reps @ RPE 7-8",
+              "Rest 2-3 min between sets",
+              "Heavier than last week, but still 2 reps in reserve"
+            ]
+          },
+          {
+            "heading": "Bench Press (15 min)",
+            "items": [
+              "4 sets x 6 reps @ RPE 7-8",
+              "Rest 2 min between sets",
+              "Pair with weighted pull-ups or bodyweight pull-ups x max reps"
+            ]
+          },
+          {
+            "heading": "Accessory Circuit (15 min)",
+            "items": [
+              "3 rounds, minimal rest",
+              "Dumbbell row 10 each side (heavier than last week)",
+              "Hollow hold 30 seconds",
+              "Kettlebell swings x 15 @ 24kg men / 16kg women"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy bike",
+              "10 squats, 10 push-ups, 5 sets of progressive loading"
+            ]
+          },
+          {
+            "heading": "Back Squat (12 min)",
+            "items": [
+              "4 sets x 6 reps @ RPE 7-8",
+              "Rest 90 sec between sets"
+            ]
+          },
+          {
+            "heading": "Superset (13 min)",
+            "items": [
+              "3 rounds",
+              "Bench press x 5 @ RPE 7-8",
+              "Pull-ups x max reps",
+              "Rest 75 sec"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Week 2 bumps the intensity. Loads go up, reps come down. RPE 7-8 means the last rep should feel hard — you have 1-2 reps left in the tank. This is where you start building real strength. The kettlebell swings in the accessory section train your hip hinge pattern — the same pattern you'll use on the sled push.",
+        "week_context": "Intensification week — heavier loads, slightly fewer reps. You should finish feeling challenged but not crushed. If a set feels easy, add weight next set.",
+        "block_context": "Second week of the 4-week block. Volume has dropped slightly, intensity has climbed. Next week we push peak performance."
+      }
+    },
+    "running": {
+      "title": "Aerobic Base + Tempo",
+      "stimulus": "Introduce threshold work. Build aerobic engine with easy volume, add one moderate tempo push to begin lactic threshold work.",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "10 min easy jog, gradually building pace",
+              "Dynamic drills last 2 min: A-skips, B-skips, strides x 3"
+            ]
+          },
+          {
+            "heading": "Main Session (45 min)",
+            "items": [
+              "20 min easy zone 2 run (conversational pace)",
+              "15 min tempo run (comfortably hard — can speak in short phrases but not hold conversation)",
+              "10 min easy cool-down"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "5 min easy jog",
+              "A-skips, B-skips, strides x 2"
+            ]
+          },
+          {
+            "heading": "Main Session (22 min)",
+            "items": [
+              "10 min easy zone 2",
+              "8 min tempo (comfortably hard)",
+              "4 min easy cool-down"
+            ]
+          },
+          {
+            "heading": "Cool-down (3 min)",
+            "items": [
+              "Easy walk"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Tempo running is the sweet spot between easy and hard. It trains your lactic threshold — the pace at which your body can still clear lactate as fast as it produces it. Improving this makes race pace feel sustainable. Don't confuse tempo with all-out — you should finish the tempo portion feeling you could have pushed another 5 minutes, but not 15.",
+        "week_context": "Intensification week — first introduction of tempo work. Listen to your body. If you feel run down, extend the easy portion and shorten the tempo.",
+        "block_context": "Running progression: Week 1 all easy, Week 2 adds tempo, Week 3 race-pace intervals, Week 4 deload."
+      }
+    },
+    "engine": {
+      "title": "Station Circuit Intro",
+      "stimulus": "Build work capacity through race-specific stations combined with running. Moderate-high pace, focus on transitions.",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy row",
+              "Dynamic: walking lunges, torso twists, arm circles",
+              "2 sets: 10 wall balls, 10 air squats, 5 burpees"
+            ]
+          },
+          {
+            "heading": "Main Session (40 min)",
+            "items": [
+              "4 rounds at RPE 7:",
+              "400m run",
+              "20 wall balls (6kg women / 9kg men)",
+              "250m row",
+              "12 burpee broad jumps",
+              "15 sandbag cleans (10kg women / 20kg men)",
+              "Rest 2 min between rounds"
+            ]
+          },
+          {
+            "heading": "Cool-down (10 min)",
+            "items": [
+              "5 min easy walk",
+              "5 min stretching: hip flexors, quads, shoulders"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy row",
+              "10 wall balls, 10 squats"
+            ]
+          },
+          {
+            "heading": "Main Session (22 min)",
+            "items": [
+              "3 rounds at RPE 7:",
+              "300m run",
+              "15 wall balls",
+              "200m row",
+              "10 burpee broad jumps",
+              "Rest 2 min between rounds"
+            ]
+          },
+          {
+            "heading": "Cool-down (3 min)",
+            "items": [
+              "Easy walk"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Higher pace than last week, more rounds, more station volume. The focus is still transitions — how smoothly you move from run to station and back. Sandbag cleans are new this week — they train your hip hinge with a dynamic load, crucial for the race's sandbag lunges station.",
+        "week_context": "Intensification week — work rate increases. You should feel this one. Rest between rounds is your friend — use it to catch your breath.",
+        "block_context": "Engine progression: familiarization → increased pace → race pace → deload."
+      }
+    },
+    "emom": {
+      "title": "Intensification EMOM",
+      "stimulus": "Higher rep counts across EMOM rounds to stress work capacity. Pacing discipline still primary focus.",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy bike",
+              "Dynamic warm-up",
+              "10 wall balls, 10 air squats, 5 burpees"
+            ]
+          },
+          {
+            "heading": "EMOM 28 min",
+            "items": [
+              "Minute 1: 18 wall balls",
+              "Minute 2: 15 burpees",
+              "Minute 3: 300m row",
+              "Minute 4: rest",
+              "7 rounds total",
+              "Aim for 5-15 seconds of rest per work minute"
+            ]
+          },
+          {
+            "heading": "Accessory Core (12 min)",
+            "items": [
+              "3 rounds, 60 sec work / 15 sec rest:",
+              "Weighted plank",
+              "Russian twists (with weight)",
+              "Toes to bar or hanging leg raises"
+            ]
+          },
+          {
+            "heading": "Cool-down (10 min)",
+            "items": [
+              "5 min easy bike",
+              "5 min stretching"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy bike",
+              "10 air squats, 10 push-ups"
+            ]
+          },
+          {
+            "heading": "EMOM 24 min",
+            "items": [
+              "Minute 1: 15 wall balls",
+              "Minute 2: 12 burpees",
+              "Minute 3: 250m row",
+              "Minute 4: rest",
+              "6 rounds total"
+            ]
+          },
+          {
+            "heading": "Cool-down (1 min)",
+            "items": [
+              "Stretch"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Reps per minute go up this week. You're training your ability to sustain work output across a longer session. If a minute feels impossible, scale the reps — consistency across 7 rounds matters more than crushing round 1 and dying at round 4. Pacing is a skill. Build it today.",
+        "week_context": "Intensification — more reps, more rounds. Scale if needed.",
+        "block_context": "EMOM progression: establish → increase → peak → deload."
+      }
+    },
+    "simulation": {
+      "title": "Compromised Running Threshold",
+      "stimulus": "Practice running at threshold pace after station work. The core hybrid race challenge.",
+      "simulation_type": "compromised",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy jog",
+              "Dynamic warm-up",
+              "Practice: 5 wall balls, 30m sled push at light weight"
+            ]
+          },
+          {
+            "heading": "Main Session (40 min)",
+            "items": [
+              "4 rounds at RPE 7-8:",
+              "1km run at tempo pace",
+              "20 wall balls",
+              "50m sled push (moderate weight)",
+              "Rest 3 min between rounds",
+              "Focus: maintain pace on 4th round — don't blow up early"
+            ]
+          },
+          {
+            "heading": "Cool-down (10 min)",
+            "items": [
+              "5 min easy walk",
+              "5 min stretching"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy jog",
+              "Dynamic warm-up"
+            ]
+          },
+          {
+            "heading": "Main Session (22 min)",
+            "items": [
+              "3 rounds at RPE 7-8:",
+              "800m run at tempo pace",
+              "15 wall balls",
+              "30m sled push",
+              "Rest 2 min between rounds"
+            ]
+          },
+          {
+            "heading": "Cool-down (3 min)",
+            "items": [
+              "Easy walk"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Today is the most race-specific session of the week. Running at tempo pace with tired legs is exactly what happens in a Hyrox race. Pay attention to how your pace feels — can you maintain round 1's pace on round 4? If you blow up after round 2, you went too hard early. Learn your sustainable pace today.",
+        "week_context": "Intensification simulation — threshold pace, more volume than last week.",
+        "block_context": "Simulation progression: moderate → threshold → race-pace → deload tune-up."
+      }
+    }
+  },
+  "notes": {
+    "about": "Week 2 of the block. Intensity climbs across all sessions.",
+    "week_context": "Intensification: heavier loads, faster paces, more volume. You should feel this week.",
+    "block_context": "Second of four weeks in this block. Peak week coming next."
+  }
+}

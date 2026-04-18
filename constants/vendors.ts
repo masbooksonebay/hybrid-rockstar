@@ -13,8 +13,7 @@ export type CategoryKey =
   | "shoes"
   | "apparel"
   | "wearables"
-  | "race_equipment"
-  | "home_training_gear"
+  | "equipment"
   | "nutrition_fuel";
 
 export interface Category {
@@ -28,7 +27,7 @@ export const CATEGORIES: Category[] = [
   {
     key: "shoes",
     label: "SHOES",
-    icon: "footsteps-outline",
+    icon: "walk-outline",
     vendors: [
       {
         slug: "puma-shoes",
@@ -47,18 +46,18 @@ export const CATEGORIES: Category[] = [
         status: "active",
       },
       {
-        slug: "saucony",
-        name: "Saucony",
-        tagline: "Energy-return racing shoes",
-        url: "https://www.saucony.com",
-        officialPartner: false,
-        status: "active",
-      },
-      {
         slug: "nobull",
         name: "Nobull",
         tagline: "Hybrid training shoes",
         url: "https://www.nobullproject.com",
+        officialPartner: false,
+        status: "active",
+      },
+      {
+        slug: "saucony",
+        name: "Saucony",
+        tagline: "Energy-return racing shoes",
+        url: "https://www.saucony.com",
         officialPartner: false,
         status: "active",
       },
@@ -101,14 +100,6 @@ export const CATEGORIES: Category[] = [
     icon: "watch-outline",
     vendors: [
       {
-        slug: "garmin",
-        name: "Garmin",
-        tagline: "GPS watches for training and racing",
-        url: "https://www.garmin.com",
-        officialPartner: false,
-        status: "active",
-      },
-      {
         slug: "amazfit",
         name: "Amazfit",
         tagline: "Official HYROX wearable partner",
@@ -116,12 +107,20 @@ export const CATEGORIES: Category[] = [
         officialPartner: true,
         status: "active",
       },
+      {
+        slug: "garmin",
+        name: "Garmin",
+        tagline: "GPS watches for training and racing",
+        url: "https://www.garmin.com",
+        officialPartner: false,
+        status: "active",
+      },
     ],
   },
   {
-    key: "race_equipment",
-    label: "RACE EQUIPMENT",
-    icon: "fitness-outline",
+    key: "equipment",
+    label: "EQUIPMENT",
+    icon: "barbell-outline",
     vendors: [
       {
         slug: "centr",
@@ -139,34 +138,11 @@ export const CATEGORIES: Category[] = [
         officialPartner: true,
         status: "active",
       },
-    ],
-  },
-  {
-    key: "home_training_gear",
-    label: "HOME TRAINING GEAR",
-    icon: "barbell-outline",
-    vendors: [
       {
-        slug: "rogue-fitness",
-        name: "Rogue Fitness",
-        tagline: "Premium race-grade training gear",
-        url: "https://www.roguefitness.com",
-        officialPartner: false,
-        status: "active",
-      },
-      {
-        slug: "rep-fitness",
-        name: "REP Fitness",
-        tagline: "Quality equipment at competitive pricing",
-        url: "https://www.repfitness.com",
-        officialPartner: false,
-        status: "active",
-      },
-      {
-        slug: "titan-fitness",
-        name: "Titan Fitness",
-        tagline: "Budget home setups for hybrid athletes",
-        url: "https://www.titan.fitness",
+        slug: "assault-fitness",
+        name: "Assault Fitness",
+        tagline: "Air bikes and assault runners",
+        url: "https://assaultfitness.com",
         officialPartner: false,
         status: "active",
       },
@@ -179,10 +155,26 @@ export const CATEGORIES: Category[] = [
         status: "active",
       },
       {
-        slug: "assault-fitness",
-        name: "Assault Fitness",
-        tagline: "Air bikes and assault runners",
-        url: "https://assaultfitness.com",
+        slug: "rep-fitness",
+        name: "REP Fitness",
+        tagline: "Quality equipment at competitive pricing",
+        url: "https://www.repfitness.com",
+        officialPartner: false,
+        status: "active",
+      },
+      {
+        slug: "rogue-fitness",
+        name: "Rogue Fitness",
+        tagline: "Premium race-grade training gear",
+        url: "https://www.roguefitness.com",
+        officialPartner: false,
+        status: "active",
+      },
+      {
+        slug: "titan-fitness",
+        name: "Titan Fitness",
+        tagline: "Budget home setups for hybrid athletes",
+        url: "https://www.titan.fitness",
         officialPartner: false,
         status: "active",
       },
@@ -191,48 +183,8 @@ export const CATEGORIES: Category[] = [
   {
     key: "nutrition_fuel",
     label: "NUTRITION & FUEL",
-    icon: "cafe-outline",
+    icon: "nutrition-outline",
     vendors: [
-      {
-        slug: "the-feed",
-        name: "The Feed",
-        tagline: "Endurance nutrition marketplace",
-        url: "https://thefeed.com",
-        officialPartner: false,
-        status: "active",
-      },
-      {
-        slug: "maurten",
-        name: "Maurten",
-        tagline: "Race-day hydrogel fueling",
-        url: "https://www.maurten.com",
-        officialPartner: false,
-        status: "active",
-      },
-      {
-        slug: "lmnt",
-        name: "LMNT",
-        tagline: "Sodium-forward electrolytes",
-        url: "https://drinklmnt.com",
-        officialPartner: false,
-        status: "active",
-      },
-      {
-        slug: "bpn",
-        name: "BPN (Bare Performance Nutrition)",
-        tagline: "Clean supplements for endurance athletes",
-        url: "https://www.bareperformancenutrition.com",
-        officialPartner: false,
-        status: "active",
-      },
-      {
-        slug: "nutricost",
-        name: "Nutricost",
-        tagline: "Budget-friendly supplements",
-        url: "https://www.nutricost.com",
-        officialPartner: false,
-        status: "active",
-      },
       {
         slug: "myprotein",
         name: "MyProtein",
@@ -249,8 +201,48 @@ export const CATEGORIES: Category[] = [
         officialPartner: true,
         status: "active",
       },
+      {
+        slug: "bpn",
+        name: "BPN (Bare Performance Nutrition)",
+        tagline: "Clean supplements for endurance athletes",
+        url: "https://www.bareperformancenutrition.com",
+        officialPartner: false,
+        status: "active",
+      },
+      {
+        slug: "lmnt",
+        name: "LMNT",
+        tagline: "Sodium-forward electrolytes",
+        url: "https://drinklmnt.com",
+        officialPartner: false,
+        status: "active",
+      },
+      {
+        slug: "maurten",
+        name: "Maurten",
+        tagline: "Race-day hydrogel fueling",
+        url: "https://www.maurten.com",
+        officialPartner: false,
+        status: "active",
+      },
+      {
+        slug: "nutricost",
+        name: "Nutricost",
+        tagline: "Budget-friendly supplements",
+        url: "https://www.nutricost.com",
+        officialPartner: false,
+        status: "active",
+      },
+      {
+        slug: "the-feed",
+        name: "The Feed",
+        tagline: "Endurance nutrition marketplace",
+        url: "https://thefeed.com",
+        officialPartner: false,
+        status: "active",
+      },
     ],
   },
 ];
 
-export const DEFAULT_OPEN_CATEGORIES: CategoryKey[] = ["shoes", "nutrition_fuel"];
+export const DEFAULT_OPEN_CATEGORIES: CategoryKey[] = [];

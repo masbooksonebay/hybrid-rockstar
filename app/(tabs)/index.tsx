@@ -1,15 +1,19 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Text, ScrollView, Pressable, StyleSheet, Animated, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import PagerView from "react-native-pager-view";
 import { useApp } from "../../lib/context";
 import {
-  getCurrentWeek,
+  getAllWeeks,
+  getCurrentWeekIndex,
   getCompletedSessions,
   SESSION_ORDER,
   SESSION_LABELS,
   SessionSlug,
+  Week,
+  isFutureWeek,
 } from "../../lib/programming";
 import { formatWeekRange, daysUntil } from "../../lib/dates";
 import { spacing, borderRadius } from "../../constants/theme";
@@ -17,58 +21,158 @@ import { spacing, borderRadius } from "../../constants/theme";
 export default function TrainScreen() {
   const { theme, settings } = useApp();
   const router = useRouter();
-  const week = getCurrentWeek();
-  const [completed, setCompleted] = useState<SessionSlug[]>([]);
+  const weeks = getAllWeeks();
+  const currentIdx = getCurrentWeekIndex();
+  const pagerRef = useRef<PagerView>(null);
+  const [activeIdx, setActiveIdx] = useState<number>(currentIdx);
+  const [completedByWeek, setCompletedByWeek] = useState<Record<string, SessionSlug[]>>({});
 
   useFocusEffect(
     useCallback(() => {
       let cancelled = false;
-      getCompletedSessions().then((list) => {
-        if (!cancelled) setCompleted(list);
-      });
+      (async () => {
+        const map: Record<string, SessionSlug[]> = {};
+        for (const w of weeks) {
+          map[w.week_start] = await getCompletedSessions(w.week_start);
+        }
+        if (!cancelled) setCompletedByWeek(map);
+      })();
       return () => {
         cancelled = true;
       };
-    }, [])
+    }, [weeks])
   );
 
-  const weekRange = formatWeekRange();
+  const goTo = (idx: number) => {
+    if (idx < 0 || idx >= weeks.length) return;
+    pagerRef.current?.setPage(idx);
+  };
+
   const raceDays = settings.raceDate ? daysUntil(settings.raceDate) : null;
+  const activeWeek = weeks[activeIdx];
+  const offset = activeIdx - currentIdx;
+  const weekRange = formatWeekRange(isoToDate(activeWeek.week_start));
+  let headerText: string;
+  if (offset === 0) headerText = `This Week (${weekRange})`;
+  else if (offset === -1) headerText = `Last Week (${weekRange})`;
+  else if (offset === 1) headerText = `Next Week (${weekRange})`;
+  else headerText = weekRange;
+
+  const leftEnabled = activeIdx > 0;
+  const rightEnabled = activeIdx < weeks.length - 1;
+  const isFuture = isFutureWeek(activeWeek.week_start);
 
   return (
     <SafeAreaView edges={["top"]} style={[styles.container, { backgroundColor: theme.background }]}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <Text style={[styles.appTitle, { color: theme.text }]}>Hybrid Rockstar</Text>
+      <Text style={[styles.appTitle, { color: theme.text }]}>Hybrid Rockstar</Text>
 
-        <View style={styles.eyebrowBlock}>
-          <Text style={[styles.eyebrow, { color: theme.text }]}>This Week ({weekRange})</Text>
-          {raceDays !== null && raceDays >= 0 && (
-            <Text style={[styles.countdown, { color: theme.accent }]}>
-              {raceDays === 0 ? "Race day" : `${raceDays} day${raceDays === 1 ? "" : "s"} to race`}
-            </Text>
-          )}
-        </View>
-
-        {SESSION_ORDER.map((slug) => {
-          const session = week.sessions[slug];
-          if (!session) return null;
-          return (
-            <SessionCard
-              key={slug}
-              slug={slug}
-              title={session.title}
-              stimulus={session.stimulus}
-              fullDuration={session.full_rox.estimated_duration_minutes}
-              quickDuration={session.quick_rox.estimated_duration_minutes}
-              completed={completed.includes(slug)}
-              onPress={() => router.push(`/train/${slug}`)}
+      <View style={styles.eyebrowBlock}>
+        <View style={styles.eyebrowRow}>
+          <Pressable
+            onPress={() => goTo(activeIdx - 1)}
+            disabled={!leftEnabled}
+            hitSlop={12}
+            style={styles.chev}
+          >
+            <Ionicons
+              name="chevron-back"
+              size={22}
+              color={leftEnabled ? theme.text : "transparent"}
             />
-          );
-        })}
+          </Pressable>
+          <Text style={[styles.eyebrow, { color: theme.text }]} numberOfLines={1}>
+            {headerText}
+          </Text>
+          <Pressable
+            onPress={() => goTo(activeIdx + 1)}
+            disabled={!rightEnabled}
+            hitSlop={12}
+            style={styles.chev}
+          >
+            <Ionicons
+              name="chevron-forward"
+              size={22}
+              color={rightEnabled ? theme.text : "transparent"}
+            />
+          </Pressable>
+        </View>
+        {raceDays !== null && raceDays >= 0 && (
+          <Text style={[styles.countdown, { color: theme.accent }]}>
+            {raceDays === 0 ? "Race day" : `${raceDays} day${raceDays === 1 ? "" : "s"} to race`}
+          </Text>
+        )}
+      </View>
 
-        <View style={{ height: 40 }} />
-      </ScrollView>
+      <PagerView
+        ref={pagerRef}
+        style={styles.pager}
+        initialPage={currentIdx}
+        onPageSelected={(e) => setActiveIdx(e.nativeEvent.position)}
+      >
+        {weeks.map((week) => (
+          <View key={week.week_start} style={styles.page}>
+            <WeekPage
+              week={week}
+              completed={completedByWeek[week.week_start] ?? []}
+              isFuture={isFuture && week.week_start === activeWeek.week_start ? true : isFutureWeek(week.week_start)}
+              onOpen={(slug) =>
+                router.push({
+                  pathname: "/train/[session]",
+                  params: { session: slug, week: week.week_start },
+                })
+              }
+            />
+          </View>
+        ))}
+      </PagerView>
     </SafeAreaView>
+  );
+}
+
+function WeekPage({
+  week,
+  completed,
+  isFuture,
+  onOpen,
+}: {
+  week: Week;
+  completed: SessionSlug[];
+  isFuture: boolean;
+  onOpen: (slug: SessionSlug) => void;
+}) {
+  const { theme } = useApp();
+  const mon = isoToDate(week.week_start);
+  const monLabel = mon.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+
+  return (
+    <ScrollView contentContainerStyle={styles.pageContent}>
+      {isFuture && (
+        <View style={[styles.previewBanner, { backgroundColor: theme.accent + "12", borderColor: theme.accent + "40" }]}>
+          <Ionicons name="eye-outline" size={14} color={theme.accent} />
+          <Text style={[styles.previewText, { color: theme.text }]}>
+            Preview — training starts Monday, {monLabel}
+          </Text>
+        </View>
+      )}
+
+      {SESSION_ORDER.map((slug) => {
+        const session = week.sessions[slug];
+        if (!session) return null;
+        return (
+          <SessionCard
+            key={slug}
+            slug={slug}
+            title={session.title}
+            stimulus={session.stimulus}
+            fullDuration={session.full_rox.estimated_duration_minutes}
+            quickDuration={session.quick_rox.estimated_duration_minutes}
+            completed={completed.includes(slug)}
+            onPress={() => onOpen(slug)}
+          />
+        );
+      })}
+      <View style={{ height: 40 }} />
+    </ScrollView>
   );
 }
 
@@ -122,13 +226,33 @@ function SessionCard({ slug, title, stimulus, fullDuration, quickDuration, compl
   );
 }
 
+function isoToDate(iso: string): Date {
+  const [y, m, d] = iso.split("-").map((p) => parseInt(p, 10));
+  return new Date(y, m - 1, d);
+}
+
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { paddingHorizontal: spacing.md, paddingTop: spacing.xs, paddingBottom: spacing.md },
   appTitle: { fontSize: 28, fontWeight: "700", textAlign: "center", marginTop: spacing.sm, marginBottom: spacing.lg },
-  eyebrowBlock: { marginBottom: spacing.sm },
-  eyebrow: { fontSize: 18, fontWeight: "600" },
-  countdown: { fontSize: 13, fontWeight: "600", marginTop: 2 },
+  eyebrowBlock: { paddingHorizontal: spacing.md, marginBottom: spacing.sm },
+  eyebrowRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  chev: { width: 32, height: 32, alignItems: "center", justifyContent: "center" },
+  eyebrow: { fontSize: 18, fontWeight: "600", flex: 1, textAlign: "center" },
+  countdown: { fontSize: 13, fontWeight: "600", marginTop: 2, textAlign: "center" },
+  pager: { flex: 1 },
+  page: { flex: 1 },
+  pageContent: { paddingHorizontal: spacing.md, paddingTop: spacing.xs, paddingBottom: spacing.md },
+  previewBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    borderWidth: 1,
+    borderRadius: borderRadius.sm,
+    paddingHorizontal: spacing.sm + 4,
+    paddingVertical: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  previewText: { fontSize: 12, fontWeight: "600", flex: 1 },
   card: {
     flexDirection: "row",
     alignItems: "center",

@@ -1,0 +1,374 @@
+{
+  "week_start": "2026-04-20",
+  "block_id": "2026-04",
+  "block_week": 3,
+  "block_phase": "peak",
+  "sessions": {
+    "strength": {
+      "title": "Peak Strength",
+      "stimulus": "Heaviest loads of the block. Fewer reps, higher intensity. Build peak strength before deload.",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (12 min)",
+            "items": [
+              "5 min easy bike or row",
+              "Dynamic warm-up",
+              "Progressive loading: 4 sets building to working weight"
+            ]
+          },
+          {
+            "heading": "Back Squat (22 min)",
+            "items": [
+              "5 sets x 4 reps @ RPE 8",
+              "Rest 3 min between sets",
+              "Heaviest squats of the block — 1 rep in reserve"
+            ]
+          },
+          {
+            "heading": "Bench Press (15 min)",
+            "items": [
+              "4 sets x 4 reps @ RPE 8",
+              "Rest 2-3 min between sets",
+              "Pair with weighted pull-ups x 5"
+            ]
+          },
+          {
+            "heading": "Finisher (11 min)",
+            "items": [
+              "3 rounds, 60 sec work / 30 sec rest:",
+              "Kettlebell swings @ 24kg men / 16kg women",
+              "Push-ups",
+              "Rest"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy bike",
+              "Progressive loading"
+            ]
+          },
+          {
+            "heading": "Back Squat (12 min)",
+            "items": [
+              "4 sets x 4 reps @ RPE 8",
+              "Rest 2 min"
+            ]
+          },
+          {
+            "heading": "Superset (13 min)",
+            "items": [
+              "3 rounds",
+              "Bench press x 4 @ RPE 8",
+              "Weighted pull-up x 3",
+              "Rest 90 sec"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Heaviest week of the block. You should feel strong today — the previous two weeks built to this. RPE 8 means you have ONE rep in reserve. Don't grind to failure. Form breakdown on heavy sets leads to injury. If form goes, rack the bar, rest longer, and try again.",
+        "week_context": "Peak week — lowest reps, highest loads. This is the payoff of the previous two weeks.",
+        "block_context": "Third of four weeks. Next week is deload — recovery before the next block starts."
+      }
+    },
+    "running": {
+      "title": "Race-Pace Intervals",
+      "stimulus": "Practice your target race pace in short, repeatable intervals. Today teaches your legs what race effort feels like.",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (15 min)",
+            "items": [
+              "10 min easy jog",
+              "5 min dynamic drills: A-skips, B-skips, strides x 4"
+            ]
+          },
+          {
+            "heading": "Main Session (35 min)",
+            "items": [
+              "6 x 1km @ target race pace",
+              "Rest 2 min jog recovery between intervals",
+              "Goal: consistent splits across all 6"
+            ]
+          },
+          {
+            "heading": "Cool-down (10 min)",
+            "items": [
+              "5 min easy jog",
+              "5 min stretching"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (8 min)",
+            "items": [
+              "5 min easy jog",
+              "Strides x 3"
+            ]
+          },
+          {
+            "heading": "Main Session (18 min)",
+            "items": [
+              "4 x 800m @ target race pace",
+              "Rest 90 sec between intervals"
+            ]
+          },
+          {
+            "heading": "Cool-down (4 min)",
+            "items": [
+              "Easy jog"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Peak running week. These intervals should match your goal race pace. The first two feel easy — resist speeding up. The last two are where real adaptation happens — when your legs hurt and you maintain pace, that's fitness being built. Consistency across all 6 matters more than fastest splits.",
+        "week_context": "Peak week — highest intensity of the block. Recover well between intervals.",
+        "block_context": "Running peak. Next week drops volume and intensity."
+      }
+    },
+    "engine": {
+      "title": "Race-Pace Station Circuit",
+      "stimulus": "Full station circuit at race pace. This is your dress rehearsal.",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy row",
+              "Dynamic warm-up",
+              "Practice: 5 wall balls, 5 burpees, 10m sled push light"
+            ]
+          },
+          {
+            "heading": "Main Session (40 min)",
+            "items": [
+              "3 rounds at RPE 8 (race pace):",
+              "500m run",
+              "25 wall balls",
+              "50m sled push (race-weight if available)",
+              "12 burpee broad jumps",
+              "250m row",
+              "50m sled pull",
+              "Rest 3 min between rounds",
+              "Treat this as race simulation — pace like you'd pace on race day"
+            ]
+          },
+          {
+            "heading": "Cool-down (10 min)",
+            "items": [
+              "5 min easy walk",
+              "5 min stretching"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy row",
+              "10 wall balls, 5 burpees"
+            ]
+          },
+          {
+            "heading": "Main Session (22 min)",
+            "items": [
+              "2 rounds at RPE 8:",
+              "500m run",
+              "20 wall balls",
+              "40m sled push",
+              "10 burpee broad jumps",
+              "Rest 3 min between rounds"
+            ]
+          },
+          {
+            "heading": "Cool-down (3 min)",
+            "items": [
+              "Easy walk"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Peak engine session. This is the closest you'll get to race conditions in the block. Pay attention: how does your breathing recover between stations? How does your pace drift across the 3 rounds? These answers tell you how to race. If round 3 falls apart, your round 1 pace was too hot — learn that lesson now, not on race day.",
+        "week_context": "Peak week — race-pace effort. Full focus on race-specific output.",
+        "block_context": "Third week of the block. Deload next week allows recovery."
+      }
+    },
+    "emom": {
+      "title": "Peak EMOM",
+      "stimulus": "Highest work density EMOM of the block. Race-pace reps.",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy bike",
+              "Dynamic warm-up",
+              "Practice: 5 wall balls, 5 burpees"
+            ]
+          },
+          {
+            "heading": "EMOM 32 min",
+            "items": [
+              "Minute 1: 20 wall balls",
+              "Minute 2: 18 burpees",
+              "Minute 3: 350m row",
+              "Minute 4: rest",
+              "8 rounds total",
+              "Race pace — 5-10 sec rest per work minute"
+            ]
+          },
+          {
+            "heading": "Accessory Core (12 min)",
+            "items": [
+              "3 rounds, 60 sec work / 15 sec rest:",
+              "Weighted plank (heavy)",
+              "V-ups",
+              "Toes to bar"
+            ]
+          },
+          {
+            "heading": "Cool-down (8 min)",
+            "items": [
+              "5 min easy bike",
+              "3 min stretching"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy bike",
+              "10 wall balls, 5 burpees"
+            ]
+          },
+          {
+            "heading": "EMOM 24 min",
+            "items": [
+              "Minute 1: 18 wall balls",
+              "Minute 2: 15 burpees",
+              "Minute 3: 300m row",
+              "Minute 4: rest",
+              "6 rounds total"
+            ]
+          },
+          {
+            "heading": "Cool-down (1 min)",
+            "items": [
+              "Stretch"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Peak EMOM. You should barely finish each minute in time. If you're finishing with 20+ seconds to spare, you're pacing too easy for peak week. If you can't finish a minute, scale — but aim for the edge of what you can sustain. This builds race-day pacing intuition.",
+        "week_context": "Peak — highest density. Earn your deload next week.",
+        "block_context": "Third week. EMOM peaks here."
+      }
+    },
+    "simulation": {
+      "title": "Race-Pace Simulation",
+      "stimulus": "Full race simulation at race pace. Your dress rehearsal for race day.",
+      "simulation_type": "compromised",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy jog building to tempo",
+              "Dynamic warm-up",
+              "Practice: 5 wall balls, light sled push 20m"
+            ]
+          },
+          {
+            "heading": "Main Session (45 min)",
+            "items": [
+              "Full Hyrox race simulation at race pace (scaled to 40 min):",
+              "1km run (race pace)",
+              "1000m SkiErg or 500m row (race pace)",
+              "1km run",
+              "50m sled push (race weight)",
+              "1km run",
+              "50m sled pull (race weight)",
+              "1km run",
+              "10 burpee broad jumps",
+              "No rest between stations — full race transitions",
+              "If you can't finish in 40 min, scale distance or intensity"
+            ]
+          },
+          {
+            "heading": "Cool-down (5 min)",
+            "items": [
+              "Easy walk + stretch"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy jog",
+              "Dynamic warm-up"
+            ]
+          },
+          {
+            "heading": "Main Session (22 min)",
+            "items": [
+              "Condensed race simulation:",
+              "800m run",
+              "500m row",
+              "800m run",
+              "30m sled push",
+              "10 burpee broad jumps",
+              "800m run",
+              "10 wall balls"
+            ]
+          },
+          {
+            "heading": "Cool-down (3 min)",
+            "items": [
+              "Easy walk"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Dress rehearsal. Treat this like race day — warm up properly, fuel and hydrate beforehand, and execute. The lessons from this session will sharpen your race strategy more than anything else in the block. Record your splits and station times. Next block, we'll beat these numbers.",
+        "week_context": "Peak week simulation — race-pace effort across full race format.",
+        "block_context": "Third week. After this, deload and recover."
+      }
+    }
+  },
+  "notes": {
+    "about": "Peak week. Highest intensity of the block across all sessions.",
+    "week_context": "Peak: heaviest loads, fastest paces, race-pace intervals.",
+    "block_context": "Week 3 of 4. Deload next week gives your body time to absorb these gains."
+  }
+}

@@ -12,9 +12,9 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { useApp } from "../../lib/context";
-import { RACE_SEQUENCE } from "../../constants/race";
+import { RACE_SEQUENCE, RaceSegment } from "../../constants/race";
 import { spacing, borderRadius } from "../../constants/theme";
 import {
   DivisionContext,
@@ -25,12 +25,14 @@ import {
 import {
   StationOverride,
   clearOverride,
+  clearSegmentTime,
   loadAllOverrides,
+  loadAllSegmentTimes,
   saveOverride,
+  saveSegmentTime,
 } from "../../lib/stationOverrides";
 import { formatMinSec, formatSeconds, parseTimeToSeconds } from "../../lib/timeFormat";
 import { daysUntil } from "../../lib/dates";
-import { Format, Tier } from "../../lib/store";
 
 type Mode = "predict" | "goal";
 
@@ -44,21 +46,11 @@ const STATION_NAME_TO_SLUG: Record<string, StationSlug> = {
 
 const ALL_SLUGS: StationSlug[] = ["sled_push", "sled_pull", "farmers_carry", "sandbag_lunges", "wall_balls"];
 
-const DIVISION_OPTIONS: { format: Format; tier: Tier | null; label: string }[] = [
-  { format: "Individual", tier: "Open", label: "Individual · Open" },
-  { format: "Individual", tier: "Pro", label: "Individual · Pro" },
-  { format: "Doubles", tier: "Open", label: "Doubles · Open" },
-  { format: "Doubles", tier: "Pro", label: "Doubles · Pro" },
-  { format: "Mixed Doubles", tier: null, label: "Mixed Doubles" },
-  { format: "Relay", tier: null, label: "Relay" },
-];
-
 const BANNER_DISMISSED_KEY = "hr_settings_race_banner_dismissed";
-
 const TRANSITION_EST_SEC = 8 * 60;
 
 export default function RaceScreen() {
-  const { theme, settings, updateSettings } = useApp();
+  const { theme, settings } = useApp();
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("predict");
   const [paceInput, setPaceInput] = useState("");
@@ -74,16 +66,29 @@ export default function RaceScreen() {
     sandbag_lunges: {},
     wall_balls: {},
   }));
-  const [editingSlug, setEditingSlug] = useState<StationSlug | null>(null);
+  const [segmentTimes, setSegmentTimes] = useState<Record<number, string>>({});
+  const [editingOrder, setEditingOrder] = useState<number | null>(null);
   const [bannerDismissed, setBannerDismissed] = useState(false);
-  const [divisionPickerOpen, setDivisionPickerOpen] = useState(false);
 
-  useEffect(() => {
-    loadAllOverrides(ALL_SLUGS).then(setOverrides);
-    AsyncStorage.getItem(BANNER_DISMISSED_KEY).then((v) => {
-      if (v === "true") setBannerDismissed(true);
-    });
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      let cancelled = false;
+      (async () => {
+        const [ovs, times, banner] = await Promise.all([
+          loadAllOverrides(ALL_SLUGS),
+          loadAllSegmentTimes(RACE_SEQUENCE.map((s) => s.order)),
+          AsyncStorage.getItem(BANNER_DISMISSED_KEY),
+        ]);
+        if (cancelled) return;
+        setOverrides(ovs);
+        setSegmentTimes(times);
+        setBannerDismissed(banner === "true");
+      })();
+      return () => {
+        cancelled = true;
+      };
+    }, [])
+  );
 
   const ctx: DivisionContext = useMemo(
     () => ({ format: settings.format, tier: settings.tier, gender: settings.gender }),
@@ -94,32 +99,43 @@ export default function RaceScreen() {
   const stationSec = useMemo(() => parseTimeToSeconds(stationInput), [stationInput]);
   const goalSec = useMemo(() => parseTimeToSeconds(goalInput), [goalInput]);
 
-  const predictTotal =
-    mode === "predict" && paceSec != null && stationSec != null
-      ? paceSec * 8 + stationSec * 8 + TRANSITION_EST_SEC
-      : null;
-
   const goalRunPace = mode === "goal" && goalSec ? (goalSec * 0.6) / 8 : null;
   const goalStationAvg = mode === "goal" && goalSec ? (goalSec * 0.4) / 8 : null;
 
-  const splitFor = (kind: "run" | "station"): number | null => {
+  const defaultSplitFor = (seg: RaceSegment): number | null => {
     if (mode === "predict") {
-      return kind === "run" ? paceSec : stationSec;
+      return seg.kind === "run" ? paceSec : stationSec;
     }
-    return kind === "run" ? goalRunPace : goalStationAvg;
+    return seg.kind === "run" ? goalRunPace : goalStationAvg;
   };
 
-  const onSaveOverride = useCallback(async (slug: StationSlug, next: StationOverride) => {
-    await saveOverride(slug, next);
-    setOverrides((m) => ({ ...m, [slug]: next }));
-    setEditingSlug(null);
-  }, []);
+  const effectiveSplitFor = (seg: RaceSegment): number | null => {
+    const override = segmentTimes[seg.order];
+    if (override) {
+      const parsed = parseTimeToSeconds(override);
+      if (parsed != null) return parsed;
+    }
+    return defaultSplitFor(seg);
+  };
 
-  const onClearOverride = useCallback(async (slug: StationSlug) => {
-    await clearOverride(slug);
-    setOverrides((m) => ({ ...m, [slug]: {} }));
-    setEditingSlug(null);
-  }, []);
+  const totalFinish = useMemo(() => {
+    let any = false;
+    let total = 0;
+    for (const seg of RACE_SEQUENCE) {
+      const s = effectiveSplitFor(seg);
+      if (s == null) return null;
+      any = true;
+      total += s;
+    }
+    return any ? total + TRANSITION_EST_SEC : null;
+  }, [segmentTimes, paceSec, stationSec, goalRunPace, goalStationAvg, mode]);
+
+  const goalMismatch = useMemo(() => {
+    if (mode !== "goal" || goalSec == null || totalFinish == null) return null;
+    const diff = totalFinish - goalSec;
+    if (Math.abs(diff) < 30) return null;
+    return diff;
+  }, [mode, goalSec, totalFinish]);
 
   const onDismissBanner = async () => {
     setBannerDismissed(true);
@@ -127,14 +143,53 @@ export default function RaceScreen() {
   };
 
   const raceDays = settings.raceDate ? daysUntil(settings.raceDate) : null;
-  const showOnboarding = !settings.format && !bannerDismissed;
+  const divisionSet = !!settings.format;
+  const showOnboarding = !divisionSet && !bannerDismissed;
 
-  const formatLabel =
-    settings.format
-      ? settings.format === "Individual" || settings.format === "Doubles"
-        ? `${settings.format} · ${settings.tier ?? "Open"}${settings.gender ? " · " + settings.gender : ""}`
-        : `${settings.format}${settings.gender ? " · " + settings.gender : ""}`
-      : "Set division";
+  const divisionLabel = divisionSet
+    ? [
+        settings.format,
+        settings.format === "Individual" || settings.format === "Doubles" ? settings.tier : null,
+        settings.gender,
+      ]
+        .filter(Boolean)
+        .join(" · ")
+    : "";
+
+  const goToSettings = () => router.push("/settings");
+
+  const onSaveOverride = async (order: number, next: { weight?: string; reps?: string; time?: string }) => {
+    const slug = STATION_NAME_TO_SLUG[RACE_SEQUENCE.find((s) => s.order === order)?.name ?? ""];
+    if (slug) {
+      await saveOverride(slug, { weight: next.weight, reps: next.reps });
+      setOverrides((m) => ({ ...m, [slug]: { weight: next.weight, reps: next.reps } }));
+    }
+    await saveSegmentTime(order, next.time);
+    setSegmentTimes((m) => {
+      const copy = { ...m };
+      if (next.time && next.time.trim()) copy[order] = next.time.trim();
+      else delete copy[order];
+      return copy;
+    });
+    setEditingOrder(null);
+  };
+
+  const onResetOverride = async (order: number) => {
+    const seg = RACE_SEQUENCE.find((s) => s.order === order);
+    if (!seg) return;
+    const slug = STATION_NAME_TO_SLUG[seg.name];
+    if (slug) {
+      await clearOverride(slug);
+      setOverrides((m) => ({ ...m, [slug]: {} }));
+    }
+    await clearSegmentTime(order);
+    setSegmentTimes((m) => {
+      const copy = { ...m };
+      delete copy[order];
+      return copy;
+    });
+    setEditingOrder(null);
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -148,13 +203,13 @@ export default function RaceScreen() {
       </View>
 
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        {showOnboarding && (
+        {showOnboarding ? (
           <View style={[styles.banner, { borderColor: theme.accent, backgroundColor: theme.accent + "12" }]}>
             <Text style={[styles.bannerText, { color: theme.text }]}>
               Set your division to see weights and times tailored to you.
             </Text>
             <View style={styles.bannerActions}>
-              <TouchableOpacity onPress={() => router.push("/settings")}>
+              <TouchableOpacity onPress={goToSettings}>
                 <Text style={[styles.bannerCta, { color: theme.accent }]}>Go to Settings</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={onDismissBanner}>
@@ -162,7 +217,18 @@ export default function RaceScreen() {
               </TouchableOpacity>
             </View>
           </View>
-        )}
+        ) : divisionSet ? (
+          <TouchableOpacity
+            style={[styles.divisionRow, { borderColor: theme.border, backgroundColor: theme.card }]}
+            onPress={goToSettings}
+          >
+            <View>
+              <Text style={[styles.divisionLabel, { color: theme.textSecondary }]}>DIVISION</Text>
+              <Text style={[styles.divisionValue, { color: theme.text }]}>{divisionLabel}</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
+          </TouchableOpacity>
+        ) : null}
 
         {raceDays !== null && (
           <View style={[styles.countdownBanner, { backgroundColor: theme.card, borderColor: theme.border }]}>
@@ -176,19 +242,6 @@ export default function RaceScreen() {
             </Text>
           </View>
         )}
-
-        <TouchableOpacity
-          style={[styles.divisionPill, { borderColor: theme.border, backgroundColor: theme.card }]}
-          onPress={() => setDivisionPickerOpen(true)}
-        >
-          <Text style={[styles.divisionPillLabel, { color: theme.textSecondary }]}>DIVISION</Text>
-          <View style={styles.divisionPillValueRow}>
-            <Text style={[styles.divisionPillValue, { color: settings.format ? theme.text : theme.textTertiary }]}>
-              {formatLabel}
-            </Text>
-            <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
-          </View>
-        </TouchableOpacity>
 
         {mode === "predict" ? (
           <>
@@ -211,12 +264,12 @@ export default function RaceScreen() {
               error={stationErr}
             />
 
-            {predictTotal != null && (
+            {totalFinish != null && (
               <ResultCard theme={theme}>
                 <Text style={[styles.resultTitle, { color: theme.accent }]}>PREDICTED FINISH</Text>
-                <Text style={[styles.resultTime, { color: theme.text }]}>{formatSeconds(predictTotal)}</Text>
+                <Text style={[styles.resultTime, { color: theme.text }]}>{formatSeconds(totalFinish)}</Text>
                 <Text style={[styles.resultBreakdown, { color: theme.textSecondary }]}>
-                  Run {formatSeconds(paceSec! * 8)} · Stations {formatSeconds(stationSec! * 8)} · Transitions ~{TRANSITION_EST_SEC / 60}m
+                  Includes ~{TRANSITION_EST_SEC / 60}m transition estimate
                 </Text>
               </ResultCard>
             )}
@@ -242,32 +295,47 @@ export default function RaceScreen() {
                 </Text>
               </ResultCard>
             )}
+
+            {goalMismatch != null && (
+              <View style={[styles.warnBanner, { backgroundColor: "#FF3B30" + "15", borderColor: "#FF3B30" }]}>
+                <Ionicons name="warning-outline" size={16} color="#FF3B30" />
+                <Text style={[styles.warnText, { color: theme.text }]}>
+                  Your custom splits total {formatSeconds(totalFinish!)}; target is {formatSeconds(goalSec!)}. Adjust overrides or target.
+                </Text>
+              </View>
+            )}
           </>
         )}
 
         <Text style={[styles.sectionHeader, { color: theme.textSecondary }]}>RACE ORDER</Text>
         {RACE_SEQUENCE.map((seg) => {
           const slug = STATION_NAME_TO_SLUG[seg.name] ?? null;
-          const baseWeight = slug ? getStationWeight(slug, ctx) : null;
+          const baseWeight = slug && divisionSet ? getStationWeight(slug, ctx) : null;
           const ov = slug ? overrides[slug] : undefined;
           const overrideWeight = ov?.weight;
           const overrideReps = ov?.reps;
+          const overrideTime = segmentTimes[seg.order];
           const displayWeight = overrideWeight ?? baseWeight?.primary ?? null;
           const displayReps =
             seg.reps != null
               ? Number(overrideReps ?? seg.reps)
               : baseWeight?.reps ?? null;
-          const isOverridden = !!(overrideWeight || overrideReps);
-          const split = splitFor(seg.kind);
+          const isOverridden = !!(overrideWeight || overrideReps || overrideTime);
+          const split = effectiveSplitFor(seg);
 
           const distancePiece = seg.distance ?? (displayReps != null ? `${displayReps} reps` : "");
           const weightPiece = displayWeight ? ` · ${displayWeight}` : "";
           const subtitle = `${distancePiece}${weightPiece}`.trim();
 
-          const tappable = !!slug && !!settings.format;
-
-          const Inner = (
-            <>
+          return (
+            <Pressable
+              key={seg.order}
+              onPress={() => setEditingOrder(seg.order)}
+              style={({ pressed }) => [
+                styles.stationRow,
+                { borderBottomColor: theme.border, opacity: pressed ? 0.6 : 1 },
+              ]}
+            >
               <View style={[styles.stationNum, { backgroundColor: theme.accent + "20" }]}>
                 <Text style={[styles.stationNumText, { color: theme.accent }]}>{seg.order}</Text>
               </View>
@@ -275,58 +343,39 @@ export default function RaceScreen() {
                 <Text style={[styles.stationName, { color: theme.text }]}>{seg.name}</Text>
                 <View style={styles.stationSubRow}>
                   <Text style={[styles.stationDist, { color: theme.textSecondary }]}>{subtitle || "—"}</Text>
-                  {isOverridden && <Ionicons name="pencil" size={11} color={theme.accent} style={{ marginLeft: 4 }} />}
                 </View>
               </View>
               <Text style={[styles.stationSplit, { color: split != null ? theme.accent : theme.textTertiary }]}>
                 {split != null ? formatMinSec(split) : "—"}
               </Text>
-            </>
-          );
-
-          return tappable ? (
-            <Pressable
-              key={seg.order}
-              onPress={() => slug && setEditingSlug(slug)}
-              style={({ pressed }) => [
-                styles.stationRow,
-                { borderBottomColor: theme.border, opacity: pressed ? 0.6 : 1 },
-              ]}
-            >
-              {Inner}
+              {isOverridden && <Ionicons name="pencil" size={11} color={theme.accent} style={styles.pencil} />}
+              <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
             </Pressable>
-          ) : (
-            <View key={seg.order} style={[styles.stationRow, { borderBottomColor: theme.border }]}>
-              {Inner}
-            </View>
           );
         })}
         <View style={{ height: 60 }} />
       </ScrollView>
 
-      <DivisionPickerModal
-        visible={divisionPickerOpen}
-        current={settings.format}
-        currentTier={settings.tier}
-        theme={theme}
-        onPick={(opt) => {
-          updateSettings({ format: opt.format, tier: opt.tier });
-          setDivisionPickerOpen(false);
-          if (showOnboarding) onDismissBanner();
-        }}
-        onClose={() => setDivisionPickerOpen(false)}
-      />
-
-      {editingSlug && (
-        <OverrideModal
-          slug={editingSlug}
-          base={getStationWeight(editingSlug, ctx)}
-          baseReps={editingSlug === "wall_balls" ? (ctx.gender === "Female" ? 75 : 100) : null}
-          override={overrides[editingSlug]}
+      {editingOrder != null && (
+        <SegmentEditModal
+          seg={RACE_SEQUENCE.find((s) => s.order === editingOrder)!}
+          ctx={ctx}
+          divisionSet={divisionSet}
+          existing={{
+            weight: (() => {
+              const slug = STATION_NAME_TO_SLUG[RACE_SEQUENCE.find((s) => s.order === editingOrder)!.name];
+              return slug ? overrides[slug]?.weight : undefined;
+            })(),
+            reps: (() => {
+              const slug = STATION_NAME_TO_SLUG[RACE_SEQUENCE.find((s) => s.order === editingOrder)!.name];
+              return slug ? overrides[slug]?.reps : undefined;
+            })(),
+            time: segmentTimes[editingOrder],
+          }}
           theme={theme}
-          onSave={(next) => onSaveOverride(editingSlug, next)}
-          onReset={() => onClearOverride(editingSlug)}
-          onClose={() => setEditingSlug(null)}
+          onSave={(v) => onSaveOverride(editingOrder, v)}
+          onReset={() => onResetOverride(editingOrder)}
+          onClose={() => setEditingOrder(null)}
         />
       )}
     </View>
@@ -372,117 +421,135 @@ function ResultCard({ theme, children }: { theme: any; children: React.ReactNode
   );
 }
 
-interface DivisionPickerProps {
-  visible: boolean;
-  current: Format | null;
-  currentTier: Tier | null;
+interface SegmentEditProps {
+  seg: RaceSegment;
+  ctx: DivisionContext;
+  divisionSet: boolean;
+  existing: { weight?: string; reps?: string; time?: string };
   theme: any;
-  onPick: (opt: { format: Format; tier: Tier | null }) => void;
-  onClose: () => void;
-}
-
-function DivisionPickerModal({ visible, current, currentTier, theme, onPick, onClose }: DivisionPickerProps) {
-  return (
-    <Modal visible={visible} animationType="slide" presentationStyle="pageSheet" onRequestClose={onClose}>
-      <View style={[styles.modal, { backgroundColor: theme.background }]}>
-        <View style={styles.modalHeader}>
-          <Text style={[styles.modalTitle, { color: theme.text }]}>Select Division</Text>
-          <TouchableOpacity onPress={onClose}>
-            <Ionicons name="close" size={28} color={theme.text} />
-          </TouchableOpacity>
-        </View>
-        <ScrollView contentContainerStyle={styles.modalScroll}>
-          {DIVISION_OPTIONS.map((opt) => {
-            const active = current === opt.format && currentTier === opt.tier;
-            return (
-              <TouchableOpacity
-                key={opt.label}
-                style={[styles.optionRow, { borderBottomColor: theme.border }]}
-                onPress={() => onPick(opt)}
-              >
-                <Text style={[styles.optionText, { color: theme.text }]}>{opt.label}</Text>
-                {active && <Ionicons name="checkmark" size={20} color={theme.accent} />}
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
-    </Modal>
-  );
-}
-
-interface OverrideModalProps {
-  slug: StationSlug;
-  base: { primary: string; reps?: number } | null;
-  baseReps: number | null;
-  override: StationOverride | undefined;
-  theme: any;
-  onSave: (next: StationOverride) => void;
+  onSave: (v: { weight?: string; reps?: string; time?: string }) => void;
   onReset: () => void;
   onClose: () => void;
 }
 
-function OverrideModal({ slug, base, baseReps, override, theme, onSave, onReset, onClose }: OverrideModalProps) {
-  const [weight, setWeight] = useState(override?.weight ?? "");
-  const [reps, setReps] = useState(override?.reps ?? "");
+function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onReset, onClose }: SegmentEditProps) {
+  const slug = STATION_NAME_TO_SLUG[seg.name] ?? null;
+  const showWeight = !!slug;
   const showReps = slug === "wall_balls";
+
+  const [weight, setWeight] = useState(existing.weight ?? "");
+  const [reps, setReps] = useState(existing.reps ?? "");
+  const [time, setTime] = useState(existing.time ?? "");
+  const [timeErr, setTimeErr] = useState(false);
+
+  const baseWeightObj = slug && divisionSet ? getStationWeight(slug, ctx) : null;
+  const baseWeightDisplay = baseWeightObj?.primary ?? "—";
+  const baseReps =
+    slug === "wall_balls"
+      ? (ctx.gender === "Female" ? 75 : 100)
+      : seg.reps ?? null;
+
+  const handleSave = () => {
+    if (time && parseTimeToSeconds(time) == null) {
+      setTimeErr(true);
+      return;
+    }
+    onSave({
+      weight: showWeight ? weight.trim() || undefined : undefined,
+      reps: showReps ? reps.trim() || undefined : undefined,
+      time: time.trim() || undefined,
+    });
+  };
 
   return (
     <Modal visible animationType="slide" presentationStyle="pageSheet" onRequestClose={onClose}>
       <View style={[styles.modal, { backgroundColor: theme.background }]}>
         <View style={styles.modalHeader}>
-          <Text style={[styles.modalTitle, { color: theme.text }]}>Edit {STATION_LABELS[slug]}</Text>
+          <Text style={[styles.modalTitle, { color: theme.text }]}>Edit {seg.name}</Text>
           <TouchableOpacity onPress={onClose}>
             <Ionicons name="close" size={28} color={theme.text} />
           </TouchableOpacity>
         </View>
-        <View style={styles.form}>
-          <Text style={[styles.label, { color: theme.textSecondary }]}>WEIGHT</Text>
+        <ScrollView contentContainerStyle={styles.form} keyboardShouldPersistTaps="handled">
+          {showWeight && (
+            <>
+              <Text style={[styles.label, { color: theme.textSecondary }]}>WEIGHT</Text>
+              <View style={styles.unitRow}>
+                <TextInput
+                  style={[
+                    styles.input,
+                    styles.unitInput,
+                    { backgroundColor: theme.inputBg, borderColor: theme.border, color: theme.text },
+                  ]}
+                  placeholder={baseWeightDisplay === "—" ? "e.g. 152" : baseWeightDisplay.replace(/kg/gi, "").trim()}
+                  placeholderTextColor={theme.textTertiary}
+                  keyboardType="numbers-and-punctuation"
+                  value={weight}
+                  onChangeText={setWeight}
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                />
+                <Text style={[styles.unitLabel, { color: theme.textSecondary }]}>kg</Text>
+              </View>
+              <Text style={[styles.helpText, { color: theme.textTertiary }]}>Default: {baseWeightDisplay}</Text>
+            </>
+          )}
+
+          <Text style={[styles.label, { color: theme.textSecondary, marginTop: showWeight ? spacing.md : 0 }]}>
+            PREDICTED TIME (mm:ss)
+          </Text>
           <TextInput
-            style={[styles.input, { backgroundColor: theme.inputBg, borderColor: theme.border, color: theme.text }]}
-            placeholder={base?.primary ?? "e.g. 152kg"}
+            style={[
+              styles.input,
+              { backgroundColor: theme.inputBg, borderColor: timeErr ? "#FF3B30" : theme.border, color: theme.text },
+            ]}
+            placeholder={seg.kind === "run" ? "e.g. 5:30" : "e.g. 4:00"}
             placeholderTextColor={theme.textTertiary}
-            value={weight}
-            onChangeText={setWeight}
-            autoCapitalize="none"
+            keyboardType="numbers-and-punctuation"
+            value={time}
+            onChangeText={(v) => {
+              setTime(v);
+              if (timeErr) setTimeErr(false);
+            }}
             autoCorrect={false}
+            autoCapitalize="none"
           />
+          {timeErr && <Text style={styles.inputError}>Use mm:ss format.</Text>}
           <Text style={[styles.helpText, { color: theme.textTertiary }]}>
-            Default: {base?.primary ?? "—"}
+            Falls back to the average at the top of the page when empty.
           </Text>
 
           {showReps && (
             <>
               <Text style={[styles.label, { color: theme.textSecondary, marginTop: spacing.md }]}>REPS</Text>
-              <TextInput
-                style={[styles.input, { backgroundColor: theme.inputBg, borderColor: theme.border, color: theme.text }]}
-                placeholder={baseReps != null ? String(baseReps) : "e.g. 100"}
-                placeholderTextColor={theme.textTertiary}
-                keyboardType="number-pad"
-                value={reps}
-                onChangeText={setReps}
-              />
+              <View style={styles.unitRow}>
+                <TextInput
+                  style={[
+                    styles.input,
+                    styles.unitInput,
+                    { backgroundColor: theme.inputBg, borderColor: theme.border, color: theme.text },
+                  ]}
+                  placeholder={baseReps != null ? String(baseReps) : "e.g. 100"}
+                  placeholderTextColor={theme.textTertiary}
+                  keyboardType="number-pad"
+                  value={reps}
+                  onChangeText={setReps}
+                />
+                <Text style={[styles.unitLabel, { color: theme.textSecondary }]}>reps</Text>
+              </View>
               <Text style={[styles.helpText, { color: theme.textTertiary }]}>
                 Default: {baseReps ?? "—"} reps
               </Text>
             </>
           )}
 
-          <TouchableOpacity
-            style={[styles.saveBtn, { backgroundColor: theme.accent }]}
-            onPress={() =>
-              onSave({
-                weight: weight.trim() || undefined,
-                reps: showReps ? (reps.trim() || undefined) : undefined,
-              })
-            }
-          >
+          <TouchableOpacity style={[styles.saveBtn, { backgroundColor: theme.accent }]} onPress={handleSave}>
             <Text style={styles.saveBtnText}>Save</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.resetBtn, { borderColor: theme.border }]}
             onPress={() =>
-              Alert.alert("Reset to default?", "Clear your custom value for this station.", [
+              Alert.alert("Reset to default?", "Clear your custom values for this row.", [
                 { text: "Cancel", style: "cancel" },
                 { text: "Reset", style: "destructive", onPress: onReset },
               ])
@@ -490,7 +557,7 @@ function OverrideModal({ slug, base, baseReps, override, theme, onSave, onReset,
           >
             <Text style={[styles.resetBtnText, { color: theme.textSecondary }]}>Reset to Default</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
       </View>
     </Modal>
   );
@@ -509,10 +576,18 @@ const styles = StyleSheet.create({
   bannerDismiss: { fontSize: 13, fontWeight: "500" },
   countdownBanner: { flexDirection: "row", alignItems: "center", gap: 8, borderWidth: 1, borderRadius: borderRadius.sm, paddingHorizontal: spacing.md, paddingVertical: spacing.sm + 2, marginBottom: spacing.md },
   countdownText: { fontSize: 13, fontWeight: "600", flex: 1 },
-  divisionPill: { borderWidth: 1, borderRadius: borderRadius.sm, paddingHorizontal: spacing.md, paddingVertical: spacing.sm + 2, marginBottom: spacing.md },
-  divisionPillLabel: { fontSize: 10, fontWeight: "700", letterSpacing: 0.8, marginBottom: 2 },
-  divisionPillValueRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  divisionPillValue: { fontSize: 15, fontWeight: "600" },
+  divisionRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 1,
+    borderRadius: borderRadius.sm,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm + 2,
+    marginBottom: spacing.md,
+  },
+  divisionLabel: { fontSize: 10, fontWeight: "700", letterSpacing: 0.8, marginBottom: 2 },
+  divisionValue: { fontSize: 15, fontWeight: "600" },
   label: { fontSize: 12, fontWeight: "600", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: spacing.xs, marginTop: spacing.md },
   input: { borderWidth: 1, borderRadius: borderRadius.sm, padding: spacing.md - 2, fontSize: 16 },
   inputError: { fontSize: 11, color: "#FF3B30", marginTop: 4 },
@@ -520,6 +595,16 @@ const styles = StyleSheet.create({
   resultTitle: { fontSize: 12, fontWeight: "700", letterSpacing: 1, marginBottom: spacing.sm },
   resultTime: { fontSize: 36, fontWeight: "800" },
   resultBreakdown: { fontSize: 12, marginTop: spacing.sm, textAlign: "center" },
+  warnBanner: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 8,
+    borderWidth: 1,
+    borderRadius: borderRadius.sm,
+    padding: spacing.sm + 4,
+    marginTop: spacing.sm,
+  },
+  warnText: { flex: 1, fontSize: 12, lineHeight: 17 },
   sectionHeader: { fontSize: 12, fontWeight: "700", letterSpacing: 1, marginTop: spacing.xl, marginBottom: spacing.sm },
   stationRow: { flexDirection: "row", alignItems: "center", paddingVertical: spacing.sm + 4, borderBottomWidth: 0.5, gap: spacing.md },
   stationNum: { width: 28, height: 28, borderRadius: 14, alignItems: "center", justifyContent: "center" },
@@ -527,14 +612,15 @@ const styles = StyleSheet.create({
   stationName: { fontSize: 15, fontWeight: "600" },
   stationSubRow: { flexDirection: "row", alignItems: "center", marginTop: 1 },
   stationDist: { fontSize: 12 },
-  stationSplit: { fontSize: 14, fontWeight: "700", minWidth: 60, textAlign: "right" },
+  stationSplit: { fontSize: 14, fontWeight: "700", minWidth: 54, textAlign: "right" },
+  pencil: { marginLeft: -6 },
   modal: { flex: 1 },
   modalHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: spacing.md, paddingTop: spacing.md },
   modalTitle: { fontSize: 22, fontWeight: "800" },
-  modalScroll: { paddingBottom: spacing.lg },
-  optionRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: spacing.md, paddingVertical: spacing.md, borderBottomWidth: StyleSheet.hairlineWidth },
-  optionText: { fontSize: 15 },
   form: { padding: spacing.lg },
+  unitRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
+  unitInput: { flex: 1 },
+  unitLabel: { fontSize: 15, fontWeight: "600" },
   helpText: { fontSize: 11, marginTop: 4 },
   saveBtn: { borderRadius: borderRadius.sm, paddingVertical: 16, alignItems: "center", marginTop: spacing.lg },
   saveBtnText: { color: "#fff", fontSize: 17, fontWeight: "700" },

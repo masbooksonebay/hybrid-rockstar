@@ -11,7 +11,6 @@ export interface Settings {
   gender: string | null;
   ageGroup: string | null;
   raceDate: string | null;
-  units: "imperial" | "metric";
   notificationsEnabled: boolean;
   notificationsTime: string;
   analyticsEnabled: boolean;
@@ -24,7 +23,6 @@ export const DEFAULT_SETTINGS: Settings = {
   gender: null,
   ageGroup: null,
   raceDate: null,
-  units: "imperial",
   notificationsEnabled: false,
   notificationsTime: "07:00",
   analyticsEnabled: true,

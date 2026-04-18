@@ -1,0 +1,364 @@
+{
+  "week_start": "2026-04-27",
+  "block_id": "2026-04",
+  "block_week": 4,
+  "block_phase": "deload",
+  "sessions": {
+    "strength": {
+      "title": "Deload Strength",
+      "stimulus": "Reduced volume at moderate intensity. Maintain movement patterns while recovering from peak week.",
+      "full_rox": {
+        "estimated_duration_minutes": 45,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy bike or row",
+              "Dynamic warm-up",
+              "Progressive loading: 2 sets light"
+            ]
+          },
+          {
+            "heading": "Back Squat (12 min)",
+            "items": [
+              "3 sets x 5 reps @ RPE 6",
+              "Rest 2 min between sets",
+              "Intentionally easy — this is recovery"
+            ]
+          },
+          {
+            "heading": "Bench Press (10 min)",
+            "items": [
+              "3 sets x 5 reps @ RPE 6",
+              "Rest 90 sec between sets"
+            ]
+          },
+          {
+            "heading": "Light Accessory (10 min)",
+            "items": [
+              "2 rounds, 60 sec rest:",
+              "Dumbbell row x 10 each side (light weight)",
+              "Plank 30 sec",
+              "Face pulls x 15"
+            ]
+          },
+          {
+            "heading": "Mobility (3 min)",
+            "items": [
+              "Hip mobility flow",
+              "Thoracic mobility"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 25,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy bike",
+              "Light dynamic warm-up"
+            ]
+          },
+          {
+            "heading": "Back Squat (10 min)",
+            "items": [
+              "2 sets x 5 @ RPE 6",
+              "Rest 2 min"
+            ]
+          },
+          {
+            "heading": "Superset (10 min)",
+            "items": [
+              "2 rounds",
+              "Bench press x 5 @ RPE 6",
+              "Pull-ups x 5",
+              "Rest 90 sec"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Deload week. Volume drops significantly and intensity is intentionally moderate. Your body uses this week to absorb the training stimulus from the previous three weeks. Resist the urge to go heavy — that defeats the purpose. Light today means stronger next block.",
+        "week_context": "Deload — reduced volume, moderate intensity. Recovery is training.",
+        "block_context": "Final week of the block. Next week starts a new block at higher starting loads."
+      }
+    },
+    "running": {
+      "title": "Easy Base + Short Tempo",
+      "stimulus": "Mostly easy running with a single short tempo to keep the pattern. Volume drops significantly.",
+      "full_rox": {
+        "estimated_duration_minutes": 45,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "10 min easy jog"
+            ]
+          },
+          {
+            "heading": "Main Session (30 min)",
+            "items": [
+              "20 min easy zone 2 run",
+              "5 min tempo pace",
+              "5 min easy cool-down"
+            ]
+          },
+          {
+            "heading": "Cool-down (5 min)",
+            "items": [
+              "Light stretching"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 22,
+        "structure": [
+          {
+            "heading": "Warm-up (3 min)",
+            "items": [
+              "Easy jog"
+            ]
+          },
+          {
+            "heading": "Main Session (16 min)",
+            "items": [
+              "12 min easy zone 2",
+              "4 min tempo",
+              "(No cool-down — go straight to stretching)"
+            ]
+          },
+          {
+            "heading": "Cool-down (3 min)",
+            "items": [
+              "Stretch"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Easy running week. The short tempo keeps your legs sharp but volume is low. Focus on form — relaxed shoulders, quick feet, soft landings. Recovery pace can be very slow — don't worry about watch data today.",
+        "week_context": "Deload — reduced volume. If you're tired, make it all easy.",
+        "block_context": "Last week before next block ramps up."
+      }
+    },
+    "engine": {
+      "title": "Light Station Maintenance",
+      "stimulus": "Reduced volume station work at moderate pace. Keep the movement patterns sharp.",
+      "full_rox": {
+        "estimated_duration_minutes": 45,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy row",
+              "Dynamic warm-up",
+              "10 wall balls, 5 burpees"
+            ]
+          },
+          {
+            "heading": "Main Session (25 min)",
+            "items": [
+              "3 rounds at RPE 6 (moderate pace):",
+              "300m run",
+              "12 wall balls",
+              "200m row",
+              "8 burpee broad jumps",
+              "Rest 2 min between rounds"
+            ]
+          },
+          {
+            "heading": "Cool-down (10 min)",
+            "items": [
+              "5 min easy walk",
+              "5 min stretching"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 22,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy row",
+              "Dynamic warm-up"
+            ]
+          },
+          {
+            "heading": "Main Session (15 min)",
+            "items": [
+              "2 rounds at RPE 6:",
+              "300m run",
+              "12 wall balls",
+              "200m row",
+              "8 burpee broad jumps",
+              "Rest 2 min"
+            ]
+          },
+          {
+            "heading": "Cool-down (2 min)",
+            "items": [
+              "Easy walk"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Maintenance engine work. Moderate pace, fewer rounds. Keep the station movements grooved but don't stress the system. If something feels off, stop — recovery trumps forcing a workout.",
+        "week_context": "Deload — reduced volume and intensity. This is a working rest day.",
+        "block_context": "Last engine session before the new block."
+      }
+    },
+    "emom": {
+      "title": "Technique EMOM",
+      "stimulus": "Low-intensity EMOM focused on movement quality. Reduced reps, slower pace.",
+      "full_rox": {
+        "estimated_duration_minutes": 45,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy bike",
+              "Dynamic warm-up"
+            ]
+          },
+          {
+            "heading": "EMOM 20 min",
+            "items": [
+              "Minute 1: 10 wall balls (focus on depth and timing)",
+              "Minute 2: 10 burpees (smooth and steady)",
+              "Minute 3: 200m row (smooth pacing)",
+              "Minute 4: rest",
+              "5 rounds total",
+              "Focus on technique — lots of rest each minute is expected"
+            ]
+          },
+          {
+            "heading": "Mobility + Core (10 min)",
+            "items": [
+              "3 rounds, 45 sec each:",
+              "Plank (bodyweight)",
+              "Dead bug",
+              "Glute bridge hold",
+              "Rest 45 sec between exercises"
+            ]
+          },
+          {
+            "heading": "Cool-down (5 min)",
+            "items": [
+              "Easy bike + stretch"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 22,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "Easy bike + dynamic warm-up"
+            ]
+          },
+          {
+            "heading": "EMOM 16 min",
+            "items": [
+              "Minute 1: 10 wall balls",
+              "Minute 2: 8 burpees",
+              "Minute 3: 200m row",
+              "Minute 4: rest",
+              "4 rounds total"
+            ]
+          },
+          {
+            "heading": "Cool-down (1 min)",
+            "items": [
+              "Stretch"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Technique day. Reduced reps, focus on form. Wall balls: full squat depth every rep, target every time. Burpees: smooth cadence, no rushing. Row: consistent stroke rate. This is maintenance, not stimulus.",
+        "week_context": "Deload — technique focus.",
+        "block_context": "Last EMOM of the block."
+      }
+    },
+    "simulation": {
+      "title": "Deload Tune-up Simulation",
+      "stimulus": "Short, moderate-pace simulation to keep the pattern sharp without creating fatigue.",
+      "simulation_type": "compromised",
+      "full_rox": {
+        "estimated_duration_minutes": 45,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy jog",
+              "Dynamic warm-up"
+            ]
+          },
+          {
+            "heading": "Main Session (25 min)",
+            "items": [
+              "2 rounds at RPE 6:",
+              "800m run at conversational pace",
+              "15 wall balls",
+              "30m sled push (light weight)",
+              "Rest 3 min between rounds"
+            ]
+          },
+          {
+            "heading": "Cool-down (10 min)",
+            "items": [
+              "5 min easy walk",
+              "5 min stretching"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 22,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "Easy jog + dynamic warm-up"
+            ]
+          },
+          {
+            "heading": "Main Session (15 min)",
+            "items": [
+              "1 round at RPE 6:",
+              "800m run",
+              "15 wall balls",
+              "30m sled push",
+              "400m run",
+              "10 burpee broad jumps"
+            ]
+          },
+          {
+            "heading": "Cool-down (2 min)",
+            "items": [
+              "Easy walk"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Short tune-up simulation. Moderate pace, shorter volume, longer rest. Think of this as a practice round, not a peak effort. Your body should end the session feeling refreshed, not wrecked.",
+        "week_context": "Deload simulation — maintenance, not stimulus.",
+        "block_context": "Last session of the block. Next week: new block, higher starting loads."
+      }
+    }
+  },
+  "notes": {
+    "about": "Week 4 deload. All sessions reduced in volume. Recovery is the training.",
+    "week_context": "Deload: reduced volume, moderate intensity, recovery focus.",
+    "block_context": "Final week of the 4-week block. Next week begins a new block with fresh stimulus."
+  }
+}

@@ -1,7 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import weekData from "../data/weeks/week_2026_05_04.json";
+import week_2026_04_06 from "../data/weeks/week_2026_04_06.json";
+import week_2026_04_13 from "../data/weeks/week_2026_04_13.json";
+import week_2026_04_20 from "../data/weeks/week_2026_04_20.json";
+import week_2026_04_27 from "../data/weeks/week_2026_04_27.json";
+import week_2026_05_04 from "../data/weeks/week_2026_05_04.json";
+import { mondayOfWeek } from "./dates";
 
-export type SessionSlug = "strength" | "running" | "engine" | "simulation" | "emom";
+export type SessionSlug = "strength" | "running" | "engine" | "emom" | "simulation";
 
 export interface SessionStructureBlock {
   heading: string;
@@ -40,34 +45,105 @@ export const SESSION_ORDER: SessionSlug[] = [
   "strength",
   "running",
   "engine",
-  "simulation",
   "emom",
+  "simulation",
 ];
+
+export function getSessionOrder(): SessionSlug[] {
+  return SESSION_ORDER;
+}
 
 export const SESSION_LABELS: Record<SessionSlug, string> = {
   strength: "STRENGTH",
   running: "RUNNING",
   engine: "ENGINE",
-  simulation: "SIMULATION",
   emom: "EMOM / TECHNIQUE",
+  simulation: "SIMULATION",
 };
 
-const LAST_SEEN_WEEK_KEY = "hr_last_seen_week";
-const completedKeyFor = (weekStart: string) => `hr_completed_sessions_${weekStart}`;
-const archivedKeyFor = (weekStart: string) => `hr_completed_sessions_${weekStart}_archived`;
+const ALL_WEEKS_UNSORTED: Week[] = [
+  week_2026_04_06 as Week,
+  week_2026_04_13 as Week,
+  week_2026_04_20 as Week,
+  week_2026_04_27 as Week,
+  week_2026_05_04 as Week,
+];
+
+const ALL_WEEKS: Week[] = [...ALL_WEEKS_UNSORTED].sort((a, b) =>
+  a.week_start.localeCompare(b.week_start)
+);
+
+export function getAllWeeks(): Week[] {
+  return ALL_WEEKS;
+}
+
+function isoToLocalDate(iso: string): Date {
+  const [y, m, d] = iso.split("-").map((p) => parseInt(p, 10));
+  return new Date(y, m - 1, d);
+}
+
+function formatISO(d: Date): string {
+  const y = d.getFullYear();
+  const m = (d.getMonth() + 1).toString().padStart(2, "0");
+  const day = d.getDate().toString().padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function findCurrentIndex(): number {
+  const todayMondayISO = formatISO(mondayOfWeek(new Date()));
+  const exact = ALL_WEEKS.findIndex((w) => w.week_start === todayMondayISO);
+  if (exact >= 0) return exact;
+  let mostRecent = -1;
+  for (let i = 0; i < ALL_WEEKS.length; i++) {
+    if (ALL_WEEKS[i].week_start <= todayMondayISO) mostRecent = i;
+    else break;
+  }
+  return mostRecent >= 0 ? mostRecent : 0;
+}
 
 export function getCurrentWeek(): Week {
-  return weekData as Week;
+  return ALL_WEEKS[findCurrentIndex()];
 }
 
-export function getSession(slug: SessionSlug): Session | undefined {
-  return getCurrentWeek().sessions[slug];
+export function getCurrentWeekIndex(): number {
+  return findCurrentIndex();
 }
 
-export async function getCompletedSessions(): Promise<SessionSlug[]> {
-  const week = getCurrentWeek();
-  await rotateIfNewWeek(week.week_start);
-  const raw = await AsyncStorage.getItem(completedKeyFor(week.week_start));
+export function getWeekByIndex(offset: number): Week | null {
+  const idx = findCurrentIndex() + offset;
+  if (idx < 0 || idx >= ALL_WEEKS.length) return null;
+  return ALL_WEEKS[idx];
+}
+
+export function getWeekByStart(weekStart: string): Week | null {
+  return ALL_WEEKS.find((w) => w.week_start === weekStart) ?? null;
+}
+
+export function getWeekBounds(): { earliestIndex: number; latestIndex: number } {
+  const current = findCurrentIndex();
+  return {
+    earliestIndex: -current,
+    latestIndex: ALL_WEEKS.length - 1 - current,
+  };
+}
+
+export function isFutureWeek(weekStart: string): boolean {
+  const weekDate = isoToLocalDate(weekStart);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return weekDate.getTime() > today.getTime();
+}
+
+export function getSession(slug: SessionSlug, weekStart?: string): Session | undefined {
+  const week = weekStart ? getWeekByStart(weekStart) : getCurrentWeek();
+  return week?.sessions[slug];
+}
+
+const completedKeyFor = (weekStart: string) => `hr_completed_sessions_${weekStart}`;
+
+export async function getCompletedSessions(weekStart?: string): Promise<SessionSlug[]> {
+  const key = completedKeyFor(weekStart ?? getCurrentWeek().week_start);
+  const raw = await AsyncStorage.getItem(key);
   if (!raw) return [];
   try {
     const parsed = JSON.parse(raw);
@@ -77,33 +153,22 @@ export async function getCompletedSessions(): Promise<SessionSlug[]> {
   }
 }
 
-export async function isSessionComplete(slug: SessionSlug): Promise<boolean> {
-  const list = await getCompletedSessions();
+export async function isSessionComplete(slug: SessionSlug, weekStart?: string): Promise<boolean> {
+  const list = await getCompletedSessions(weekStart);
   return list.includes(slug);
 }
 
-export async function markSessionComplete(slug: SessionSlug, complete: boolean): Promise<SessionSlug[]> {
-  const week = getCurrentWeek();
-  await rotateIfNewWeek(week.week_start);
-  const list = await getCompletedSessions();
+export async function markSessionComplete(
+  slug: SessionSlug,
+  complete: boolean,
+  weekStart?: string
+): Promise<SessionSlug[]> {
+  const effectiveWeek = weekStart ?? getCurrentWeek().week_start;
+  const list = await getCompletedSessions(effectiveWeek);
   const set = new Set(list);
   if (complete) set.add(slug);
   else set.delete(slug);
   const next = SESSION_ORDER.filter((s) => set.has(s));
-  await AsyncStorage.setItem(completedKeyFor(week.week_start), JSON.stringify(next));
+  await AsyncStorage.setItem(completedKeyFor(effectiveWeek), JSON.stringify(next));
   return next;
-}
-
-async function rotateIfNewWeek(currentWeekStart: string): Promise<void> {
-  const last = await AsyncStorage.getItem(LAST_SEEN_WEEK_KEY);
-  if (last && last !== currentWeekStart) {
-    const oldRaw = await AsyncStorage.getItem(completedKeyFor(last));
-    if (oldRaw) {
-      await AsyncStorage.setItem(archivedKeyFor(last), oldRaw);
-      await AsyncStorage.removeItem(completedKeyFor(last));
-    }
-  }
-  if (last !== currentWeekStart) {
-    await AsyncStorage.setItem(LAST_SEEN_WEEK_KEY, currentWeekStart);
-  }
 }

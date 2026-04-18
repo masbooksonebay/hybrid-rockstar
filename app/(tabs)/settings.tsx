@@ -98,8 +98,8 @@ export default function SettingsScreen() {
 
   return (
     <ScrollView style={[styles.container, { backgroundColor: theme.background }]} contentContainerStyle={styles.content}>
-      {/* PROFILE */}
-      <Section title="Profile" theme={theme}>
+      {/* DIVISION */}
+      <Section title="Division" theme={theme}>
         <Card theme={theme}>
           <PillRow
             label="Format"
@@ -168,19 +168,6 @@ export default function SettingsScreen() {
               const mode = themeModes.find((m) => m.label === label)?.v ?? "system";
               updateSettings({ themeMode: mode });
             }}
-            theme={theme}
-          />
-        </Card>
-      </Section>
-
-      {/* UNITS */}
-      <Section title="Units" theme={theme}>
-        <Card theme={theme}>
-          <PillRow
-            label="Unit System"
-            options={["Imperial", "Metric"]}
-            value={settings.units === "imperial" ? "Imperial" : "Metric"}
-            onChange={(v) => updateSettings({ units: v === "Imperial" ? "imperial" : "metric" })}
             theme={theme}
           />
         </Card>
