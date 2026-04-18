@@ -27,7 +27,7 @@ export const CATEGORIES: Category[] = [
   {
     key: "shoes",
     label: "SHOES",
-    icon: "walk-outline",
+    icon: "flash-outline",
     vendors: [
       {
         slug: "puma-shoes",
@@ -86,7 +86,7 @@ export const CATEGORIES: Category[] = [
       },
       {
         slug: "hybrid-rockstar-shop",
-        name: "Hybrid Rockstar Shop",
+        name: "Hybrid Rockstar",
         tagline: "Coming soon",
         url: null,
         officialPartner: false,

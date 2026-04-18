@@ -9,6 +9,7 @@ import {
   Modal,
   Pressable,
   Alert,
+  Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -19,22 +20,25 @@ import { spacing, borderRadius } from "../../constants/theme";
 import {
   DivisionContext,
   StationSlug,
-  STATION_LABELS,
   getStationWeight,
 } from "../../lib/divisions";
 import {
-  StationOverride,
-  clearOverride,
-  clearSegmentTime,
-  loadAllOverrides,
-  loadAllSegmentTimes,
-  saveOverride,
-  saveSegmentTime,
-} from "../../lib/stationOverrides";
+  Scenario,
+  SegmentOverride,
+  ScenarioOverrides,
+  loadScenarioOverrides,
+  saveSegmentOverride,
+  clearSegmentOverride,
+  loadTopInput,
+  saveTopInput,
+  migrateBuildCIfNeeded,
+} from "../../lib/raceOverrides";
 import { formatMinSec, formatSeconds, parseTimeToSeconds } from "../../lib/timeFormat";
 import { daysUntil } from "../../lib/dates";
+import DoneKeyboardToolbar, { KEYBOARD_DONE_ID } from "../../components/DoneKeyboardToolbar";
+import InfoModal from "../../components/InfoModal";
 
-type Mode = "predict" | "goal";
+type Mode = Scenario;
 
 const STATION_NAME_TO_SLUG: Record<string, StationSlug> = {
   "Sled Push": "sled_push",
@@ -44,44 +48,54 @@ const STATION_NAME_TO_SLUG: Record<string, StationSlug> = {
   "Wall Balls": "wall_balls",
 };
 
-const ALL_SLUGS: StationSlug[] = ["sled_push", "sled_pull", "farmers_carry", "sandbag_lunges", "wall_balls"];
-
 const BANNER_DISMISSED_KEY = "hr_settings_race_banner_dismissed";
 const TRANSITION_EST_SEC = 8 * 60;
+const ALL_ORDERS = RACE_SEQUENCE.map((s) => s.order);
+const STATION_ORDERS = RACE_SEQUENCE.filter((s) => s.kind === "station").map((s) => s.order);
+
+const PREDICT_INFO_TITLE = "How Your Time Is Predicted";
+const PREDICT_INFO_BODY =
+  "We calculate your predicted finish time by:\n\n• Summing 8 × your average 1km run pace for all the runs\n• Summing your per-station times (or the running average if you're using blanket station time)\n• Adding a ~3-5 minute transition estimate between stations\n\nThe more accurate your per-station times, the more accurate your prediction. Tap any station row to enter a custom time.\n\nDefault station weights and run distances are based on your division in Settings.";
+
+const GOAL_INFO_TITLE = "How Target Splits Are Calculated";
+const GOAL_INFO_BODY =
+  "We estimate your required splits using a 60/40 run-to-station ratio:\n\n• 60% of your goal time is distributed across the 8 km of running\n• 40% of your goal time is distributed across the 8 stations (average)\n• ~3-5 minutes are reserved for transitions between stations\n\nThese are rough targets to help you plan your race. Individual station times vary significantly based on your strengths — for example, strong rowers typically finish rowing faster than average, while wall balls often take longer for most athletes. Use per-station overrides in the race order list to adjust.\n\nDefault station weights and run distances are based on your division in Settings.";
 
 export default function RaceScreen() {
   const { theme, settings } = useApp();
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("predict");
+
   const [paceInput, setPaceInput] = useState("");
-  const [stationInput, setStationInput] = useState("");
   const [goalInput, setGoalInput] = useState("");
   const [paceErr, setPaceErr] = useState(false);
-  const [stationErr, setStationErr] = useState(false);
   const [goalErr, setGoalErr] = useState(false);
-  const [overrides, setOverrides] = useState<Record<StationSlug, StationOverride>>(() => ({
-    sled_push: {},
-    sled_pull: {},
-    farmers_carry: {},
-    sandbag_lunges: {},
-    wall_balls: {},
-  }));
-  const [segmentTimes, setSegmentTimes] = useState<Record<number, string>>({});
+
+  const [predictOverrides, setPredictOverrides] = useState<ScenarioOverrides>({});
+  const [goalOverrides, setGoalOverrides] = useState<ScenarioOverrides>({});
+
   const [editingOrder, setEditingOrder] = useState<number | null>(null);
   const [bannerDismissed, setBannerDismissed] = useState(false);
+  const [predictInfoOpen, setPredictInfoOpen] = useState(false);
+  const [goalInfoOpen, setGoalInfoOpen] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
       let cancelled = false;
       (async () => {
-        const [ovs, times, banner] = await Promise.all([
-          loadAllOverrides(ALL_SLUGS),
-          loadAllSegmentTimes(RACE_SEQUENCE.map((s) => s.order)),
+        await migrateBuildCIfNeeded();
+        const [predict, goal, paceVal, goalVal, banner] = await Promise.all([
+          loadScenarioOverrides("predict", ALL_ORDERS),
+          loadScenarioOverrides("goal", ALL_ORDERS),
+          loadTopInput("predict"),
+          loadTopInput("goal"),
           AsyncStorage.getItem(BANNER_DISMISSED_KEY),
         ]);
         if (cancelled) return;
-        setOverrides(ovs);
-        setSegmentTimes(times);
+        setPredictOverrides(predict);
+        setGoalOverrides(goal);
+        setPaceInput(paceVal);
+        setGoalInput(goalVal);
         setBannerDismissed(banner === "true");
       })();
       return () => {
@@ -95,27 +109,45 @@ export default function RaceScreen() {
     [settings.format, settings.tier, settings.gender]
   );
 
+  const activeOverrides = mode === "predict" ? predictOverrides : goalOverrides;
   const paceSec = useMemo(() => parseTimeToSeconds(paceInput), [paceInput]);
-  const stationSec = useMemo(() => parseTimeToSeconds(stationInput), [stationInput]);
   const goalSec = useMemo(() => parseTimeToSeconds(goalInput), [goalInput]);
+
+  const stationOverrideTimes: number[] = useMemo(() => {
+    const out: number[] = [];
+    for (const order of STATION_ORDERS) {
+      const raw = activeOverrides[order]?.time;
+      if (raw) {
+        const s = parseTimeToSeconds(raw);
+        if (s != null) out.push(s);
+      }
+    }
+    return out;
+  }, [activeOverrides]);
+
+  const stationAvgFromOverrides: number | null = stationOverrideTimes.length
+    ? stationOverrideTimes.reduce((a, b) => a + b, 0) / stationOverrideTimes.length
+    : null;
 
   const goalRunPace = mode === "goal" && goalSec ? (goalSec * 0.6) / 8 : null;
   const goalStationAvg = mode === "goal" && goalSec ? (goalSec * 0.4) / 8 : null;
 
-  const defaultSplitFor = (seg: RaceSegment): number | null => {
-    if (mode === "predict") {
-      return seg.kind === "run" ? paceSec : stationSec;
-    }
-    return seg.kind === "run" ? goalRunPace : goalStationAvg;
+  const defaultSplitForRun = (): number | null => {
+    if (mode === "predict") return paceSec;
+    return goalRunPace;
+  };
+  const defaultSplitForStation = (): number | null => {
+    if (mode === "predict") return stationAvgFromOverrides;
+    return goalStationAvg;
   };
 
   const effectiveSplitFor = (seg: RaceSegment): number | null => {
-    const override = segmentTimes[seg.order];
+    const override = activeOverrides[seg.order]?.time;
     if (override) {
       const parsed = parseTimeToSeconds(override);
       if (parsed != null) return parsed;
     }
-    return defaultSplitFor(seg);
+    return seg.kind === "run" ? defaultSplitForRun() : defaultSplitForStation();
   };
 
   const totalFinish = useMemo(() => {
@@ -128,14 +160,23 @@ export default function RaceScreen() {
       total += s;
     }
     return any ? total + TRANSITION_EST_SEC : null;
-  }, [segmentTimes, paceSec, stationSec, goalRunPace, goalStationAvg, mode]);
+  }, [activeOverrides, paceSec, goalRunPace, goalStationAvg, mode, stationAvgFromOverrides]);
+
+  const goalTimeOverrideCount = useMemo(() => {
+    let n = 0;
+    for (const order of ALL_ORDERS) {
+      if (goalOverrides[order]?.time) n++;
+    }
+    return n;
+  }, [goalOverrides]);
 
   const goalMismatch = useMemo(() => {
     if (mode !== "goal" || goalSec == null || totalFinish == null) return null;
+    if (goalTimeOverrideCount === 0) return null;
     const diff = totalFinish - goalSec;
     if (Math.abs(diff) < 30) return null;
     return diff;
-  }, [mode, goalSec, totalFinish]);
+  }, [mode, goalSec, totalFinish, goalTimeOverrideCount]);
 
   const onDismissBanner = async () => {
     setBannerDismissed(true);
@@ -158,32 +199,36 @@ export default function RaceScreen() {
 
   const goToSettings = () => router.push("/settings");
 
-  const onSaveOverride = async (order: number, next: { weight?: string; reps?: string; time?: string }) => {
-    const slug = STATION_NAME_TO_SLUG[RACE_SEQUENCE.find((s) => s.order === order)?.name ?? ""];
-    if (slug) {
-      await saveOverride(slug, { weight: next.weight, reps: next.reps });
-      setOverrides((m) => ({ ...m, [slug]: { weight: next.weight, reps: next.reps } }));
-    }
-    await saveSegmentTime(order, next.time);
-    setSegmentTimes((m) => {
-      const copy = { ...m };
-      if (next.time && next.time.trim()) copy[order] = next.time.trim();
-      else delete copy[order];
-      return copy;
-    });
+  const onPaceChange = (v: string) => {
+    setPaceInput(v);
+    if (paceErr) setPaceErr(false);
+  };
+  const onPaceBlur = () => {
+    const valid = paceInput === "" || parseTimeToSeconds(paceInput) != null;
+    setPaceErr(!valid);
+    if (valid) saveTopInput("predict", paceInput);
+  };
+  const onGoalChange = (v: string) => {
+    setGoalInput(v);
+    if (goalErr) setGoalErr(false);
+  };
+  const onGoalBlur = () => {
+    const valid = goalInput === "" || parseTimeToSeconds(goalInput) != null;
+    setGoalErr(!valid);
+    if (valid) saveTopInput("goal", goalInput);
+  };
+
+  const onSaveOverride = async (order: number, next: SegmentOverride) => {
+    await saveSegmentOverride(mode, order, next);
+    const setter = mode === "predict" ? setPredictOverrides : setGoalOverrides;
+    setter((m) => ({ ...m, [order]: next }));
     setEditingOrder(null);
   };
 
   const onResetOverride = async (order: number) => {
-    const seg = RACE_SEQUENCE.find((s) => s.order === order);
-    if (!seg) return;
-    const slug = STATION_NAME_TO_SLUG[seg.name];
-    if (slug) {
-      await clearOverride(slug);
-      setOverrides((m) => ({ ...m, [slug]: {} }));
-    }
-    await clearSegmentTime(order);
-    setSegmentTimes((m) => {
+    await clearSegmentOverride(mode, order);
+    const setter = mode === "predict" ? setPredictOverrides : setGoalOverrides;
+    setter((m) => {
       const copy = { ...m };
       delete copy[order];
       return copy;
@@ -195,10 +240,10 @@ export default function RaceScreen() {
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <View style={[styles.modeRow, { borderColor: theme.border }]}>
         <TouchableOpacity style={[styles.modeBtn, mode === "predict" && { backgroundColor: theme.accent }]} onPress={() => setMode("predict")}>
-          <Text style={[styles.modeText, { color: mode === "predict" ? "#fff" : theme.textSecondary }]}>Predict My Time</Text>
+          <Text style={[styles.modeText, { color: mode === "predict" ? "#fff" : theme.textSecondary }]}>Target Time</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.modeBtn, mode === "goal" && { backgroundColor: theme.accent }]} onPress={() => setMode("goal")}>
-          <Text style={[styles.modeText, { color: mode === "goal" ? "#fff" : theme.textSecondary }]}>Goal Time Planner</Text>
+          <Text style={[styles.modeText, { color: mode === "goal" ? "#fff" : theme.textSecondary }]}>Target Splits</Text>
         </TouchableOpacity>
       </View>
 
@@ -245,55 +290,99 @@ export default function RaceScreen() {
 
         {mode === "predict" ? (
           <>
-            <LabeledInput
-              theme={theme}
-              label="AVERAGE 1KM PACE"
-              value={paceInput}
-              onChange={setPaceInput}
-              onBlur={() => setPaceErr(paceInput.length > 0 && parseTimeToSeconds(paceInput) == null)}
+            <View style={styles.labelRow}>
+              <Text style={[styles.label, { color: theme.textSecondary }]}>AVERAGE 1KM PACE</Text>
+              <TouchableOpacity onPress={() => setPredictInfoOpen(true)} hitSlop={10} style={styles.labelInfo}>
+                <Ionicons name="information-circle-outline" size={16} color={theme.textSecondary} />
+              </TouchableOpacity>
+            </View>
+            <TextInput
+              style={[
+                styles.input,
+                { backgroundColor: theme.inputBg, borderColor: paceErr ? "#FF3B30" : theme.border, color: theme.text },
+              ]}
               placeholder="e.g. 5:30"
-              error={paceErr}
+              placeholderTextColor={theme.textTertiary}
+              keyboardType="numbers-and-punctuation"
+              value={paceInput}
+              onChangeText={onPaceChange}
+              onBlur={onPaceBlur}
+              autoCorrect={false}
+              autoCapitalize="none"
+              inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
             />
-            <LabeledInput
-              theme={theme}
-              label="AVERAGE STATION TIME"
-              value={stationInput}
-              onChange={setStationInput}
-              onBlur={() => setStationErr(stationInput.length > 0 && parseTimeToSeconds(stationInput) == null)}
-              placeholder="e.g. 4:00"
-              error={stationErr}
-            />
+            {paceErr && <Text style={styles.inputError}>Use mm:ss (or h:mm:ss).</Text>}
+            <Text style={[styles.helper, { color: theme.textSecondary }]}>Enter your target pace for each 1km run</Text>
+
+            <Text style={[styles.label, { color: theme.textSecondary }]}>AVERAGE STATION TIME</Text>
+            <View
+              style={[
+                styles.input,
+                styles.displayInput,
+                { backgroundColor: theme.inputBg, borderColor: theme.border },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.displayInputText,
+                  {
+                    color: stationAvgFromOverrides != null ? theme.text : theme.textTertiary,
+                    fontStyle: stationAvgFromOverrides != null ? "italic" : "normal",
+                  },
+                ]}
+              >
+                {stationAvgFromOverrides != null ? formatMinSec(stationAvgFromOverrides) : "e.g. 4:00"}
+              </Text>
+            </View>
+            <Text style={[styles.helper, { color: theme.textSecondary }]}>Or enter times for each station below</Text>
 
             {totalFinish != null && (
-              <ResultCard theme={theme}>
+              <View style={[styles.resultCard, { backgroundColor: theme.card, borderColor: theme.accent }]}>
                 <Text style={[styles.resultTitle, { color: theme.accent }]}>PREDICTED FINISH</Text>
                 <Text style={[styles.resultTime, { color: theme.text }]}>{formatSeconds(totalFinish)}</Text>
                 <Text style={[styles.resultBreakdown, { color: theme.textSecondary }]}>
                   Includes ~{TRANSITION_EST_SEC / 60}m transition estimate
                 </Text>
-              </ResultCard>
+              </View>
             )}
           </>
         ) : (
           <>
-            <LabeledInput
-              theme={theme}
-              label="TARGET FINISH TIME"
-              value={goalInput}
-              onChange={setGoalInput}
-              onBlur={() => setGoalErr(goalInput.length > 0 && parseTimeToSeconds(goalInput) == null)}
+            <View style={styles.goalExplainerRow}>
+              <Text style={[styles.goalExplainer, { color: theme.textSecondary }]}>
+                Enter your goal time and we'll calculate your target splits.
+              </Text>
+              <TouchableOpacity onPress={() => setGoalInfoOpen(true)} hitSlop={10} style={styles.labelInfo}>
+                <Ionicons name="information-circle-outline" size={16} color={theme.textSecondary} />
+              </TouchableOpacity>
+            </View>
+
+            <Text style={[styles.label, { color: theme.textSecondary }]}>TARGET FINISH TIME</Text>
+            <TextInput
+              style={[
+                styles.input,
+                { backgroundColor: theme.inputBg, borderColor: goalErr ? "#FF3B30" : theme.border, color: theme.text },
+              ]}
               placeholder="e.g. 1:15:00"
-              error={goalErr}
+              placeholderTextColor={theme.textTertiary}
+              keyboardType="numbers-and-punctuation"
+              value={goalInput}
+              onChangeText={onGoalChange}
+              onBlur={onGoalBlur}
+              autoCorrect={false}
+              autoCapitalize="none"
+              inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
             />
+            {goalErr && <Text style={styles.inputError}>Use mm:ss (or h:mm:ss).</Text>}
 
             {goalRunPace != null && goalStationAvg != null && (
-              <ResultCard theme={theme}>
+              <View style={[styles.resultCard, { backgroundColor: theme.card, borderColor: theme.accent }]}>
                 <Text style={[styles.resultTitle, { color: theme.accent }]}>REQUIRED SPLITS</Text>
                 <Text style={[styles.resultTime, { color: theme.text }]}>{formatSeconds(goalSec!)}</Text>
                 <Text style={[styles.resultBreakdown, { color: theme.textSecondary }]}>
                   {formatMinSec(goalRunPace)}/km pace · {formatMinSec(goalStationAvg)}/station avg
                 </Text>
-              </ResultCard>
+              </View>
             )}
 
             {goalMismatch != null && (
@@ -311,10 +400,10 @@ export default function RaceScreen() {
         {RACE_SEQUENCE.map((seg) => {
           const slug = STATION_NAME_TO_SLUG[seg.name] ?? null;
           const baseWeight = slug && divisionSet ? getStationWeight(slug, ctx) : null;
-          const ov = slug ? overrides[slug] : undefined;
+          const ov = activeOverrides[seg.order];
           const overrideWeight = ov?.weight;
           const overrideReps = ov?.reps;
-          const overrideTime = segmentTimes[seg.order];
+          const overrideTime = ov?.time;
           const displayWeight = overrideWeight ?? baseWeight?.primary ?? null;
           const displayReps =
             seg.reps != null
@@ -341,9 +430,7 @@ export default function RaceScreen() {
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={[styles.stationName, { color: theme.text }]}>{seg.name}</Text>
-                <View style={styles.stationSubRow}>
-                  <Text style={[styles.stationDist, { color: theme.textSecondary }]}>{subtitle || "—"}</Text>
-                </View>
+                <Text style={[styles.stationDist, { color: theme.textSecondary }]}>{subtitle || "—"}</Text>
               </View>
               <Text style={[styles.stationSplit, { color: split != null ? theme.accent : theme.textTertiary }]}>
                 {split != null ? formatMinSec(split) : "—"}
@@ -361,63 +448,29 @@ export default function RaceScreen() {
           seg={RACE_SEQUENCE.find((s) => s.order === editingOrder)!}
           ctx={ctx}
           divisionSet={divisionSet}
-          existing={{
-            weight: (() => {
-              const slug = STATION_NAME_TO_SLUG[RACE_SEQUENCE.find((s) => s.order === editingOrder)!.name];
-              return slug ? overrides[slug]?.weight : undefined;
-            })(),
-            reps: (() => {
-              const slug = STATION_NAME_TO_SLUG[RACE_SEQUENCE.find((s) => s.order === editingOrder)!.name];
-              return slug ? overrides[slug]?.reps : undefined;
-            })(),
-            time: segmentTimes[editingOrder],
-          }}
+          existing={activeOverrides[editingOrder] ?? {}}
           theme={theme}
           onSave={(v) => onSaveOverride(editingOrder, v)}
           onReset={() => onResetOverride(editingOrder)}
           onClose={() => setEditingOrder(null)}
         />
       )}
-    </View>
-  );
-}
 
-interface LabeledInputProps {
-  theme: any;
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  onBlur: () => void;
-  placeholder: string;
-  error: boolean;
-}
-
-function LabeledInput({ theme, label, value, onChange, onBlur, placeholder, error }: LabeledInputProps) {
-  return (
-    <>
-      <Text style={[styles.label, { color: theme.textSecondary }]}>{label}</Text>
-      <TextInput
-        style={[
-          styles.input,
-          { backgroundColor: theme.inputBg, borderColor: error ? "#FF3B30" : theme.border, color: theme.text },
-        ]}
-        placeholder={placeholder}
-        placeholderTextColor={theme.textTertiary}
-        keyboardType="numbers-and-punctuation"
-        value={value}
-        onChangeText={onChange}
-        onBlur={onBlur}
-        autoCorrect={false}
-        autoCapitalize="none"
+      <InfoModal
+        visible={predictInfoOpen}
+        title={PREDICT_INFO_TITLE}
+        body={PREDICT_INFO_BODY}
+        onClose={() => setPredictInfoOpen(false)}
       />
-      {error && <Text style={styles.inputError}>Use mm:ss (or h:mm:ss).</Text>}
-    </>
-  );
-}
+      <InfoModal
+        visible={goalInfoOpen}
+        title={GOAL_INFO_TITLE}
+        body={GOAL_INFO_BODY}
+        onClose={() => setGoalInfoOpen(false)}
+      />
 
-function ResultCard({ theme, children }: { theme: any; children: React.ReactNode }) {
-  return (
-    <View style={[styles.resultCard, { backgroundColor: theme.card, borderColor: theme.accent }]}>{children}</View>
+      <DoneKeyboardToolbar />
+    </View>
   );
 }
 
@@ -425,9 +478,9 @@ interface SegmentEditProps {
   seg: RaceSegment;
   ctx: DivisionContext;
   divisionSet: boolean;
-  existing: { weight?: string; reps?: string; time?: string };
+  existing: SegmentOverride;
   theme: any;
-  onSave: (v: { weight?: string; reps?: string; time?: string }) => void;
+  onSave: (v: SegmentOverride) => void;
   onReset: () => void;
   onClose: () => void;
 }
@@ -488,6 +541,7 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
                   onChangeText={setWeight}
                   autoCorrect={false}
                   autoCapitalize="none"
+                  inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
                 />
                 <Text style={[styles.unitLabel, { color: theme.textSecondary }]}>kg</Text>
               </View>
@@ -513,6 +567,7 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
             }}
             autoCorrect={false}
             autoCapitalize="none"
+            inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
           />
           {timeErr && <Text style={styles.inputError}>Use mm:ss format.</Text>}
           <Text style={[styles.helpText, { color: theme.textTertiary }]}>
@@ -534,6 +589,7 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
                   keyboardType="number-pad"
                   value={reps}
                   onChangeText={setReps}
+                  inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
                 />
                 <Text style={[styles.unitLabel, { color: theme.textSecondary }]}>reps</Text>
               </View>
@@ -558,6 +614,7 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
             <Text style={[styles.resetBtnText, { color: theme.textSecondary }]}>Reset to Default</Text>
           </TouchableOpacity>
         </ScrollView>
+        <DoneKeyboardToolbar />
       </View>
     </Modal>
   );
@@ -588,9 +645,16 @@ const styles = StyleSheet.create({
   },
   divisionLabel: { fontSize: 10, fontWeight: "700", letterSpacing: 0.8, marginBottom: 2 },
   divisionValue: { fontSize: 15, fontWeight: "600" },
+  labelRow: { flexDirection: "row", alignItems: "center", marginTop: spacing.md },
   label: { fontSize: 12, fontWeight: "600", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: spacing.xs, marginTop: spacing.md },
+  labelInfo: { marginLeft: 6, padding: 2, marginTop: spacing.md - 2 },
   input: { borderWidth: 1, borderRadius: borderRadius.sm, padding: spacing.md - 2, fontSize: 16 },
   inputError: { fontSize: 11, color: "#FF3B30", marginTop: 4 },
+  displayInput: { justifyContent: "center" },
+  displayInputText: { fontSize: 16 },
+  helper: { fontSize: 13, fontStyle: "italic", marginTop: 4 },
+  goalExplainerRow: { flexDirection: "row", alignItems: "center", marginTop: spacing.sm, marginBottom: spacing.xs },
+  goalExplainer: { flex: 1, fontSize: 13, fontStyle: "italic" },
   resultCard: { borderRadius: borderRadius.md, padding: spacing.lg, marginTop: spacing.lg, borderWidth: 1, alignItems: "center" },
   resultTitle: { fontSize: 12, fontWeight: "700", letterSpacing: 1, marginBottom: spacing.sm },
   resultTime: { fontSize: 36, fontWeight: "800" },
@@ -610,8 +674,7 @@ const styles = StyleSheet.create({
   stationNum: { width: 28, height: 28, borderRadius: 14, alignItems: "center", justifyContent: "center" },
   stationNumText: { fontSize: 13, fontWeight: "800" },
   stationName: { fontSize: 15, fontWeight: "600" },
-  stationSubRow: { flexDirection: "row", alignItems: "center", marginTop: 1 },
-  stationDist: { fontSize: 12 },
+  stationDist: { fontSize: 12, marginTop: 1 },
   stationSplit: { fontSize: 14, fontWeight: "700", minWidth: 54, textAlign: "right" },
   pencil: { marginLeft: -6 },
   modal: { flex: 1 },

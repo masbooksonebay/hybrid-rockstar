@@ -4,25 +4,23 @@ import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PagerView from "react-native-pager-view";
-import { useApp } from "../../lib/context";
+import { useApp } from "../../../lib/context";
 import {
-  getAllWeeks,
-  getCurrentWeekIndex,
+  getReachableWeeks,
   getCompletedSessions,
   SESSION_ORDER,
   SESSION_LABELS,
   SessionSlug,
   Week,
   isFutureWeek,
-} from "../../lib/programming";
-import { formatWeekRange, daysUntil } from "../../lib/dates";
-import { spacing, borderRadius } from "../../constants/theme";
+} from "../../../lib/programming";
+import { formatWeekRange, daysUntil } from "../../../lib/dates";
+import { spacing, borderRadius } from "../../../constants/theme";
 
 export default function TrainScreen() {
   const { theme, settings } = useApp();
   const router = useRouter();
-  const weeks = getAllWeeks();
-  const currentIdx = getCurrentWeekIndex();
+  const { weeks, currentIndex: currentIdx } = getReachableWeeks();
   const pagerRef = useRef<PagerView>(null);
   const [activeIdx, setActiveIdx] = useState<number>(currentIdx);
   const [completedByWeek, setCompletedByWeek] = useState<Record<string, SessionSlug[]>>({});

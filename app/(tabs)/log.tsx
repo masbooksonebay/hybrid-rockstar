@@ -9,8 +9,6 @@ import {
   Modal,
   Pressable,
   Animated,
-  InputAccessoryView,
-  Keyboard,
   Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -20,6 +18,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useApp } from "../../lib/context";
 import { spacing, borderRadius } from "../../constants/theme";
 import { formatRelativeDate } from "../../lib/dates";
+import DoneKeyboardToolbar, { KEYBOARD_DONE_ID } from "../../components/DoneKeyboardToolbar";
 
 interface LogEntry {
   id: string;
@@ -286,8 +285,6 @@ interface LogFormProps {
   onSave: (entry: LogEntry) => void;
 }
 
-const KEYBOARD_DONE_ID = "hr-log-keyboard-done";
-
 function LogForm({ initial, onClose, onSave }: LogFormProps) {
   const { theme } = useApp();
   const [activity, setActivity] = useState<Activity | "">((initial?.activity as Activity) ?? "");
@@ -421,15 +418,7 @@ function LogForm({ initial, onClose, onSave }: LogFormProps) {
         </TouchableOpacity>
         <View style={{ height: 60 }} />
       </ScrollView>
-      {Platform.OS === "ios" && (
-        <InputAccessoryView nativeID={KEYBOARD_DONE_ID}>
-          <View style={[styles.accessoryBar, { backgroundColor: theme.card, borderTopColor: theme.border }]}>
-            <TouchableOpacity onPress={() => Keyboard.dismiss()} hitSlop={8}>
-              <Text style={[styles.accessoryDone, { color: theme.accent }]}>Done</Text>
-            </TouchableOpacity>
-          </View>
-        </InputAccessoryView>
-      )}
+      <DoneKeyboardToolbar />
     </View>
   );
 }
@@ -498,6 +487,4 @@ const styles = StyleSheet.create({
   unitLabel: { fontSize: 14, fontWeight: "600" },
   saveBtn: { borderRadius: borderRadius.sm, paddingVertical: 16, alignItems: "center", marginTop: spacing.lg },
   saveBtnText: { color: "#fff", fontSize: 17, fontWeight: "700" },
-  accessoryBar: { flexDirection: "row", justifyContent: "flex-end", alignItems: "center", paddingHorizontal: spacing.md, paddingVertical: 10, borderTopWidth: StyleSheet.hairlineWidth, minHeight: 44 },
-  accessoryDone: { fontSize: 16, fontWeight: "600" },
 });

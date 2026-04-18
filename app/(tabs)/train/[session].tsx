@@ -12,7 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PagerView from "react-native-pager-view";
-import { useApp } from "../../lib/context";
+import { useApp } from "../../../lib/context";
 import {
   getCurrentWeek,
   getWeekByStart,
@@ -25,8 +25,8 @@ import {
   SessionSlug,
   SessionStructureBlock,
   Week,
-} from "../../lib/programming";
-import { spacing, borderRadius } from "../../constants/theme";
+} from "../../../lib/programming";
+import { spacing, borderRadius } from "../../../constants/theme";
 
 type Version = "full" | "quick";
 
@@ -97,6 +97,7 @@ export default function WorkoutDetailScreen() {
               weekStart={week.week_start}
               active={i === activeIdx}
               future={future}
+              placeholder={!!week.is_placeholder}
             />
           );
         })}
@@ -111,9 +112,10 @@ interface SessionPageProps {
   weekStart: string;
   active: boolean;
   future: boolean;
+  placeholder: boolean;
 }
 
-function SessionPage({ slug, session, weekStart, active, future }: SessionPageProps) {
+function SessionPage({ slug, session, weekStart, active, future, placeholder }: SessionPageProps) {
   const { theme } = useApp();
   const [version, setVersion] = useState<Version>("full");
   const [done, setDone] = useState(false);
@@ -154,6 +156,14 @@ function SessionPage({ slug, session, weekStart, active, future }: SessionPagePr
 
   return (
     <ScrollView ref={scrollRef} contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+      {placeholder && (
+        <View style={[styles.placeholderBanner, { backgroundColor: theme.card, borderColor: theme.border }]}>
+          <Ionicons name="information-circle-outline" size={16} color={theme.textSecondary} />
+          <Text style={[styles.placeholderText, { color: theme.textSecondary }]}>
+            Placeholder week — for beta testing navigation only. Programming not authored.
+          </Text>
+        </View>
+      )}
       <Text style={[styles.category, { color: theme.accent }]}>{SESSION_LABELS[slug]}</Text>
       <Text style={[styles.title, { color: theme.text }]}>{session.title}</Text>
       <Text style={[styles.stimulus, { color: theme.textSecondary }]}>{session.stimulus}</Text>
@@ -285,6 +295,17 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   infoText: { flex: 1, fontSize: 13, lineHeight: 19 },
+  placeholderBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    borderWidth: 1,
+    borderRadius: borderRadius.sm,
+    paddingHorizontal: spacing.sm + 4,
+    paddingVertical: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  placeholderText: { flex: 1, fontSize: 13, lineHeight: 18 },
   block: { marginBottom: spacing.md },
   blockHeading: { fontSize: 15, fontWeight: "700", marginBottom: spacing.sm },
   itemRow: { flexDirection: "row", marginBottom: 6 },

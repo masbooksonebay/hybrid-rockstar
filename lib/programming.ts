@@ -1,4 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import week_2026_03_09 from "../data/weeks/week_2026_03_09.json";
+import week_2026_03_16 from "../data/weeks/week_2026_03_16.json";
+import week_2026_03_23 from "../data/weeks/week_2026_03_23.json";
+import week_2026_03_30 from "../data/weeks/week_2026_03_30.json";
 import week_2026_04_06 from "../data/weeks/week_2026_04_06.json";
 import week_2026_04_13 from "../data/weeks/week_2026_04_13.json";
 import week_2026_04_20 from "../data/weeks/week_2026_04_20.json";
@@ -38,6 +42,7 @@ export interface Week {
   block_id: string;
   block_week: number;
   block_phase: string;
+  is_placeholder?: boolean;
   sessions: Record<SessionSlug, Session>;
 }
 
@@ -62,6 +67,10 @@ export const SESSION_LABELS: Record<SessionSlug, string> = {
 };
 
 const ALL_WEEKS_UNSORTED: Week[] = [
+  week_2026_03_09 as Week,
+  week_2026_03_16 as Week,
+  week_2026_03_23 as Week,
+  week_2026_03_30 as Week,
   week_2026_04_06 as Week,
   week_2026_04_13 as Week,
   week_2026_04_20 as Week,
@@ -120,10 +129,51 @@ export function getWeekByStart(weekStart: string): Week | null {
 }
 
 export function getWeekBounds(): { earliestIndex: number; latestIndex: number } {
-  const current = findCurrentIndex();
+  const currentIdx = findCurrentIndex();
+  const current = ALL_WEEKS[currentIdx];
+  if (!current) return { earliestIndex: 0, latestIndex: 0 };
+
+  const blockIds = Array.from(new Set(ALL_WEEKS.map((w) => w.block_id))).sort();
+  const currentBlockPos = blockIds.indexOf(current.block_id);
+  const prevBlockId = currentBlockPos > 0 ? blockIds[currentBlockPos - 1] : null;
+
+  let earliestAbs = currentIdx;
+  for (let i = 0; i < currentIdx; i++) {
+    const w = ALL_WEEKS[i];
+    if (w.block_id === current.block_id || (prevBlockId && w.block_id === prevBlockId)) {
+      earliestAbs = i;
+      break;
+    }
+  }
+
+  let latestAbs = currentIdx;
+  if (currentIdx + 1 < ALL_WEEKS.length) {
+    const next = ALL_WEEKS[currentIdx + 1];
+    const diffDays = Math.round(
+      (isoToLocalDate(next.week_start).getTime() - isoToLocalDate(current.week_start).getTime()) / 86400000
+    );
+    if (diffDays === 7) latestAbs = currentIdx + 1;
+  }
+
   return {
-    earliestIndex: -current,
-    latestIndex: ALL_WEEKS.length - 1 - current,
+    earliestIndex: earliestAbs - currentIdx,
+    latestIndex: latestAbs - currentIdx,
+  };
+}
+
+export interface ReachableWeeks {
+  weeks: Week[];
+  currentIndex: number;
+}
+
+export function getReachableWeeks(): ReachableWeeks {
+  const currentIdx = findCurrentIndex();
+  const { earliestIndex, latestIndex } = getWeekBounds();
+  const startAbs = currentIdx + earliestIndex;
+  const endAbs = currentIdx + latestIndex;
+  return {
+    weeks: ALL_WEEKS.slice(startAbs, endAbs + 1),
+    currentIndex: currentIdx - startAbs,
   };
 }
 

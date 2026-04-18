@@ -1,0 +1,120 @@
+{
+  "week_start": "2026-03-23",
+  "block_id": "2026-03",
+  "block_week": 3,
+  "block_phase": "peak",
+  "is_placeholder": true,
+  "sessions": {
+    "strength": {
+      "title": "Peak Strength",
+      "stimulus": "Placeholder — programming TBD for launch",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          { "heading": "Session", "items": ["Programming TBD"] }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          { "heading": "Session", "items": ["Programming TBD"] }
+        ]
+      },
+      "notes": {
+        "about": "This week is a placeholder for beta navigation testing. Real programming will be authored before launch.",
+        "week_context": "Placeholder — not authored.",
+        "block_context": "Placeholder — not authored."
+      }
+    },
+    "running": {
+      "title": "Aerobic Base",
+      "stimulus": "Placeholder — programming TBD for launch",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          { "heading": "Session", "items": ["Programming TBD"] }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          { "heading": "Session", "items": ["Programming TBD"] }
+        ]
+      },
+      "notes": {
+        "about": "This week is a placeholder for beta navigation testing. Real programming will be authored before launch.",
+        "week_context": "Placeholder — not authored.",
+        "block_context": "Placeholder — not authored."
+      }
+    },
+    "engine": {
+      "title": "Station Work",
+      "stimulus": "Placeholder — programming TBD for launch",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          { "heading": "Session", "items": ["Programming TBD"] }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          { "heading": "Session", "items": ["Programming TBD"] }
+        ]
+      },
+      "notes": {
+        "about": "This week is a placeholder for beta navigation testing. Real programming will be authored before launch.",
+        "week_context": "Placeholder — not authored.",
+        "block_context": "Placeholder — not authored."
+      }
+    },
+    "emom": {
+      "title": "Foundation EMOM",
+      "stimulus": "Placeholder — programming TBD for launch",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          { "heading": "Session", "items": ["Programming TBD"] }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          { "heading": "Session", "items": ["Programming TBD"] }
+        ]
+      },
+      "notes": {
+        "about": "This week is a placeholder for beta navigation testing. Real programming will be authored before launch.",
+        "week_context": "Placeholder — not authored.",
+        "block_context": "Placeholder — not authored."
+      }
+    },
+    "simulation": {
+      "title": "Intro Simulation",
+      "stimulus": "Placeholder — programming TBD for launch",
+      "simulation_type": "compromised",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          { "heading": "Session", "items": ["Programming TBD"] }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          { "heading": "Session", "items": ["Programming TBD"] }
+        ]
+      },
+      "notes": {
+        "about": "This week is a placeholder for beta navigation testing. Real programming will be authored before launch.",
+        "week_context": "Placeholder — not authored.",
+        "block_context": "Placeholder — not authored."
+      }
+    }
+  },
+  "notes": {
+    "about": "Placeholder week for beta navigation testing.",
+    "week_context": "Placeholder — not authored.",
+    "block_context": "Block 03 placeholder for beta testing. Real programming TBD."
+  }
+}
