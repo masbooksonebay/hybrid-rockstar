@@ -1,125 +1,129 @@
-import { useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Modal } from "react-native";
+import { useCallback, useState } from "react";
+import { View, Text, ScrollView, Pressable, StyleSheet, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useFocusEffect, useRouter } from "expo-router";
 import { useApp } from "../../lib/context";
-import { PROGRAM } from "../../data/programming";
+import {
+  getCurrentWeek,
+  getCompletedSessions,
+  SESSION_ORDER,
+  SESSION_LABELS,
+  SessionSlug,
+} from "../../lib/programming";
 import { spacing, borderRadius } from "../../constants/theme";
 
-const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
 export default function TrainScreen() {
-  const { theme, settings } = useApp();
-  const [weekIdx, setWeekIdx] = useState(0);
-  const [selectedDay, setSelectedDay] = useState<number | null>(null);
-  const [sessionType, setSessionType] = useState<"full" | "quick">("full");
+  const { theme } = useApp();
+  const router = useRouter();
+  const week = getCurrentWeek();
+  const [completed, setCompleted] = useState<SessionSlug[]>([]);
 
-  const week = PROGRAM[weekIdx];
-  const workout = selectedDay !== null ? week.workouts[selectedDay] : null;
-  const session = workout ? (sessionType === "full" ? workout.full : workout.quick) : null;
+  useFocusEffect(
+    useCallback(() => {
+      let cancelled = false;
+      getCompletedSessions().then((list) => {
+        if (!cancelled) setCompleted(list);
+      });
+      return () => {
+        cancelled = true;
+      };
+    }, [])
+  );
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      {/* Week selector */}
-      <View style={styles.weekRow}>
-        {PROGRAM.map((w, i) => (
-          <TouchableOpacity key={w.phase} style={[styles.weekTab, i === weekIdx && { borderBottomColor: theme.accent, borderBottomWidth: 2 }]} onPress={() => { setWeekIdx(i); setSelectedDay(null); }}>
-            <Text style={[styles.weekLabel, { color: i === weekIdx ? theme.text : theme.textSecondary }]}>{w.phase}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
       <ScrollView contentContainerStyle={styles.content}>
-        {/* Phase note */}
-        <View style={[styles.phaseCard, { backgroundColor: theme.card, borderColor: theme.border }]}>
-          <Text style={[styles.phaseLabel, { color: theme.accent }]}>{week.label}</Text>
-          <Text style={[styles.phaseNote, { color: theme.textSecondary }]}>{week.note}</Text>
-        </View>
+        <Text style={[styles.header, { color: theme.text }]}>This Week</Text>
 
-        {/* Day cards */}
-        {week.workouts.map((w, i) => (
-          <TouchableOpacity key={i} style={[styles.dayCard, { backgroundColor: theme.card, borderColor: theme.border }]} onPress={() => setSelectedDay(i)} activeOpacity={0.7}>
-            <View style={styles.dayHeader}>
-              <Text style={[styles.dayName, { color: theme.text }]}>{DAYS[i]}</Text>
-              <View style={[styles.typeTag, { backgroundColor: theme.accent + "20" }]}>
-                <Text style={[styles.typeText, { color: theme.accent }]}>{w.type}</Text>
-              </View>
-            </View>
-            <Text style={[styles.dayPreview, { color: theme.textSecondary }]} numberOfLines={2}>{w.full.main}</Text>
-          </TouchableOpacity>
-        ))}
+        {SESSION_ORDER.map((slug) => {
+          const session = week.sessions[slug];
+          if (!session) return null;
+          return (
+            <SessionCard
+              key={slug}
+              slug={slug}
+              title={session.title}
+              stimulus={session.stimulus}
+              fullDuration={session.full_rox.estimated_duration_minutes}
+              quickDuration={session.quick_rox.estimated_duration_minutes}
+              completed={completed.includes(slug)}
+              onPress={() => router.push(`/train/${slug}`)}
+            />
+          );
+        })}
+
         <View style={{ height: 40 }} />
       </ScrollView>
+    </View>
+  );
+}
 
-      {/* Workout detail modal */}
-      <Modal visible={selectedDay !== null} animationType="slide" presentationStyle="pageSheet">
-        {workout && session && (
-          <View style={[styles.modalContainer, { backgroundColor: theme.background }]}>
-            <View style={styles.modalHeader}>
-              <View>
-                <Text style={[styles.modalDay, { color: theme.accent }]}>{DAYS[selectedDay!]} — {workout.type}</Text>
-                <Text style={[styles.modalPhase, { color: theme.textSecondary }]}>{week.label}</Text>
-              </View>
-              <TouchableOpacity onPress={() => setSelectedDay(null)}>
-                <Ionicons name="close" size={28} color={theme.text} />
-              </TouchableOpacity>
-            </View>
+interface SessionCardProps {
+  slug: SessionSlug;
+  title: string;
+  stimulus: string;
+  fullDuration: number;
+  quickDuration: number;
+  completed: boolean;
+  onPress: () => void;
+}
 
-            {/* Session toggle */}
-            <View style={[styles.toggleRow, { borderColor: theme.border }]}>
-              <TouchableOpacity style={[styles.toggleBtn, sessionType === "full" && { backgroundColor: theme.accent }]} onPress={() => setSessionType("full")}>
-                <Text style={[styles.toggleText, { color: sessionType === "full" ? "#fff" : theme.textSecondary }]}>Full (60-90 min)</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.toggleBtn, sessionType === "quick" && { backgroundColor: theme.accent }]} onPress={() => setSessionType("quick")}>
-                <Text style={[styles.toggleText, { color: sessionType === "quick" ? "#fff" : theme.textSecondary }]}>Quick (25-30 min)</Text>
-              </TouchableOpacity>
-            </View>
+function SessionCard({ slug, title, stimulus, fullDuration, quickDuration, completed, onPress }: SessionCardProps) {
+  const { theme } = useApp();
+  const scale = useState(new Animated.Value(1))[0];
 
-            <ScrollView contentContainerStyle={styles.modalContent}>
-              <Text style={[styles.sectionTitle, { color: theme.accent }]}>WARM-UP</Text>
-              <Text style={[styles.sectionBody, { color: theme.text }]}>{session.warmup}</Text>
+  const onPressIn = () => {
+    Animated.spring(scale, { toValue: 0.97, useNativeDriver: true, speed: 30, bounciness: 4 }).start();
+  };
+  const onPressOut = () => {
+    Animated.spring(scale, { toValue: 1, useNativeDriver: true, speed: 30, bounciness: 4 }).start();
+  };
 
-              <Text style={[styles.sectionTitle, { color: theme.accent }]}>WORKOUT</Text>
-              <Text style={[styles.sectionBody, { color: theme.text }]}>{session.main}</Text>
-
-              <Text style={[styles.sectionTitle, { color: theme.accent }]}>COACH NOTE</Text>
-              <Text style={[styles.sectionBody, { color: theme.textSecondary, fontStyle: "italic" }]}>{session.notes}</Text>
-
-              <Text style={[styles.weightNote, { color: theme.textSecondary }]}>
-                Open weights shown. Adjust for your division in Settings.
-              </Text>
-              <View style={{ height: 40 }} />
-            </ScrollView>
+  return (
+    <Animated.View style={{ transform: [{ scale }] }}>
+      <Pressable
+        onPress={onPress}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        style={({ pressed }) => [
+          styles.card,
+          { backgroundColor: theme.card, borderColor: theme.border, opacity: pressed ? 0.85 : 1 },
+        ]}
+      >
+        <View style={styles.cardBody}>
+          <Text style={[styles.category, { color: theme.accent }]}>{SESSION_LABELS[slug]}</Text>
+          <Text style={[styles.title, { color: theme.text }]}>{title}</Text>
+          <Text style={[styles.stimulus, { color: theme.textSecondary }]}>{stimulus}</Text>
+          <Text style={[styles.duration, { color: theme.textSecondary }]}>
+            Full Rox ~{fullDuration}m · Quick Rox ~{quickDuration}m
+          </Text>
+        </View>
+        {completed && (
+          <View style={styles.check}>
+            <Ionicons name="checkmark-circle" size={28} color="#22C55E" />
           </View>
         )}
-      </Modal>
-    </View>
+      </Pressable>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  weekRow: { flexDirection: "row", paddingHorizontal: spacing.sm, paddingTop: spacing.xs },
-  weekTab: { flex: 1, alignItems: "center", paddingVertical: spacing.sm + 4, borderBottomWidth: 2, borderBottomColor: "transparent" },
-  weekLabel: { fontSize: 12, fontWeight: "700", letterSpacing: 0.5 },
   content: { padding: spacing.md },
-  phaseCard: { borderRadius: borderRadius.md, padding: spacing.md, marginBottom: spacing.md, borderWidth: 1 },
-  phaseLabel: { fontSize: 15, fontWeight: "700", marginBottom: 4 },
-  phaseNote: { fontSize: 13, lineHeight: 18 },
-  dayCard: { borderRadius: borderRadius.md, padding: spacing.md, marginBottom: spacing.sm + 2, borderWidth: 1 },
-  dayHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: spacing.sm },
-  dayName: { fontSize: 17, fontWeight: "800" },
-  typeTag: { borderRadius: borderRadius.sm, paddingHorizontal: spacing.sm + 2, paddingVertical: 3 },
-  typeText: { fontSize: 11, fontWeight: "700" },
-  dayPreview: { fontSize: 13, lineHeight: 18 },
-  modalContainer: { flex: 1 },
-  modalHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", padding: spacing.md, paddingTop: 56 },
-  modalDay: { fontSize: 20, fontWeight: "800" },
-  modalPhase: { fontSize: 13, marginTop: 2 },
-  toggleRow: { flexDirection: "row", marginHorizontal: spacing.md, borderRadius: borderRadius.sm, borderWidth: 1, overflow: "hidden" },
-  toggleBtn: { flex: 1, alignItems: "center", paddingVertical: spacing.sm + 2 },
-  toggleText: { fontSize: 13, fontWeight: "600" },
-  modalContent: { padding: spacing.lg },
-  sectionTitle: { fontSize: 12, fontWeight: "700", letterSpacing: 1, marginBottom: spacing.sm, marginTop: spacing.md },
-  sectionBody: { fontSize: 15, lineHeight: 22 },
-  weightNote: { fontSize: 11, marginTop: spacing.lg, textAlign: "center" },
+  header: { fontSize: 26, fontWeight: "800", marginBottom: spacing.md, marginTop: spacing.xs },
+  card: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+    padding: spacing.md,
+    marginBottom: spacing.sm + 2,
+  },
+  cardBody: { flex: 1 },
+  category: { fontSize: 11, fontWeight: "800", letterSpacing: 1.2, marginBottom: 4 },
+  title: { fontSize: 18, fontWeight: "700", marginBottom: 2 },
+  stimulus: { fontSize: 13, lineHeight: 18, marginBottom: spacing.sm },
+  duration: { fontSize: 11, fontWeight: "600" },
+  check: { marginLeft: spacing.sm, alignSelf: "center" },
 });

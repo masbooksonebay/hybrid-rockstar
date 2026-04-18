@@ -1,0 +1,331 @@
+{
+  "week_start": "2026-05-04",
+  "block_id": "2026-05",
+  "block_week": 1,
+  "block_phase": "accumulation",
+  "sessions": {
+    "strength": {
+      "title": "Foundation Strength",
+      "stimulus": "Build baseline lower body power and upper body push/pull strength for sled stations and race endurance",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy bike or row",
+              "Dynamic: leg swings, hip circles, shoulder pass-throughs, lunge-with-rotation x 5 each side",
+              "2 sets bodyweight squats x 10, push-ups x 8"
+            ]
+          },
+          {
+            "heading": "Back Squat (20 min)",
+            "items": [
+              "4 sets x 8 reps @ RPE 7 (challenging but 2 reps in reserve)",
+              "Rest 2-3 min between sets",
+              "Focus: full depth, controlled descent, drive through heels"
+            ]
+          },
+          {
+            "heading": "Bench Press (15 min)",
+            "items": [
+              "4 sets x 8 reps @ RPE 7",
+              "Rest 2 min between sets",
+              "Pair with pull-ups 2 sets x max reps between sets"
+            ]
+          },
+          {
+            "heading": "Accessory Circuit (15 min)",
+            "items": [
+              "3 rounds, minimal rest",
+              "Dumbbell row 12 each side",
+              "Plank 45 seconds",
+              "Face pulls x 15"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy bike",
+              "Dynamic: leg swings, hip circles x 8 each, 5 bodyweight squats, 5 push-ups"
+            ]
+          },
+          {
+            "heading": "Back Squat (12 min)",
+            "items": [
+              "3 sets x 8 reps @ RPE 7",
+              "Rest 90 sec between sets"
+            ]
+          },
+          {
+            "heading": "Superset (13 min)",
+            "items": [
+              "3 rounds",
+              "Bench press x 6 @ RPE 7",
+              "Pull-ups x 5-8 (or banded)",
+              "Rest 60 sec"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Today focuses on building raw strength in the patterns you'll need on race day. Back squats train the quad/glute/core system that powers sled pushes and lunges. Bench press and pull-ups keep upper body balanced — you'll feel this when you're gripping the sled or farmer carry handles. RPE 7 means leave 2-3 reps in reserve — don't grind to failure. This is a volume day, not a max-effort day. Form over weight, always. Movement tips: Back squat: Brace core like someone's about to punch you. Knees track over toes. Descend with control, drive up explosively. Bench press: Retract shoulder blades, feet planted. Bar touches chest before pressing up. Pull-ups: Full hang at bottom, chin over bar at top. Banded is fine — progress to unassisted over time.",
+        "week_context": "Welcome to Week 1 of a 4-week block. This week is ACCUMULATION — we're building volume with moderate intensity to lay the foundation. Expect higher reps, lower percentages of your max, and a focus on movement quality. Your body is adapting to the training stimulus. You should finish workouts feeling worked, not destroyed.",
+        "block_context": "Each 4-week block follows a pattern: Week 1 builds volume (Accumulation), Week 2 adds intensity (Intensification), Week 3 pushes peak performance (Peak), Week 4 is reduced volume for recovery (Deload). This structure prevents burnout and drives real progress. Over 12 weeks (3 blocks), you'll compound gains in strength, running, and conditioning — showing up to any race ready to perform."
+      }
+    },
+    "running": {
+      "title": "Aerobic Base + Tempo",
+      "stimulus": "Build aerobic engine with easy volume, add one moderate tempo push to begin lactic threshold work",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "10 min easy jog, gradually building pace",
+              "Dynamic drills last 2 min: A-skips, B-skips, strides x 3"
+            ]
+          },
+          {
+            "heading": "Main Session (45 min)",
+            "items": [
+              "20 min easy zone 2 run (conversational pace)",
+              "15 min tempo run (comfortably hard — can speak in short phrases but not hold conversation)",
+              "10 min easy cool-down"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "5 min easy jog building pace"
+            ]
+          },
+          {
+            "heading": "Main Session (25 min)",
+            "items": [
+              "5 min easy zone 2",
+              "15 min tempo run (comfortably hard)",
+              "5 min easy cool-down"
+            ]
+          }
+        ]
+      },
+      "notes": {
+        "about": "Running is half of a hybrid race — literally 8km of it. Today we build both the aerobic base (easy pace, long time on feet) and introduce tempo work (moderate-hard pace) to start adapting your lactic threshold. Don't sprint today — this is NOT an interval day. Zone 2 should feel easy enough to talk. Tempo should feel like \"I could hold this for 20-40 minutes if I had to.\" Movement tips: Zone 2: breathe through your nose if you can. If you're panting, slow down. Tempo: settle into a rhythm. This is pace discipline training. Post-run: walk 2-3 min before stopping fully. Hydrate.",
+        "week_context": "Week 1 Accumulation — running volume is moderate with one tempo push. Your aerobic system is adapting. Don't skip the easy portion to \"save time\" — that's the base you're building.",
+        "block_context": "Running volume and intensity rotate through the block: Week 1 easy + tempo, Week 2 adds intervals, Week 3 race-pace work, Week 4 easy recovery runs. The engine built in Week 1 is what lets Weeks 2-3 actually work."
+      }
+    },
+    "engine": {
+      "title": "Station Circuit Intro",
+      "stimulus": "Build work capacity through race-specific stations combined with running. Moderate pace, focus on transitions.",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy row",
+              "2 rounds: 10 air squats, 10 push-ups, 10 lunges each leg, 10 arm circles"
+            ]
+          },
+          {
+            "heading": "Main Circuit (45 min)",
+            "items": [
+              "4 rounds for time (no hard cap — moderate pace)",
+              "500m row",
+              "15 wall balls (20/14 lb)",
+              "400m run",
+              "10 burpee broad jumps",
+              "200m farmer carry (moderate weight — about half your bodyweight per hand)",
+              "Rest 2-3 min between rounds"
+            ]
+          },
+          {
+            "heading": "Cool-down (5 min)",
+            "items": [
+              "Easy walk, hip flexor and calf stretch"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy row, dynamic warm-up"
+            ]
+          },
+          {
+            "heading": "Main Circuit (22 min)",
+            "items": [
+              "3 rounds for time",
+              "400m row",
+              "12 wall balls",
+              "300m run",
+              "8 burpee broad jumps",
+              "100m farmer carry",
+              "Rest 90 sec between rounds"
+            ]
+          },
+          {
+            "heading": "Cool-down (3 min)",
+            "items": []
+          }
+        ]
+      },
+      "notes": {
+        "about": "Engine sessions are the closest to actual race conditions without being a full simulation. You're combining erg work (row/ski), functional movements (wall balls, burpees, carries), and running — transitioning between them like you will on race day. Keep pace MODERATE today — this is accumulation week. You should finish winded but not destroyed. Movement tips: Row: drive with legs first, then lean back, then pull with arms. Reverse the order on recovery. Wall balls: full squat at bottom, explosive drive up, push the ball to the target with the hips and core (not just arms). Burpee broad jumps: explode hips forward, land soft, don't rush the push-up part. Farmer carry: walk tall, grip hard, small quick steps, don't let the weights swing.",
+        "week_context": "Week 1 introduces you to the circuit format at moderate pace. Your body is learning the transitions between modalities. Don't race yourself today — consistent moderate pace beats uneven hard/easy efforts.",
+        "block_context": "Engine workouts progress across the block: Week 1 moderate transitions, Week 2 faster pace, Week 3 near race-pace, Week 4 recovery-flavored. The foundation today enables harder work later."
+      }
+    },
+    "simulation": {
+      "simulation_type": "compromised",
+      "title": "Compromised Workout: Run + Station Pair",
+      "stimulus": "Practice performing skill work under aerobic fatigue — the core hybrid-race challenge",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy run, dynamic mobility",
+              "2 rounds: 10 air squats, 10 push-ups, 5 inchworms"
+            ]
+          },
+          {
+            "heading": "Main Block (45 min)",
+            "items": [
+              "3 rounds",
+              "1000m run (race pace or slightly slower)",
+              "20 wall balls",
+              "200m sandbag carry (or sled push if available, 50m out and back x 2)",
+              "10 burpees (standard, chest to floor)",
+              "Rest 3 min between rounds",
+              "Focus: maintain pace and form despite accumulated fatigue"
+            ]
+          },
+          {
+            "heading": "Cool-down (5 min)",
+            "items": []
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min easy jog, dynamic mobility"
+            ]
+          },
+          {
+            "heading": "Main Block (22 min)",
+            "items": [
+              "2 rounds",
+              "800m run",
+              "15 wall balls",
+              "150m sandbag carry (or sled push)",
+              "8 burpees",
+              "Rest 2 min between rounds"
+            ]
+          },
+          {
+            "heading": "Cool-down (3 min)",
+            "items": []
+          }
+        ]
+      },
+      "notes": {
+        "about": "This is a COMPROMISED workout — moderate intensity. The goal isn't to crush yourself; it's to practice moving well when your heart rate is elevated and your legs feel heavy. This is the skill that wins hybrid races: staying composed, technical, and paced when you're tired. Don't sprint the run and then flounder on the stations. Find a sustainable rhythm. Movement tips: 1000m run: pace it like you can maintain for all 3 rounds. Not a sprint. Wall balls: breathe through them. Don't hold your breath. Sandbag carry / sled: stay upright, grip firm, steady pace. Burpees: pace them — 10 in a row without resting. No failed reps, no rushed form.",
+        "week_context": "Week 1 Compromised — moderate intensity race-style practice. Your body is learning to work through fatigue without panic. Even weeks of the block will bring harder Race Simulations.",
+        "block_context": "Simulation alternates each week: Compromised (moderate, odd weeks) and Race Simulation (harder, even weeks). This keeps you practicing race skills without burning out. Deload week (Week 4) gets a shorter recovery-flavored simulation to maintain movement pattern without stress."
+      }
+    },
+    "emom": {
+      "title": "Foundation EMOM",
+      "stimulus": "Build movement efficiency and pacing discipline through structured EMOM work",
+      "full_rox": {
+        "estimated_duration_minutes": 60,
+        "structure": [
+          {
+            "heading": "Warm-up (10 min)",
+            "items": [
+              "5 min easy bike",
+              "Dynamic: 10 air squats, 10 push-ups, 10 lunges each leg, 10 arm circles"
+            ]
+          },
+          {
+            "heading": "Skill Practice (10 min)",
+            "items": [
+              "Push press technique: 3 sets x 5 reps, focus on leg drive",
+              "Romanian deadlift technique: 3 sets x 8 reps with moderate weight"
+            ]
+          },
+          {
+            "heading": "EMOM 30 min (rotating)",
+            "items": [
+              "Minute 1: 12 wall balls",
+              "Minute 2: 10 push press (moderate weight)",
+              "Minute 3: 8 Romanian deadlifts (moderate weight)",
+              "Minute 4: 10 box step-ups (5 each leg, moderate height)",
+              "Minute 5: Rest",
+              "Repeat for 30 minutes (6 rounds)"
+            ]
+          },
+          {
+            "heading": "Cool-down (10 min)",
+            "items": [
+              "Easy walk, stretch hips/shoulders"
+            ]
+          }
+        ]
+      },
+      "quick_rox": {
+        "estimated_duration_minutes": 30,
+        "structure": [
+          {
+            "heading": "Warm-up (5 min)",
+            "items": [
+              "3 min bike, dynamic mobility"
+            ]
+          },
+          {
+            "heading": "EMOM 20 min",
+            "items": [
+              "Minute 1: 10 wall balls",
+              "Minute 2: 8 push press",
+              "Minute 3: 6 Romanian deadlifts",
+              "Minute 4: 8 box step-ups",
+              "Repeat for 20 minutes (5 rounds)"
+            ]
+          },
+          {
+            "heading": "Cool-down (5 min)",
+            "items": []
+          }
+        ]
+      },
+      "notes": {
+        "about": "EMOM (Every Minute On the Minute) teaches pacing discipline. Each minute you have the work to do, but the rest you earn is dependent on how efficient you are. Don't crush each minute — aim to finish the work in 30-40 seconds and use the rest to recover. This trains consistent output, which is exactly what a hybrid race demands. Movement tips: Wall balls: find a rhythm — don't stop-start. Squat-drive-throw as one motion. Push press: quarter squat, explode up driving the bar overhead. Use legs, save shoulders. Romanian deadlift: hips back, slight knee bend, bar stays close to legs. Feel the hamstrings. Box step-ups: tall posture, drive through the working leg. Don't push off back leg.",
+        "week_context": "Week 1 introduces the EMOM format at moderate volume and weight. You're learning your pacing — how fast can you complete each task and recover in the remaining time? That awareness is the whole point.",
+        "block_context": "EMOMs progress across the block: Week 1 moderate (learn pacing), Week 2 faster cadence, Week 3 race-pace intensity, Week 4 skill-focused low intensity. The pacing sense you build here carries into race day."
+      }
+    }
+  }
+}
