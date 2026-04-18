@@ -1,11 +1,29 @@
-import { useState, useRef } from "react";
-import { View, Text, ScrollView, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, Platform, ActivityIndicator } from "react-native";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  ActivityIndicator,
+  LayoutAnimation,
+  UIManager,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
+import { useHeaderHeight } from "@react-navigation/elements";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useApp } from "../../lib/context";
 import { COACH_ROB_SYSTEM_PROMPT } from "../../lib/coachPrompt";
-import { RULES, RuleSection } from "../../data/rules";
+import { RULES } from "../../data/rules";
 import { spacing, borderRadius } from "../../constants/theme";
+
+if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 interface Message { role: "user" | "assistant"; content: string }
 
@@ -19,6 +37,8 @@ const SUGGESTIONS = [
 
 export default function CoachScreen() {
   const { theme, settings } = useApp();
+  const headerHeight = useHeaderHeight();
+  const tabBarHeight = useBottomTabBarHeight();
   const [tab, setTab] = useState<"chat" | "rules">("chat");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -54,7 +74,7 @@ export default function CoachScreen() {
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
           max_tokens: 1000,
-          system: COACH_ROB_SYSTEM_PROMPT + `\n\nUser's division: ${settings.division}. Gender: ${settings.gender}.`,
+          system: COACH_ROB_SYSTEM_PROMPT + `\n\nUser's format: ${settings.format ?? "unset"}. Tier: ${settings.tier ?? "unset"}. Gender: ${settings.gender ?? "unset"}.`,
           messages: updated.map((m) => ({ role: m.role, content: m.content })),
         }),
       });
@@ -84,25 +104,12 @@ export default function CoachScreen() {
     setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
   };
 
-  // Filter rules
-  const filteredRules: RuleSection[] = rulesSearch
-    ? RULES.map((s) => ({
-        ...s,
-        items: s.items.filter(
-          (item) =>
-            item.heading.toLowerCase().includes(rulesSearch.toLowerCase()) ||
-            item.body.toLowerCase().includes(rulesSearch.toLowerCase())
-        ),
-      })).filter((s) => s.items.length > 0)
-    : RULES;
-
   return (
     <KeyboardAvoidingView
       style={[styles.container, { backgroundColor: theme.background }]}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+      keyboardVerticalOffset={Platform.OS === "ios" ? headerHeight + tabBarHeight : 0}
     >
-      {/* Tab bar */}
       <View style={[styles.tabRow, { borderBottomColor: theme.border }]}>
         <TouchableOpacity style={[styles.tab, tab === "chat" && { borderBottomColor: theme.accent, borderBottomWidth: 2 }]} onPress={() => setTab("chat")}>
           <Text style={[styles.tabText, { color: tab === "chat" ? theme.text : theme.textSecondary }]}>CHAT</Text>
@@ -114,7 +121,12 @@ export default function CoachScreen() {
 
       {tab === "chat" ? (
         <>
-          <ScrollView ref={scrollRef} contentContainerStyle={styles.chatContent} onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}>
+          <ScrollView
+            ref={scrollRef}
+            contentContainerStyle={styles.chatContent}
+            keyboardShouldPersistTaps="handled"
+            onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}
+          >
             {messages.length === 0 && (
               <View style={styles.suggestions}>
                 <Text style={[styles.suggestTitle, { color: theme.textSecondary }]}>Ask Coach Rob anything about hybrid racing</Text>
@@ -156,27 +168,78 @@ export default function CoachScreen() {
           </View>
         </>
       ) : (
-        <ScrollView contentContainerStyle={styles.rulesContent}>
-          <Text style={[styles.rulesNote, { color: theme.textSecondary }]}>Source: official race rules — always verify for competition.</Text>
-          <View style={[styles.searchRow, { backgroundColor: theme.inputBg, borderColor: theme.border }]}>
-            <Ionicons name="search" size={18} color={theme.textSecondary} />
-            <TextInput style={[styles.searchInput, { color: theme.text }]} placeholder="Search rules..." placeholderTextColor={theme.textSecondary} value={rulesSearch} onChangeText={setRulesSearch} />
-          </View>
-          {filteredRules.map((section) => (
-            <View key={section.title} style={styles.ruleSection}>
-              <Text style={[styles.ruleSectionTitle, { color: theme.accent }]}>{section.title}</Text>
-              {section.items.map((item) => (
-                <View key={item.heading} style={[styles.ruleItem, { borderBottomColor: theme.border }]}>
-                  <Text style={[styles.ruleHeading, { color: theme.text }]}>{item.heading}</Text>
-                  <Text style={[styles.ruleBody, { color: theme.textSecondary }]}>{item.body}</Text>
-                </View>
-              ))}
-            </View>
-          ))}
-          <View style={{ height: 40 }} />
-        </ScrollView>
+        <RulesTab search={rulesSearch} setSearch={setRulesSearch} />
       )}
     </KeyboardAvoidingView>
+  );
+}
+
+function RulesTab({ search, setSearch }: { search: string; setSearch: (v: string) => void }) {
+  const { theme } = useApp();
+  const [openMap, setOpenMap] = useState<Record<string, boolean>>({});
+
+  const filteredRules = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return RULES.map((s) => ({ ...s, matched: false }));
+    return RULES.map((s) => ({
+      ...s,
+      items: s.items.filter(
+        (item) =>
+          item.heading.toLowerCase().includes(q) || item.body.toLowerCase().includes(q)
+      ),
+      matched: true,
+    })).filter((s) => s.items.length > 0);
+  }, [search]);
+
+  useEffect(() => {
+    const q = search.trim();
+    if (!q) return;
+    const next: Record<string, boolean> = {};
+    for (const s of filteredRules) next[s.title] = true;
+    setOpenMap(next);
+  }, [search, filteredRules]);
+
+  const toggle = (title: string) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setOpenMap((m) => ({ ...m, [title]: !m[title] }));
+  };
+
+  return (
+    <ScrollView contentContainerStyle={styles.rulesContent} keyboardShouldPersistTaps="handled">
+      <Text style={[styles.rulesNote, { color: theme.textSecondary }]}>Source: official race rules — always verify for competition.</Text>
+      <View style={[styles.searchRow, { backgroundColor: theme.inputBg, borderColor: theme.border }]}>
+        <Ionicons name="search" size={18} color={theme.textSecondary} />
+        <TextInput
+          style={[styles.searchInput, { color: theme.text }]}
+          placeholder="Search rules..."
+          placeholderTextColor={theme.textSecondary}
+          value={search}
+          onChangeText={setSearch}
+        />
+      </View>
+      {filteredRules.map((section) => {
+        const open = !!openMap[section.title];
+        return (
+          <View key={section.title} style={[styles.ruleSection, { borderBottomColor: theme.border }]}>
+            <TouchableOpacity style={styles.ruleSectionHeader} onPress={() => toggle(section.title)} activeOpacity={0.7}>
+              <Text style={[styles.ruleSectionTitle, { color: theme.text }]}>{section.title}</Text>
+              <Ionicons name={open ? "remove" : "add"} size={20} color={theme.accent} />
+            </TouchableOpacity>
+            {open && (
+              <View style={styles.ruleSectionBody}>
+                {section.items.map((item) => (
+                  <View key={item.heading} style={styles.ruleItem}>
+                    <Text style={[styles.ruleHeading, { color: theme.text }]}>{item.heading}</Text>
+                    <Text style={[styles.ruleBody, { color: theme.textSecondary }]}>{item.body}</Text>
+                  </View>
+                ))}
+              </View>
+            )}
+          </View>
+        );
+      })}
+      <View style={{ height: 40 }} />
+    </ScrollView>
   );
 }
 
@@ -199,9 +262,11 @@ const styles = StyleSheet.create({
   rulesNote: { fontSize: 11, textAlign: "center", marginBottom: spacing.md },
   searchRow: { flexDirection: "row", alignItems: "center", borderWidth: 1, borderRadius: borderRadius.sm, paddingHorizontal: spacing.sm + 4, marginBottom: spacing.md },
   searchInput: { flex: 1, fontSize: 15, paddingVertical: spacing.sm, marginLeft: spacing.sm },
-  ruleSection: { marginBottom: spacing.md },
-  ruleSectionTitle: { fontSize: 14, fontWeight: "800", marginBottom: spacing.sm },
-  ruleItem: { paddingVertical: spacing.sm + 2, borderBottomWidth: 0.5 },
+  ruleSection: { borderBottomWidth: 0.5 },
+  ruleSectionHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingVertical: 14 },
+  ruleSectionTitle: { fontSize: 15, fontWeight: "700" },
+  ruleSectionBody: { paddingBottom: spacing.sm + 2 },
+  ruleItem: { paddingVertical: spacing.sm + 2 },
   ruleHeading: { fontSize: 14, fontWeight: "600", marginBottom: 2 },
   ruleBody: { fontSize: 13, lineHeight: 19 },
 });

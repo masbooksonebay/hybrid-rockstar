@@ -10,10 +10,11 @@ import {
   SESSION_LABELS,
   SessionSlug,
 } from "../../lib/programming";
+import { formatWeekRange, daysUntil } from "../../lib/dates";
 import { spacing, borderRadius } from "../../constants/theme";
 
 export default function TrainScreen() {
-  const { theme } = useApp();
+  const { theme, settings } = useApp();
   const router = useRouter();
   const week = getCurrentWeek();
   const [completed, setCompleted] = useState<SessionSlug[]>([]);
@@ -30,10 +31,22 @@ export default function TrainScreen() {
     }, [])
   );
 
+  const weekRange = formatWeekRange();
+  const raceDays = settings.raceDate ? daysUntil(settings.raceDate) : null;
+
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={[styles.header, { color: theme.text }]}>This Week</Text>
+        <Text style={[styles.appTitle, { color: theme.text }]}>Hybrid Rockstar</Text>
+
+        <View style={styles.eyebrowBlock}>
+          <Text style={[styles.eyebrow, { color: theme.text }]}>This Week ({weekRange})</Text>
+          {raceDays !== null && raceDays >= 0 && (
+            <Text style={[styles.countdown, { color: theme.accent }]}>
+              {raceDays === 0 ? "Race day" : `${raceDays} day${raceDays === 1 ? "" : "s"} to race`}
+            </Text>
+          )}
+        </View>
 
         {SESSION_ORDER.map((slug) => {
           const session = week.sessions[slug];
@@ -100,7 +113,7 @@ function SessionCard({ slug, title, stimulus, fullDuration, quickDuration, compl
         </View>
         {completed && (
           <View style={styles.check}>
-            <Ionicons name="checkmark-circle" size={28} color="#22C55E" />
+            <Ionicons name="checkmark-circle" size={28} color="#34C759" />
           </View>
         )}
       </Pressable>
@@ -110,15 +123,19 @@ function SessionCard({ slug, title, stimulus, fullDuration, quickDuration, compl
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: spacing.md },
-  header: { fontSize: 26, fontWeight: "800", marginBottom: spacing.md, marginTop: spacing.xs },
+  content: { paddingHorizontal: spacing.md, paddingTop: spacing.xs, paddingBottom: spacing.md },
+  appTitle: { fontSize: 28, fontWeight: "700", textAlign: "center", marginTop: spacing.sm, marginBottom: spacing.lg },
+  eyebrowBlock: { marginBottom: spacing.sm },
+  eyebrow: { fontSize: 18, fontWeight: "600" },
+  countdown: { fontSize: 13, fontWeight: "600", marginTop: 2 },
   card: {
     flexDirection: "row",
     alignItems: "center",
     borderRadius: borderRadius.md,
     borderWidth: 1,
-    padding: spacing.md,
-    marginBottom: spacing.sm + 2,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md - 2,
+    marginBottom: spacing.md,
   },
   cardBody: { flex: 1 },
   category: { fontSize: 11, fontWeight: "800", letterSpacing: 1.2, marginBottom: 4 },

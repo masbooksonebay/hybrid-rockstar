@@ -11,7 +11,7 @@
     "splash": {
       "image": "./assets/app-icon-1024.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0a0a0a"
+      "backgroundColor": "#000000"
     },
     "ios": {
       "supportsTablet": false,
@@ -37,7 +37,8 @@
     "plugins": [
       "expo-router",
       "expo-sqlite",
-      "expo-font"
+      "expo-font",
+      "@react-native-community/datetimepicker"
     ],
     "extra": {
       "router": {},

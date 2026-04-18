@@ -44,7 +44,9 @@ export default function RaceScreen() {
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={[styles.divLabel, { color: theme.textSecondary }]}>{settings.division} {settings.gender}</Text>
+        <Text style={[styles.divLabel, { color: theme.textSecondary }]}>
+          {[settings.format, settings.tier, settings.gender].filter(Boolean).join(" · ") || "Set your format in Settings"}
+        </Text>
 
         {mode === "predict" ? (
           <>

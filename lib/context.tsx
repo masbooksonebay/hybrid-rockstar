@@ -1,16 +1,19 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { useColorScheme } from "react-native";
 import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings } from "./store";
 import { darkTheme, lightTheme, Theme } from "../constants/theme";
 
 interface AppCtx {
   settings: Settings;
   theme: Theme;
+  isDark: boolean;
   updateSettings: (s: Partial<Settings>) => void;
 }
 
 const Ctx = createContext<AppCtx>({
   settings: DEFAULT_SETTINGS,
   theme: darkTheme,
+  isDark: true,
   updateSettings: () => {},
 });
 
@@ -21,6 +24,7 @@ export function useApp() {
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
   const [loaded, setLoaded] = useState(false);
+  const systemScheme = useColorScheme();
 
   useEffect(() => {
     loadSettings().then((s) => { setSettings(s); setLoaded(true); });
@@ -34,9 +38,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  const theme = settings.darkMode ? darkTheme : lightTheme;
+  const isDark =
+    settings.themeMode === "dark"
+      ? true
+      : settings.themeMode === "light"
+      ? false
+      : systemScheme !== "light";
+  const theme = isDark ? darkTheme : lightTheme;
 
   if (!loaded) return null;
 
-  return <Ctx.Provider value={{ settings, theme, updateSettings }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ settings, theme, isDark, updateSettings }}>{children}</Ctx.Provider>;
 }
