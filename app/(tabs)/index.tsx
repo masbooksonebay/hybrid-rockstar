@@ -1,7 +1,8 @@
 import { useCallback, useState } from "react";
-import { View, Text, ScrollView, Pressable, StyleSheet, Animated } from "react-native";
+import { Text, ScrollView, Pressable, StyleSheet, Animated, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect, useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useApp } from "../../lib/context";
 import {
   getCurrentWeek,
@@ -35,7 +36,7 @@ export default function TrainScreen() {
   const raceDays = settings.raceDate ? daysUntil(settings.raceDate) : null;
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <SafeAreaView edges={["top"]} style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={[styles.appTitle, { color: theme.text }]}>Hybrid Rockstar</Text>
 
@@ -67,7 +68,7 @@ export default function TrainScreen() {
 
         <View style={{ height: 40 }} />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

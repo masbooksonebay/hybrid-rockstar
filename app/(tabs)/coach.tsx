@@ -108,7 +108,7 @@ export default function CoachScreen() {
     <KeyboardAvoidingView
       style={[styles.container, { backgroundColor: theme.background }]}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? headerHeight + tabBarHeight : 0}
+      keyboardVerticalOffset={Platform.OS === "ios" ? headerHeight + tabBarHeight + 12 : 0}
     >
       <View style={[styles.tabRow, { borderBottomColor: theme.border }]}>
         <TouchableOpacity style={[styles.tab, tab === "chat" && { borderBottomColor: theme.accent, borderBottomWidth: 2 }]} onPress={() => setTab("chat")}>
