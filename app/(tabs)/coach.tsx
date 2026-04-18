@@ -37,7 +37,8 @@ export default function CoachScreen() {
     try {
       const apiKey = Constants.expoConfig?.extra?.anthropicApiKey as string | undefined;
       if (!apiKey) {
-        setMessages([...updated, { role: "assistant", content: "API key not configured. Set ANTHROPIC_API_KEY in your .env file." }]);
+        console.error("[CoachRob] Missing API key — EXPO_PUBLIC_ANTHROPIC_API_KEY not set in build env");
+        setMessages([...updated, { role: "assistant", content: "API key not configured. Set EXPO_PUBLIC_ANTHROPIC_API_KEY in your .env (dev) or via `eas env:create --environment preview --name EXPO_PUBLIC_ANTHROPIC_API_KEY` (EAS builds)." }]);
         setLoading(false);
         return;
       }
@@ -59,9 +60,24 @@ export default function CoachScreen() {
       });
 
       const data = await res.json();
-      const reply = data.content?.[0]?.text || "Sorry, I couldn't process that. Try again.";
+      if (!res.ok) {
+        const errType = data?.error?.type ?? "unknown";
+        const errMsg = data?.error?.message ?? "No error message";
+        console.error(`[CoachRob] API ${res.status} ${errType}: ${errMsg}`);
+        setMessages([...updated, { role: "assistant", content: `API error (${res.status} ${errType}). Try again in a moment.` }]);
+        setLoading(false);
+        return;
+      }
+      const reply = data.content?.[0]?.text;
+      if (!reply) {
+        console.error("[CoachRob] Empty content in API response", data);
+        setMessages([...updated, { role: "assistant", content: "Sorry, I couldn't process that. Try again." }]);
+        setLoading(false);
+        return;
+      }
       setMessages([...updated, { role: "assistant", content: reply }]);
-    } catch {
+    } catch (err) {
+      console.error("[CoachRob] Network / fetch error", err);
       setMessages([...updated, { role: "assistant", content: "Connection error. Check your internet and try again." }]);
     }
     setLoading(false);
@@ -81,7 +97,11 @@ export default function CoachScreen() {
     : RULES;
 
   return (
-    <KeyboardAvoidingView style={[styles.container, { backgroundColor: theme.background }]} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+    <KeyboardAvoidingView
+      style={[styles.container, { backgroundColor: theme.background }]}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+    >
       {/* Tab bar */}
       <View style={[styles.tabRow, { borderBottomColor: theme.border }]}>
         <TouchableOpacity style={[styles.tab, tab === "chat" && { borderBottomColor: theme.accent, borderBottomWidth: 2 }]} onPress={() => setTab("chat")}>
