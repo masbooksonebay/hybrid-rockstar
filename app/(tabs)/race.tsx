@@ -670,7 +670,7 @@ const styles = StyleSheet.create({
   displayInputText: { fontSize: 16 },
   helper: { fontSize: 13, fontStyle: "italic", marginTop: 4 },
   goalExplainerRow: { flexDirection: "row", alignItems: "center", marginTop: spacing.sm, marginBottom: spacing.xs },
-  goalExplainer: { flex: 1, fontSize: 13, fontStyle: "italic" },
+  goalExplainer: { flexShrink: 1, fontSize: 13, fontStyle: "italic" },
   resultCard: { borderRadius: borderRadius.md, padding: spacing.lg, marginTop: spacing.lg, borderWidth: 1, alignItems: "center" },
   resultTitle: { fontSize: 12, fontWeight: "700", letterSpacing: 1, marginBottom: spacing.sm },
   resultTime: { fontSize: 36, fontWeight: "800" },
