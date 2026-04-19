@@ -16,6 +16,12 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "ascAppId": "6762101905",
+        "appleId": "markshurtliff@gmail.com",
+        "appleTeamId": "VCT64S7K6P"
+      }
+    }
   }
 }
