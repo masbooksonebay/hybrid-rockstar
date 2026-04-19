@@ -10,6 +10,7 @@ import {
   Pressable,
   Alert,
   Platform,
+  Keyboard,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -141,12 +142,19 @@ export default function RaceScreen() {
     return goalStationAvg;
   };
 
-  const effectiveSplitFor = (seg: RaceSegment): number | null => {
+  // Display: returns the override only (no fallbacks). Used for the right
+  // column on each station row, so non-overridden rows render "—".
+  const displaySplitFor = (seg: RaceSegment): number | null => {
     const override = activeOverrides[seg.order]?.time;
-    if (override) {
-      const parsed = parseTimeToSeconds(override);
-      if (parsed != null) return parsed;
-    }
+    if (!override) return null;
+    return parseTimeToSeconds(override);
+  };
+
+  // Total: returns override-or-fallback. Used only for PREDICTED FINISH /
+  // mismatch math, never for the per-row display.
+  const totalSplitFor = (seg: RaceSegment): number | null => {
+    const fromOverride = displaySplitFor(seg);
+    if (fromOverride != null) return fromOverride;
     return seg.kind === "run" ? defaultSplitForRun() : defaultSplitForStation();
   };
 
@@ -154,7 +162,7 @@ export default function RaceScreen() {
     let any = false;
     let total = 0;
     for (const seg of RACE_SEQUENCE) {
-      const s = effectiveSplitFor(seg);
+      const s = totalSplitFor(seg);
       if (s == null) return null;
       any = true;
       total += s;
@@ -314,7 +322,12 @@ export default function RaceScreen() {
             {paceErr && <Text style={styles.inputError}>Use mm:ss (or h:mm:ss).</Text>}
             <Text style={[styles.helper, { color: theme.textSecondary }]}>Enter your target pace for each 1km run</Text>
 
-            <Text style={[styles.label, { color: theme.textSecondary }]}>AVERAGE STATION TIME</Text>
+            <View style={styles.labelRow}>
+              <Text style={[styles.label, { color: theme.textSecondary }]}>AVERAGE STATION TIME</Text>
+              <TouchableOpacity onPress={() => setPredictInfoOpen(true)} hitSlop={10} style={styles.labelInfo}>
+                <Ionicons name="information-circle-outline" size={16} color={theme.textSecondary} />
+              </TouchableOpacity>
+            </View>
             <View
               style={[
                 styles.input,
@@ -331,10 +344,10 @@ export default function RaceScreen() {
                   },
                 ]}
               >
-                {stationAvgFromOverrides != null ? formatMinSec(stationAvgFromOverrides) : "e.g. 4:00"}
+                {stationAvgFromOverrides != null ? formatMinSec(stationAvgFromOverrides) : ""}
               </Text>
             </View>
-            <Text style={[styles.helper, { color: theme.textSecondary }]}>Or enter times for each station below</Text>
+            <Text style={[styles.helper, { color: theme.textSecondary }]}>Enter time for each station below</Text>
 
             {totalFinish != null && (
               <View style={[styles.resultCard, { backgroundColor: theme.card, borderColor: theme.accent }]}>
@@ -410,7 +423,7 @@ export default function RaceScreen() {
               ? Number(overrideReps ?? seg.reps)
               : baseWeight?.reps ?? null;
           const isOverridden = !!(overrideWeight || overrideReps || overrideTime);
-          const split = effectiveSplitFor(seg);
+          const split = displaySplitFor(seg);
 
           const distancePiece = seg.distance ?? (displayReps != null ? `${displayReps} reps` : "");
           const weightPiece = displayWeight ? ` · ${displayWeight}` : "";
@@ -502,11 +515,14 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
       ? (ctx.gender === "Female" ? 75 : 100)
       : seg.reps ?? null;
 
+  const MODAL_DONE_ID = "hr-done-toolbar-edit-station";
+
   const handleSave = () => {
     if (time && parseTimeToSeconds(time) == null) {
       setTimeErr(true);
       return;
     }
+    Keyboard.dismiss();
     onSave({
       weight: showWeight ? weight.trim() || undefined : undefined,
       reps: showReps ? reps.trim() || undefined : undefined,
@@ -541,7 +557,7 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
                   onChangeText={setWeight}
                   autoCorrect={false}
                   autoCapitalize="none"
-                  inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
+                  inputAccessoryViewID={Platform.OS === "ios" ? MODAL_DONE_ID : undefined}
                 />
                 <Text style={[styles.unitLabel, { color: theme.textSecondary }]}>kg</Text>
               </View>
@@ -567,7 +583,7 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
             }}
             autoCorrect={false}
             autoCapitalize="none"
-            inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
+            inputAccessoryViewID={Platform.OS === "ios" ? MODAL_DONE_ID : undefined}
           />
           {timeErr && <Text style={styles.inputError}>Use mm:ss format.</Text>}
           <Text style={[styles.helpText, { color: theme.textTertiary }]}>
@@ -589,7 +605,7 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
                   keyboardType="number-pad"
                   value={reps}
                   onChangeText={setReps}
-                  inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
+                  inputAccessoryViewID={Platform.OS === "ios" ? MODAL_DONE_ID : undefined}
                 />
                 <Text style={[styles.unitLabel, { color: theme.textSecondary }]}>reps</Text>
               </View>
@@ -614,7 +630,7 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
             <Text style={[styles.resetBtnText, { color: theme.textSecondary }]}>Reset to Default</Text>
           </TouchableOpacity>
         </ScrollView>
-        <DoneKeyboardToolbar />
+        <DoneKeyboardToolbar nativeID={MODAL_DONE_ID} />
       </View>
     </Modal>
   );

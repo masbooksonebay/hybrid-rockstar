@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   StyleSheet,
-  KeyboardAvoidingView,
+  Keyboard,
   Platform,
   ActivityIndicator,
   LayoutAnimation,
@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
-import { useHeaderHeight } from "@react-navigation/elements";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useApp } from "../../lib/context";
 import { COACH_ROB_SYSTEM_PROMPT } from "../../lib/coachPrompt";
 import { RULES } from "../../data/rules";
@@ -36,13 +36,31 @@ const SUGGESTIONS = [
 
 export default function CoachScreen() {
   const { theme, settings } = useApp();
-  const headerHeight = useHeaderHeight();
+  const tabBarHeight = useBottomTabBarHeight();
   const [tab, setTab] = useState<"chat" | "rules">("chat");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [rulesSearch, setRulesSearch] = useState("");
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    const showEvent = Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
+    const hideEvent = Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
+    const showSub = Keyboard.addListener(showEvent, (e) => {
+      setKeyboardHeight(e.endCoordinates?.height ?? 0);
+    });
+    const hideSub = Keyboard.addListener(hideEvent, () => {
+      setKeyboardHeight(0);
+    });
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
+  const liftBy = Math.max(0, keyboardHeight - tabBarHeight);
 
   const sendMessage = async (text: string) => {
     if (!text.trim()) return;
@@ -103,10 +121,8 @@ export default function CoachScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={[styles.container, { backgroundColor: theme.background }]}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? headerHeight : 0}
+    <View
+      style={[styles.container, { backgroundColor: theme.background, paddingBottom: liftBy }]}
     >
       <View style={[styles.tabRow, { borderBottomColor: theme.border }]}>
         <TouchableOpacity style={[styles.tab, tab === "chat" && { borderBottomColor: theme.accent, borderBottomWidth: 2 }]} onPress={() => setTab("chat")}>
@@ -168,7 +184,7 @@ export default function CoachScreen() {
       ) : (
         <RulesTab search={rulesSearch} setSearch={setRulesSearch} />
       )}
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 
