@@ -13,12 +13,15 @@ import {
   UIManager,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import Constants from "expo-constants";
+import { fetch as expoFetch } from "expo/fetch";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useApp } from "../../lib/context";
 import { COACH_ROB_SYSTEM_PROMPT } from "../../lib/coachPrompt";
 import { RULES } from "../../data/rules";
 import { spacing, borderRadius } from "../../constants/theme";
+
+const COACH_ROB_API_URL = "https://hybrid-rockstar-api.vercel.app/api/coach-rob";
+const CONNECT_ERROR_MESSAGE = "Coach Rob is having trouble connecting. Please try again in a moment.";
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -65,58 +68,99 @@ export default function CoachScreen() {
   const sendMessage = async (text: string) => {
     if (!text.trim()) return;
     const userMsg: Message = { role: "user", content: text.trim() };
-    const updated = [...messages, userMsg];
-    setMessages(updated);
+    const baseMessages = [...messages, userMsg];
+    setMessages(baseMessages);
     setInput("");
     setLoading(true);
 
-    try {
-      const apiKey = Constants.expoConfig?.extra?.anthropicApiKey as string | undefined;
-      if (!apiKey) {
-        console.error("[CoachRob] Missing API key — EXPO_PUBLIC_ANTHROPIC_API_KEY not set in build env");
-        setMessages([...updated, { role: "assistant", content: "API key not configured. Set EXPO_PUBLIC_ANTHROPIC_API_KEY in your .env (dev) or via `eas env:create --environment preview --name EXPO_PUBLIC_ANTHROPIC_API_KEY` (EAS builds)." }]);
-        setLoading(false);
-        return;
-      }
+    const showError = (log: string) => {
+      console.error(`[CoachRob] ${log}`);
+      setMessages([...baseMessages, { role: "assistant", content: CONNECT_ERROR_MESSAGE }]);
+      setLoading(false);
+    };
 
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+    try {
+      const res = await expoFetch(COACH_ROB_API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": apiKey,
-          "anthropic-version": "2023-06-01",
-          "anthropic-dangerous-direct-browser-access": "true",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          system: COACH_ROB_SYSTEM_PROMPT + `\n\nUser's format: ${settings.format ?? "unset"}. Tier: ${settings.tier ?? "unset"}. Gender: ${settings.gender ?? "unset"}.`,
-          messages: updated.map((m) => ({ role: m.role, content: m.content })),
+          system:
+            COACH_ROB_SYSTEM_PROMPT +
+            `\n\nUser's format: ${settings.format ?? "unset"}. Tier: ${settings.tier ?? "unset"}. Gender: ${settings.gender ?? "unset"}.`,
+          messages: baseMessages.map((m) => ({ role: m.role, content: m.content })),
         }),
       });
 
-      const data = await res.json();
       if (!res.ok) {
-        const errType = data?.error?.type ?? "unknown";
-        const errMsg = data?.error?.message ?? "No error message";
-        console.error(`[CoachRob] API ${res.status} ${errType}: ${errMsg}`);
-        setMessages([...updated, { role: "assistant", content: `API error (${res.status} ${errType}). Try again in a moment.` }]);
-        setLoading(false);
+        let errCode = "unknown";
+        let errMsg = "";
+        try {
+          const data = await res.json();
+          errCode = data?.error?.code ?? errCode;
+          errMsg = data?.error?.message ?? "";
+        } catch {}
+        showError(`Proxy ${res.status} ${errCode}: ${errMsg}`);
         return;
       }
-      const reply = data.content?.[0]?.text;
-      if (!reply) {
-        console.error("[CoachRob] Empty content in API response", data);
-        setMessages([...updated, { role: "assistant", content: "Sorry, I couldn't process that. Try again." }]);
-        setLoading(false);
+
+      if (!res.body) {
+        showError("Empty response body");
         return;
       }
-      setMessages([...updated, { role: "assistant", content: reply }]);
+
+      setMessages([...baseMessages, { role: "assistant", content: "" }]);
+      setLoading(false);
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let buffer = "";
+      let assembled = "";
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+
+        let sepIdx = buffer.indexOf("\n\n");
+        while (sepIdx !== -1) {
+          const frame = buffer.slice(0, sepIdx);
+          buffer = buffer.slice(sepIdx + 2);
+          sepIdx = buffer.indexOf("\n\n");
+
+          for (const line of frame.split("\n")) {
+            if (!line.startsWith("data:")) continue;
+            const payload = line.slice(5).trim();
+            if (!payload) continue;
+            try {
+              const evt = JSON.parse(payload);
+              if (evt?.type === "content_block_delta" && evt?.delta?.type === "text_delta") {
+                const chunk = evt.delta.text as string;
+                if (chunk) {
+                  assembled += chunk;
+                  const snapshot = assembled;
+                  setMessages((prev) => {
+                    const next = prev.slice();
+                    const last = next[next.length - 1];
+                    if (last && last.role === "assistant") {
+                      next[next.length - 1] = { role: "assistant", content: snapshot };
+                    }
+                    return next;
+                  });
+                }
+              }
+            } catch {}
+          }
+        }
+      }
+
+      if (!assembled) {
+        showError("Stream ended with no text");
+        return;
+      }
     } catch (err) {
-      console.error("[CoachRob] Network / fetch error", err);
-      setMessages([...updated, { role: "assistant", content: "Connection error. Check your internet and try again." }]);
+      showError(`Network / fetch error: ${String(err)}`);
+      return;
     }
-    setLoading(false);
     setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
   };
 
