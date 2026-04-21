@@ -16,7 +16,6 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.hybridrockstar.app",
-      "buildNumber": "1",
       "icon": "./assets/app-icon-1024.png",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
