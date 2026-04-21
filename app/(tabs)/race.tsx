@@ -9,6 +9,8 @@ import {
   Pressable,
   Alert,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -552,14 +554,17 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
 
   return (
     <Modal visible animationType="slide" presentationStyle="pageSheet" onRequestClose={onClose}>
-      <View style={[styles.modal, { backgroundColor: theme.background }]}>
+      <KeyboardAvoidingView
+        style={[styles.modal, { backgroundColor: theme.background }]}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
         <View style={styles.modalHeader}>
           <Text style={[styles.modalTitle, { color: theme.text }]}>Edit {seg.name}</Text>
           <TouchableOpacity onPress={onClose}>
             <Ionicons name="close" size={28} color={theme.text} />
           </TouchableOpacity>
         </View>
-        <ScrollView contentContainerStyle={styles.form} keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={styles.form} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
           {showWeight && (
             <>
               <Text style={[styles.label, { color: theme.textSecondary }]}>WEIGHT</Text>
@@ -647,7 +652,7 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
             <Text style={[styles.resetBtnText, { color: theme.textSecondary }]}>Reset to Default</Text>
           </TouchableOpacity>
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }

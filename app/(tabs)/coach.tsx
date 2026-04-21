@@ -21,6 +21,7 @@ import { useApp } from "../../lib/context";
 import { COACH_ROB_SYSTEM_PROMPT } from "../../lib/coachPrompt";
 import { RULES } from "../../data/rules";
 import { spacing, borderRadius } from "../../constants/theme";
+import DoneKeyboardToolbar, { KEYBOARD_DONE_ID } from "../../components/DoneKeyboardToolbar";
 
 const COACH_ROB_API_URL = "https://hybrid-rockstar-api.vercel.app/api/coach-rob";
 const CONNECT_ERROR_MESSAGE = "Coach Rob is having trouble connecting. Please try again in a moment.";
@@ -245,6 +246,7 @@ export default function CoachScreen() {
       ) : (
         <RulesTab search={rulesSearch} setSearch={setRulesSearch} />
       )}
+      <DoneKeyboardToolbar />
     </KeyboardAvoidingView>
   );
 }
@@ -280,7 +282,11 @@ function RulesTab({ search, setSearch }: { search: string; setSearch: (v: string
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.rulesContent} keyboardShouldPersistTaps="handled">
+    <ScrollView
+      contentContainerStyle={styles.rulesContent}
+      keyboardShouldPersistTaps="handled"
+      keyboardDismissMode="on-drag"
+    >
       <Text style={[styles.rulesNote, { color: theme.textSecondary }]}>Source: official race rules — always verify for competition.</Text>
       <View style={[styles.searchRow, { backgroundColor: theme.inputBg, borderColor: theme.border }]}>
         <Ionicons name="search" size={18} color={theme.textSecondary} />
@@ -290,6 +296,9 @@ function RulesTab({ search, setSearch }: { search: string; setSearch: (v: string
           placeholderTextColor={theme.textSecondary}
           value={search}
           onChangeText={setSearch}
+          returnKeyType="search"
+          onSubmitEditing={() => Keyboard.dismiss()}
+          inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
         />
       </View>
       {filteredRules.map((section) => {

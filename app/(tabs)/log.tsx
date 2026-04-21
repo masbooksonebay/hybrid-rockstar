@@ -328,14 +328,17 @@ function LogForm({ initial, onClose, onSave }: LogFormProps) {
   };
 
   return (
-    <View style={[styles.modal, { backgroundColor: theme.background }]}>
+    <KeyboardAvoidingView
+      style={[styles.modal, { backgroundColor: theme.background }]}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
       <View style={styles.modalHeader}>
         <Text style={[styles.modalTitle, { color: theme.text }]}>{initial ? "Edit Workout" : "Log Workout"}</Text>
         <TouchableOpacity onPress={onClose}>
           <Ionicons name="close" size={28} color={theme.text} />
         </TouchableOpacity>
       </View>
-      <ScrollView contentContainerStyle={styles.form} keyboardShouldPersistTaps="handled">
+      <ScrollView contentContainerStyle={styles.form} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
         <Text style={[styles.label, { color: theme.textSecondary }]}>ACTIVITY</Text>
         <View style={styles.activityWrap}>
           {ACTIVITIES.map((a) => (
@@ -359,6 +362,9 @@ function LogForm({ initial, onClose, onSave }: LogFormProps) {
             placeholderTextColor={theme.textSecondary}
             value={activityOther}
             onChangeText={setActivityOther}
+            returnKeyType="done"
+            onSubmitEditing={() => Keyboard.dismiss()}
+            inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
           />
         )}
 
@@ -432,7 +438,7 @@ function LogForm({ initial, onClose, onSave }: LogFormProps) {
         <View style={{ height: 60 }} />
       </ScrollView>
       <DoneKeyboardToolbar />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
