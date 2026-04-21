@@ -11,6 +11,8 @@ import {
   ActivityIndicator,
   LayoutAnimation,
   UIManager,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { fetch as expoFetch } from "expo/fetch";
@@ -62,8 +64,6 @@ export default function CoachScreen() {
       hideSub.remove();
     };
   }, []);
-
-  const liftBy = Math.max(0, keyboardHeight - tabBarHeight);
 
   const sendMessage = async (text: string) => {
     if (!text.trim()) return;
@@ -164,9 +164,13 @@ export default function CoachScreen() {
     setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
   };
 
+  const keyboardActive = keyboardHeight > 0;
+
   return (
-    <View
-      style={[styles.container, { backgroundColor: theme.background, paddingBottom: liftBy }]}
+    <KeyboardAvoidingView
+      style={[styles.container, { backgroundColor: theme.background }]}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={Platform.OS === "ios" ? tabBarHeight : 0}
     >
       <View style={[styles.tabRow, { borderBottomColor: theme.border }]}>
         <TouchableOpacity style={[styles.tab, tab === "chat" && { borderBottomColor: theme.accent, borderBottomWidth: 2 }]} onPress={() => setTab("chat")}>
@@ -175,37 +179,50 @@ export default function CoachScreen() {
         <TouchableOpacity style={[styles.tab, tab === "rules" && { borderBottomColor: theme.accent, borderBottomWidth: 2 }]} onPress={() => setTab("rules")}>
           <Text style={[styles.tabText, { color: tab === "rules" ? theme.text : theme.textSecondary }]}>RULES</Text>
         </TouchableOpacity>
+        {keyboardActive && (
+          <TouchableOpacity
+            style={styles.dismissBtn}
+            onPress={() => Keyboard.dismiss()}
+            hitSlop={10}
+            accessibilityLabel="Dismiss keyboard"
+          >
+            <Ionicons name="chevron-down" size={20} color={theme.textSecondary} />
+          </TouchableOpacity>
+        )}
       </View>
 
       {tab === "chat" ? (
         <>
-          <ScrollView
-            ref={scrollRef}
-            contentContainerStyle={styles.chatContent}
-            keyboardShouldPersistTaps="handled"
-            onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}
-          >
-            {messages.length === 0 && (
-              <View style={styles.suggestions}>
-                {SUGGESTIONS.map((s) => (
-                  <TouchableOpacity key={s} style={[styles.suggestChip, { borderColor: theme.border }]} onPress={() => sendMessage(s)}>
-                    <Text style={[styles.suggestText, { color: theme.text }]}>{s}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-            {messages.map((m, i) => (
-              <View key={i} style={[styles.bubble, m.role === "user" ? { backgroundColor: theme.userBubble, alignSelf: "flex-end" } : { backgroundColor: theme.aiBubble, alignSelf: "flex-start", borderWidth: 1, borderColor: theme.border }]}>
-                <Text style={[styles.bubbleText, { color: m.role === "user" ? "#fff" : theme.text }]}>{m.content}</Text>
-              </View>
-            ))}
-            {loading && (
-              <View style={[styles.bubble, { backgroundColor: theme.aiBubble, alignSelf: "flex-start", borderWidth: 1, borderColor: theme.border }]}>
-                <ActivityIndicator size="small" color={theme.accent} />
-              </View>
-            )}
-            <View style={{ height: 20 }} />
-          </ScrollView>
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
+            <ScrollView
+              ref={scrollRef}
+              contentContainerStyle={styles.chatContent}
+              keyboardShouldPersistTaps="handled"
+              keyboardDismissMode="interactive"
+              onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}
+            >
+              {messages.length === 0 && (
+                <View style={styles.suggestions}>
+                  {SUGGESTIONS.map((s) => (
+                    <TouchableOpacity key={s} style={[styles.suggestChip, { borderColor: theme.border }]} onPress={() => sendMessage(s)}>
+                      <Text style={[styles.suggestText, { color: theme.text }]}>{s}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
+              {messages.map((m, i) => (
+                <View key={i} style={[styles.bubble, m.role === "user" ? { backgroundColor: theme.userBubble, alignSelf: "flex-end" } : { backgroundColor: theme.aiBubble, alignSelf: "flex-start", borderWidth: 1, borderColor: theme.border }]}>
+                  <Text style={[styles.bubbleText, { color: m.role === "user" ? "#fff" : theme.text }]}>{m.content}</Text>
+                </View>
+              ))}
+              {loading && (
+                <View style={[styles.bubble, { backgroundColor: theme.aiBubble, alignSelf: "flex-start", borderWidth: 1, borderColor: theme.border }]}>
+                  <ActivityIndicator size="small" color={theme.accent} />
+                </View>
+              )}
+              <View style={{ height: 20 }} />
+            </ScrollView>
+          </TouchableWithoutFeedback>
 
           <Text style={[styles.disclaimer, { color: theme.textSecondary }]}>AI responses are for training guidance only. Always verify rules with the official race organization.</Text>
 
@@ -228,7 +245,7 @@ export default function CoachScreen() {
       ) : (
         <RulesTab search={rulesSearch} setSearch={setRulesSearch} />
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -303,9 +320,10 @@ function RulesTab({ search, setSearch }: { search: string; setSearch: (v: string
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  tabRow: { flexDirection: "row", borderBottomWidth: 1 },
+  tabRow: { flexDirection: "row", borderBottomWidth: 1, position: "relative" },
   tab: { flex: 1, alignItems: "center", paddingVertical: spacing.sm + 4, borderBottomWidth: 2, borderBottomColor: "transparent" },
   tabText: { fontSize: 13, fontWeight: "700", letterSpacing: 0.5 },
+  dismissBtn: { position: "absolute", right: spacing.md, top: 0, bottom: 0, justifyContent: "center", alignItems: "center", paddingHorizontal: 4 },
   chatContent: { padding: spacing.md, flexGrow: 1 },
   suggestions: { marginTop: spacing.xl, alignItems: "center", gap: spacing.sm },
   suggestTitle: { fontSize: 14, marginBottom: spacing.sm },
