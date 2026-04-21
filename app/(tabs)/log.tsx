@@ -10,6 +10,9 @@ import {
   Pressable,
   Animated,
   Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -145,6 +148,9 @@ export default function LogScreen() {
             placeholderTextColor={theme.textSecondary}
             value={search}
             onChangeText={setSearch}
+            returnKeyType="search"
+            onSubmitEditing={() => Keyboard.dismiss()}
+            inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
           />
         </View>
         <TouchableOpacity onPress={openCreate}>
@@ -152,25 +158,33 @@ export default function LogScreen() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView contentContainerStyle={styles.content}>
-        {!loaded ? null : filtered.length === 0 ? (
-          <Text style={[styles.empty, { color: theme.textSecondary }]}>No workouts logged yet. Tap + to add one.</Text>
-        ) : (
-          filtered.map((e) => (
-            <LogRow
-              key={e.id}
-              entry={e}
-              onPress={() => openEdit(e)}
-              onDelete={() => handleDelete(e.id)}
-              registerRef={(ref) => {
-                if (ref) swipeRefs.current.set(e.id, ref);
-                else swipeRefs.current.delete(e.id);
-              }}
-            />
-          ))
-        )}
-        <View style={{ height: 100 }} />
-      </ScrollView>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
+        <ScrollView
+          contentContainerStyle={styles.content}
+          keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="handled"
+        >
+          {!loaded ? null : filtered.length === 0 ? (
+            <Text style={[styles.empty, { color: theme.textSecondary }]}>No workouts logged yet. Tap + to add one.</Text>
+          ) : (
+            filtered.map((e) => (
+              <LogRow
+                key={e.id}
+                entry={e}
+                onPress={() => openEdit(e)}
+                onDelete={() => handleDelete(e.id)}
+                registerRef={(ref) => {
+                  if (ref) swipeRefs.current.set(e.id, ref);
+                  else swipeRefs.current.delete(e.id);
+                }}
+              />
+            ))
+          )}
+          <View style={{ height: 100 }} />
+        </ScrollView>
+      </TouchableWithoutFeedback>
+
+      <DoneKeyboardToolbar />
 
       {undoEntry && (
         <Animated.View pointerEvents="box-none" style={[styles.undoWrap, { opacity: undoOpacity }]}>
