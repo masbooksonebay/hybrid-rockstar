@@ -36,6 +36,8 @@ import { formatMinSec, formatSeconds, parseTimeToSeconds } from "../../lib/timeF
 import { daysUntil } from "../../lib/dates";
 import { NumericInputWithDone } from "../../components/common/NumericInputWithDone";
 import InfoModal from "../../components/InfoModal";
+import MovementInfoModal from "../../components/common/MovementInfoModal";
+import { movementIdForRaceName } from "../../constants/hyroxMovements";
 
 type Mode = Scenario;
 
@@ -77,6 +79,7 @@ export default function RaceScreen() {
   const [bannerDismissed, setBannerDismissed] = useState(false);
   const [predictInfoOpen, setPredictInfoOpen] = useState(false);
   const [goalInfoOpen, setGoalInfoOpen] = useState(false);
+  const [movementInfoId, setMovementInfoId] = useState<string | null>(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -425,6 +428,8 @@ export default function RaceScreen() {
           const weightPiece = displayWeight ? ` · ${displayWeight}` : "";
           const subtitle = `${distancePiece}${weightPiece}`.trim();
 
+          const movementId = movementIdForRaceName(seg.name);
+
           return (
             <Pressable
               key={seg.order}
@@ -438,7 +443,23 @@ export default function RaceScreen() {
                 <Text style={[styles.stationNumText, { color: theme.accent }]}>{seg.order}</Text>
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={[styles.stationName, { color: theme.text }]}>{seg.name}</Text>
+                <View style={styles.stationNameRow}>
+                  <Text style={[styles.stationName, { color: theme.text }]}>{seg.name}</Text>
+                  {movementId && (
+                    <TouchableOpacity
+                      onPress={(e) => {
+                        e.stopPropagation();
+                        setMovementInfoId(movementId);
+                      }}
+                      hitSlop={10}
+                      style={styles.stationInfoBtn}
+                      accessibilityLabel={`Info for ${seg.name}`}
+                      accessibilityRole="button"
+                    >
+                      <Ionicons name="information-circle-outline" size={18} color={theme.textSecondary} style={{ opacity: 0.7 }} />
+                    </TouchableOpacity>
+                  )}
+                </View>
                 <Text style={[styles.stationDist, { color: theme.textSecondary }]}>{subtitle || "—"}</Text>
               </View>
               <Text style={[styles.stationSplit, { color: split != null ? theme.accent : theme.textTertiary }]}>
@@ -476,6 +497,12 @@ export default function RaceScreen() {
         title={GOAL_INFO_TITLE}
         body={GOAL_INFO_BODY}
         onClose={() => setGoalInfoOpen(false)}
+      />
+
+      <MovementInfoModal
+        visible={movementInfoId !== null}
+        movementId={movementInfoId}
+        onClose={() => setMovementInfoId(null)}
       />
 
     </View>
@@ -679,6 +706,8 @@ const styles = StyleSheet.create({
   stationRow: { flexDirection: "row", alignItems: "center", paddingVertical: spacing.sm + 4, borderBottomWidth: 0.5, gap: spacing.md },
   stationNum: { width: 28, height: 28, borderRadius: 14, alignItems: "center", justifyContent: "center" },
   stationNumText: { fontSize: 13, fontWeight: "800" },
+  stationNameRow: { flexDirection: "row", alignItems: "center", gap: 4 },
+  stationInfoBtn: { padding: 2 },
   stationName: { fontSize: 15, fontWeight: "600" },
   stationDist: { fontSize: 12, marginTop: 1 },
   stationSplit: { fontSize: 14, fontWeight: "700", minWidth: 54, textAlign: "right" },
