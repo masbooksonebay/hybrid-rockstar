@@ -18,7 +18,8 @@
       "bundleIdentifier": "com.hybridrockstar.app",
       "icon": "./assets/app-icon-1024.png",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleDisplayName": "Hybrid"
       }
     },
     "android": {

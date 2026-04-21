@@ -62,7 +62,10 @@ export default function TrainScreen() {
 
   return (
     <SafeAreaView edges={["top"]} style={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={[styles.appTitle, { color: theme.text }]}>Hybrid Rockstar</Text>
+      <View style={styles.brandHeader}>
+        <Text style={[styles.brandText, { color: theme.text }]}>HYBRID ROCKSTAR</Text>
+      </View>
+      <View style={[styles.brandLine, { backgroundColor: theme.accent }]} />
 
       <View style={styles.eyebrowBlock}>
         <View style={styles.eyebrowRow}>
@@ -231,7 +234,9 @@ function isoToDate(iso: string): Date {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  appTitle: { fontSize: 28, fontWeight: "700", textAlign: "center", marginTop: spacing.sm, marginBottom: spacing.lg },
+  brandHeader: { alignItems: "center", marginTop: spacing.sm, paddingBottom: spacing.sm },
+  brandText: { fontSize: 22, fontWeight: "900", letterSpacing: 4 },
+  brandLine: { width: "100%", height: 2, marginBottom: spacing.md },
   eyebrowBlock: { paddingHorizontal: spacing.md, marginBottom: spacing.sm },
   eyebrowRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   chev: { width: 32, height: 32, alignItems: "center", justifyContent: "center" },
