@@ -48,23 +48,7 @@ export default function CoachScreen() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [rulesSearch, setRulesSearch] = useState("");
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
-
-  useEffect(() => {
-    const showEvent = Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
-    const hideEvent = Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
-    const showSub = Keyboard.addListener(showEvent, (e) => {
-      setKeyboardHeight(e.endCoordinates?.height ?? 0);
-    });
-    const hideSub = Keyboard.addListener(hideEvent, () => {
-      setKeyboardHeight(0);
-    });
-    return () => {
-      showSub.remove();
-      hideSub.remove();
-    };
-  }, []);
 
   const sendMessage = async (text: string) => {
     if (!text.trim()) return;
@@ -165,8 +149,6 @@ export default function CoachScreen() {
     setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
   };
 
-  const keyboardActive = keyboardHeight > 0;
-
   return (
     <KeyboardAvoidingView
       style={[styles.container, { backgroundColor: theme.background }]}
@@ -180,16 +162,6 @@ export default function CoachScreen() {
         <TouchableOpacity style={[styles.tab, tab === "rules" && { borderBottomColor: theme.accent, borderBottomWidth: 2 }]} onPress={() => setTab("rules")}>
           <Text style={[styles.tabText, { color: tab === "rules" ? theme.text : theme.textSecondary }]}>RULES</Text>
         </TouchableOpacity>
-        {keyboardActive && (
-          <TouchableOpacity
-            style={styles.dismissBtn}
-            onPress={() => Keyboard.dismiss()}
-            hitSlop={10}
-            accessibilityLabel="Dismiss keyboard"
-          >
-            <Ionicons name="chevron-down" size={20} color={theme.textSecondary} />
-          </TouchableOpacity>
-        )}
       </View>
 
       {tab === "chat" ? (
@@ -236,10 +208,16 @@ export default function CoachScreen() {
               onChangeText={setInput}
               onSubmitEditing={() => sendMessage(input)}
               returnKeyType="send"
+              multiline={false}
               blurOnSubmit={false}
             />
-            <TouchableOpacity onPress={() => sendMessage(input)} disabled={loading || !input.trim()}>
-              <Ionicons name="send" size={22} color={input.trim() ? theme.accent : theme.textSecondary} />
+            <TouchableOpacity
+              onPress={() => Keyboard.dismiss()}
+              hitSlop={10}
+              style={styles.doneBtn}
+              accessibilityLabel="Dismiss keyboard"
+            >
+              <Text style={[styles.doneText, { color: theme.accent }]}>Done</Text>
             </TouchableOpacity>
           </View>
         </>
@@ -332,7 +310,6 @@ const styles = StyleSheet.create({
   tabRow: { flexDirection: "row", borderBottomWidth: 1, position: "relative" },
   tab: { flex: 1, alignItems: "center", paddingVertical: spacing.sm + 4, borderBottomWidth: 2, borderBottomColor: "transparent" },
   tabText: { fontSize: 13, fontWeight: "700", letterSpacing: 0.5 },
-  dismissBtn: { position: "absolute", right: spacing.md, top: 0, bottom: 0, justifyContent: "center", alignItems: "center", paddingHorizontal: 4 },
   chatContent: { padding: spacing.md, flexGrow: 1 },
   suggestions: { marginTop: spacing.xl, alignItems: "center", gap: spacing.sm },
   suggestTitle: { fontSize: 14, marginBottom: spacing.sm },
@@ -343,6 +320,8 @@ const styles = StyleSheet.create({
   disclaimer: { fontSize: 10, textAlign: "center", paddingVertical: spacing.xs },
   inputRow: { flexDirection: "row", alignItems: "center", paddingHorizontal: spacing.md, paddingVertical: spacing.sm + 4, borderTopWidth: 1, gap: spacing.sm },
   input: { flex: 1, fontSize: 15, paddingVertical: spacing.sm },
+  doneBtn: { width: 44, height: 22, justifyContent: "center", alignItems: "center" },
+  doneText: { fontSize: 15, fontWeight: "600" },
   rulesContent: { padding: spacing.md },
   rulesNote: { fontSize: 11, textAlign: "center", marginBottom: spacing.md },
   searchRow: { flexDirection: "row", alignItems: "center", borderWidth: 1, borderRadius: borderRadius.sm, paddingHorizontal: spacing.sm + 4, marginBottom: spacing.md },
