@@ -297,7 +297,7 @@ export default function RaceScreen() {
         {mode === "predict" ? (
           <>
             <View style={styles.labelRow}>
-              <Text style={[styles.label, { color: theme.textSecondary }]}>AVERAGE 1KM PACE</Text>
+              <Text style={[styles.label, styles.labelInRow, { color: theme.textSecondary }]}>AVERAGE 1KM PACE</Text>
               <TouchableOpacity onPress={() => setPredictInfoOpen(true)} hitSlop={10} style={styles.labelInfo}>
                 <Ionicons name="information-circle-outline" size={16} color={theme.textSecondary} />
               </TouchableOpacity>
@@ -320,7 +320,7 @@ export default function RaceScreen() {
             <Text style={[styles.helper, { color: theme.textSecondary }]}>Enter your target pace for each 1km run</Text>
 
             <View style={styles.labelRow}>
-              <Text style={[styles.label, { color: theme.textSecondary }]}>AVERAGE STATION TIME</Text>
+              <Text style={[styles.label, styles.labelInRow, { color: theme.textSecondary }]}>AVERAGE STATION TIME</Text>
               <TouchableOpacity onPress={() => setPredictInfoOpen(true)} hitSlop={10} style={styles.labelInfo}>
                 <Ionicons name="information-circle-outline" size={16} color={theme.textSecondary} />
               </TouchableOpacity>
@@ -650,9 +650,10 @@ const styles = StyleSheet.create({
   },
   divisionLabel: { fontSize: 10, fontWeight: "700", letterSpacing: 0.8, marginBottom: 2 },
   divisionValue: { fontSize: 15, fontWeight: "600" },
-  labelRow: { flexDirection: "row", alignItems: "center", marginTop: spacing.md },
+  labelRow: { flexDirection: "row", alignItems: "center", marginTop: spacing.md, marginBottom: spacing.xs },
   label: { fontSize: 12, fontWeight: "600", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: spacing.xs, marginTop: spacing.md },
-  labelInfo: { marginLeft: 6, padding: 2, marginTop: spacing.md - 2 },
+  labelInRow: { marginTop: 0, marginBottom: 0 },
+  labelInfo: { marginLeft: 6, padding: 2 },
   input: { borderWidth: 1, borderRadius: borderRadius.sm, padding: spacing.md - 2, fontSize: 16 },
   inputError: { fontSize: 11, color: "#FF3B30", marginTop: 4 },
   displayInput: { justifyContent: "center" },
