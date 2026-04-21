@@ -4,12 +4,10 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  TextInput,
   StyleSheet,
   Modal,
   Pressable,
   Alert,
-  Platform,
   Keyboard,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -36,7 +34,7 @@ import {
 } from "../../lib/raceOverrides";
 import { formatMinSec, formatSeconds, parseTimeToSeconds } from "../../lib/timeFormat";
 import { daysUntil } from "../../lib/dates";
-import DoneKeyboardToolbar, { KEYBOARD_DONE_ID } from "../../components/DoneKeyboardToolbar";
+import { NumericInputWithDone } from "../../components/common/NumericInputWithDone";
 import InfoModal from "../../components/InfoModal";
 
 type Mode = Scenario;
@@ -304,7 +302,7 @@ export default function RaceScreen() {
                 <Ionicons name="information-circle-outline" size={16} color={theme.textSecondary} />
               </TouchableOpacity>
             </View>
-            <TextInput
+            <NumericInputWithDone
               style={[
                 styles.input,
                 { backgroundColor: theme.inputBg, borderColor: paceErr ? "#FF3B30" : theme.border, color: theme.text },
@@ -317,7 +315,6 @@ export default function RaceScreen() {
               onBlur={onPaceBlur}
               autoCorrect={false}
               autoCapitalize="none"
-              inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
             />
             {paceErr && <Text style={styles.inputError}>Use mm:ss (or h:mm:ss).</Text>}
             <Text style={[styles.helper, { color: theme.textSecondary }]}>Enter your target pace for each 1km run</Text>
@@ -371,7 +368,7 @@ export default function RaceScreen() {
             </View>
 
             <Text style={[styles.label, { color: theme.textSecondary }]}>TARGET FINISH TIME</Text>
-            <TextInput
+            <NumericInputWithDone
               style={[
                 styles.input,
                 { backgroundColor: theme.inputBg, borderColor: goalErr ? "#FF3B30" : theme.border, color: theme.text },
@@ -384,7 +381,6 @@ export default function RaceScreen() {
               onBlur={onGoalBlur}
               autoCorrect={false}
               autoCapitalize="none"
-              inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
             />
             {goalErr && <Text style={styles.inputError}>Use mm:ss (or h:mm:ss).</Text>}
 
@@ -482,7 +478,6 @@ export default function RaceScreen() {
         onClose={() => setGoalInfoOpen(false)}
       />
 
-      <DoneKeyboardToolbar />
     </View>
   );
 }
@@ -515,8 +510,6 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
       ? (ctx.gender === "Female" ? 75 : 100)
       : seg.reps ?? null;
 
-  const MODAL_DONE_ID = "hr-done-toolbar-edit-station";
-
   const handleSave = () => {
     if (time && parseTimeToSeconds(time) == null) {
       setTimeErr(true);
@@ -544,7 +537,7 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
             <>
               <Text style={[styles.label, { color: theme.textSecondary }]}>WEIGHT</Text>
               <View style={styles.unitRow}>
-                <TextInput
+                <NumericInputWithDone
                   style={[
                     styles.input,
                     styles.unitInput,
@@ -557,7 +550,6 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
                   onChangeText={setWeight}
                   autoCorrect={false}
                   autoCapitalize="none"
-                  inputAccessoryViewID={Platform.OS === "ios" ? MODAL_DONE_ID : undefined}
                 />
                 <Text style={[styles.unitLabel, { color: theme.textSecondary }]}>kg</Text>
               </View>
@@ -568,7 +560,7 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
           <Text style={[styles.label, { color: theme.textSecondary, marginTop: showWeight ? spacing.md : 0 }]}>
             PREDICTED TIME (mm:ss)
           </Text>
-          <TextInput
+          <NumericInputWithDone
             style={[
               styles.input,
               { backgroundColor: theme.inputBg, borderColor: timeErr ? "#FF3B30" : theme.border, color: theme.text },
@@ -583,7 +575,6 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
             }}
             autoCorrect={false}
             autoCapitalize="none"
-            inputAccessoryViewID={Platform.OS === "ios" ? MODAL_DONE_ID : undefined}
           />
           {timeErr && <Text style={styles.inputError}>Use mm:ss format.</Text>}
           <Text style={[styles.helpText, { color: theme.textTertiary }]}>
@@ -594,7 +585,7 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
             <>
               <Text style={[styles.label, { color: theme.textSecondary, marginTop: spacing.md }]}>REPS</Text>
               <View style={styles.unitRow}>
-                <TextInput
+                <NumericInputWithDone
                   style={[
                     styles.input,
                     styles.unitInput,
@@ -605,7 +596,6 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
                   keyboardType="number-pad"
                   value={reps}
                   onChangeText={setReps}
-                  inputAccessoryViewID={Platform.OS === "ios" ? MODAL_DONE_ID : undefined}
                 />
                 <Text style={[styles.unitLabel, { color: theme.textSecondary }]}>reps</Text>
               </View>
@@ -630,7 +620,6 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
             <Text style={[styles.resetBtnText, { color: theme.textSecondary }]}>Reset to Default</Text>
           </TouchableOpacity>
         </ScrollView>
-        <DoneKeyboardToolbar nativeID={MODAL_DONE_ID} />
       </View>
     </Modal>
   );

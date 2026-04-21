@@ -19,6 +19,7 @@ import { useApp } from "../../lib/context";
 import { spacing, borderRadius } from "../../constants/theme";
 import { formatRelativeDate } from "../../lib/dates";
 import DoneKeyboardToolbar, { KEYBOARD_DONE_ID } from "../../components/DoneKeyboardToolbar";
+import { NumericInputWithDone } from "../../components/common/NumericInputWithDone";
 
 interface LogEntry {
   id: string;
@@ -371,14 +372,13 @@ function LogForm({ initial, onClose, onSave }: LogFormProps) {
 
         <Text style={[styles.label, { color: theme.textSecondary }]}>DURATION</Text>
         <View style={styles.durationRow}>
-          <TextInput
+          <NumericInputWithDone
             style={[styles.input, styles.durationInput, { backgroundColor: theme.inputBg, borderColor: theme.border, color: theme.text }]}
             placeholder="e.g. 65"
             placeholderTextColor={theme.textSecondary}
             keyboardType="number-pad"
             value={duration}
             onChangeText={setDuration}
-            inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
           />
           <Text style={[styles.unitLabel, { color: theme.textSecondary }]}>min</Text>
         </View>
@@ -386,14 +386,13 @@ function LogForm({ initial, onClose, onSave }: LogFormProps) {
         {showDistance && (
           <>
             <Text style={[styles.label, { color: theme.textSecondary }]}>DISTANCE (KM)</Text>
-            <TextInput
+            <NumericInputWithDone
               style={[styles.input, { backgroundColor: theme.inputBg, borderColor: theme.border, color: theme.text }]}
               placeholder="optional"
               placeholderTextColor={theme.textSecondary}
               keyboardType="decimal-pad"
               value={distance}
               onChangeText={setDistance}
-              inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
             />
           </>
         )}
