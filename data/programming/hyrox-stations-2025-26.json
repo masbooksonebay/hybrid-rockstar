@@ -1,0 +1,102 @@
+{
+  "version": "2025-26",
+  "source_note": "HYROX Singles 2025/26. Open Women wall ball reps confirmed at 75 (2025/26 rule change) — verified across FitnessVolt (April 2026), Hello Hyrox (Jan 2026), HYROX London Olympia 2026 event guide. Coach to re-verify against active rulebook.",
+  "divisions": ["open_men", "open_women", "pro_men", "pro_women"],
+  "division_labels": {
+    "open_men": "Open M",
+    "open_women": "Open W",
+    "pro_men": "Pro M",
+    "pro_women": "Pro W"
+  },
+  "stations": [
+    {
+      "key": "sled_push",
+      "label": "Sled Push",
+      "distance": "50m",
+      "weights": {
+        "open_men": "152 kg",
+        "open_women": "102 kg",
+        "pro_men": "202 kg",
+        "pro_women": "152 kg"
+      }
+    },
+    {
+      "key": "sled_pull",
+      "label": "Sled Pull",
+      "distance": "50m",
+      "weights": {
+        "open_men": "103 kg",
+        "open_women": "78 kg",
+        "pro_men": "153 kg",
+        "pro_women": "103 kg"
+      }
+    },
+    {
+      "key": "farmers_carry",
+      "label": "Farmers Carry",
+      "distance": "200m",
+      "weights": {
+        "open_men": "2 × 24 kg",
+        "open_women": "2 × 16 kg",
+        "pro_men": "2 × 32 kg",
+        "pro_women": "2 × 24 kg"
+      }
+    },
+    {
+      "key": "sandbag_lunges",
+      "label": "Sandbag Lunges",
+      "distance": "100m",
+      "weights": {
+        "open_men": "20 kg",
+        "open_women": "10 kg",
+        "pro_men": "30 kg",
+        "pro_women": "20 kg"
+      }
+    },
+    {
+      "key": "wall_ball",
+      "label": "Wall Ball",
+      "distance": "—",
+      "weights": {
+        "open_men": "6 kg → 3.00m / 100 reps",
+        "open_women": "4 kg → 2.74m / 75 reps",
+        "pro_men": "9 kg → 3.00m / 100 reps",
+        "pro_women": "6 kg → 2.74m / 100 reps"
+      }
+    },
+    {
+      "key": "ski_erg",
+      "label": "Ski Erg",
+      "distance": "1000m",
+      "weights": {
+        "open_men": "—",
+        "open_women": "—",
+        "pro_men": "—",
+        "pro_women": "—"
+      }
+    },
+    {
+      "key": "row",
+      "label": "Row",
+      "distance": "1000m",
+      "weights": {
+        "open_men": "—",
+        "open_women": "—",
+        "pro_men": "—",
+        "pro_women": "—"
+      }
+    },
+    {
+      "key": "burpee_broad_jumps",
+      "label": "Burpee Broad Jumps",
+      "distance": "80m",
+      "weights": {
+        "open_men": "bodyweight",
+        "open_women": "bodyweight",
+        "pro_men": "bodyweight",
+        "pro_women": "bodyweight"
+      }
+    }
+  ],
+  "run_format": "8 × 1 km between stations = 8 km total (identical across divisions)"
+}

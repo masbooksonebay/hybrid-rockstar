@@ -1,0 +1,4844 @@
+{
+  "cycle_id": "hr_cycle_1",
+  "cycle_version": "v2.2",
+  "cycle_length_weeks": 12,
+  "block_structure": [
+    {
+      "key": "foundation",
+      "label": "Foundation",
+      "weeks": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "key": "build",
+      "label": "Build",
+      "weeks": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "key": "peak",
+      "label": "Peak",
+      "weeks": [
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "key": "race_prep",
+      "label": "Race Prep",
+      "weeks": [
+        11,
+        12
+      ]
+    }
+  ],
+  "session_type_labels": {
+    "strength_a": "Strength A",
+    "strength_b": "Strength B",
+    "easy_run": "Easy Run",
+    "recovery_run": "Recovery Run",
+    "tempo_run": "Tempo Run",
+    "hyrox_movement_pattern": "Hyrox Movement Pattern",
+    "engine": "Engine",
+    "compromised_running": "Compromised Running",
+    "simulation": "Simulation",
+    "race_day": "Race Day",
+    "continuous_light_emom": "Continuous Light EMOM",
+    "race_prep_strength": "Race Prep Strength",
+    "race_prep_tempo": "Race Prep Tempo",
+    "race_prep_easy_run": "Race Prep Easy Run"
+  },
+  "weeks": [
+    {
+      "cycle_week": 1,
+      "block_phase": "foundation",
+      "block_week": 1,
+      "title": "Foundation — Wk1",
+      "summary": "Settling-in. Establish RPE baseline.",
+      "session_count": 5,
+      "sessions": {
+        "strength_a": {
+          "title": "Foundation Strength A (Lower-emphasis Full Body)",
+          "stimulus": "Establish back squat as cycle anchor. Calibrate RPE 6.",
+          "full_rox": {
+            "estimated_duration_minutes": 55,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Bike or row 5 min Z2; 2 rounds of 10 air squats / 8 walking lunges per leg / 30s deadhang.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 4×6 @ RPE 6",
+                "rest": "Rest 2-3 min"
+              },
+              {
+                "type": "strength_set",
+                "description": "RDL: 3×8 @ RPE 6",
+                "rest": "Rest 90s"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges (light DBs): 3×10/leg",
+                "rest": "Rest 60-90s"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 3×15 moderate",
+                "rest": "Rest 60s"
+              },
+              {
+                "type": "strength_set",
+                "description": "Pull-up or assisted: 3×6-8 @ RPE 6",
+                "rest": "Rest 90s"
+              },
+              {
+                "type": "strength_set",
+                "description": "Plank: 3×40s",
+                "rest": "Rest 60s"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 3×6 @ RPE 6"
+              },
+              {
+                "type": "strength_set",
+                "description": "RDL: 2×8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 2×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 2×15"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Wk1 calibration. Leave reps in reserve. Foundation is for nervous system patterning, not max load.",
+            "week_context": "Wk1 RPE 6 → Wk2 RPE 7 → Wk3 RPE 7.5 (set/rep shift).",
+            "block_context": "Foundation strength sets anchor loads.",
+            "scaling": {
+              "beginner": "Bodyweight or goblet squat. Bodyweight lunges. Ring rows.",
+              "advanced": "Keep RPE 6."
+            },
+            "substitutions": "No barbell — DB front-rack squat, single-leg DB RDL, DB swing."
+          },
+          "session_type": "strength_a"
+        },
+        "strength_b": {
+          "title": "Foundation Strength B (Upper-emphasis Full Body)",
+          "stimulus": "Establish bench/pull anchor. RPE 6 calibration.",
+          "full_rox": {
+            "estimated_duration_minutes": 55,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Row 5 min Z2; 2 rounds 10 push-ups / 10 band pull-aparts / 30s deadhang.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Bench press: 4×6 @ RPE 6",
+                "rest": "Rest 2-3 min"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up (or assisted): 3×8 @ RPE 6",
+                "rest": "Rest 90s"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 3×10/side",
+                "rest": "Rest 60s"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 3×8/side @ RPE 6",
+                "rest": "Rest 60-90s"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 3×30m moderate",
+                "rest": "Rest 90s"
+              },
+              {
+                "type": "strength_set",
+                "description": "Hanging knee raises: 3×10",
+                "rest": "Rest 60s"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Bench press: 3×6 @ RPE 6"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 2×8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 2×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 2×8/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 2×30m"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Strength B is upper-emphasis but integrates single-leg + grip work. Hyrox demands integration.",
+            "week_context": "Wk1 calibration RPE 6.",
+            "block_context": "Pull volume builds Wk1 RPE 6 → Wk6 RPE 8 → Wk11 RPE 7.",
+            "scaling": {
+              "beginner": "Ring rows, DB bench, light farmer carries.",
+              "advanced": "Keep RPE 6."
+            },
+            "substitutions": "DB bench, KB rack carry."
+          },
+          "session_type": "strength_b"
+        },
+        "easy_run": {
+          "title": "Foundation Easy Run",
+          "stimulus": "Z2 aerobic base. Easy conversational pace.",
+          "full_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "main",
+                "description": "Z2 work (60-70% max HR, ~8:30-9:30/mi, full-sentence talk-test).",
+                "duration_minutes": 25
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + light stretches.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 22,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Easy walk-to-jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 18
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 1
+              }
+            ]
+          },
+          "notes": {
+            "about": "Aerobic base. No pace pressure.",
+            "week_context": "Main Z2 builds linearly Wk1 25 → Wk2 30 → Wk3 35 → Wk4 35 → Wk5 38 → Wk6 40.",
+            "block_context": "Foundation = pure Z2.",
+            "scaling": {
+              "beginner": "Run-walk strategy. 4 min run / 1 min walk.",
+              "advanced": "Stay Z2."
+            },
+            "substitutions": "Treadmill 1-2% incline."
+          },
+          "session_type": "easy_run"
+        },
+        "hyrox_movement_pattern": {
+          "title": "Foundation Hyrox Movement Pattern",
+          "stimulus": "Teach station mechanics at moderate pace before adding fatigue. Foundation-only session type.",
+          "full_rox": {
+            "estimated_duration_minutes": 35,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light row/jog + dynamic mobility.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "station_rotation",
+                "description": "6 stations × 5-min rotation (3 min work + 2 min teaching/transition) = 30 min.",
+                "duration_minutes": 30,
+                "details": [
+                  "Station 1: Ski erg.",
+                  "Station 2: Sled push (60-70% Open weight).",
+                  "Station 3: Sled pull (light load).",
+                  "Station 4: Burpee broad jumps.",
+                  "Station 5: Row erg.",
+                  "Station 6: Wall balls — light wall ball OR Open weight (6kg M / 4kg W) only if form is clean. Use lighter ball if target height (3.00m M / 2.74m W) or squat depth is not consistent."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy walk + stretch.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 20,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light row/jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "station_rotation",
+                "description": "4 stations × 4-min rotation = 16 min.",
+                "duration_minutes": 16,
+                "details": [
+                  "Pick weakness-focused: sled push / wall balls / sled pull / BBJ for runners."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 1
+              }
+            ]
+          },
+          "notes": {
+            "about": "Wk1 introduces 6 stations to keep load manageable. Wk2 expands to 8.",
+            "week_context": "Wk1 6 stations → Wk2 8 stations → Wk3 8 stations + light loads.",
+            "block_context": "After Wk3, this slot becomes Compromised Running.",
+            "scaling": {
+              "beginner": "Stay 6 stations. Lightest loads. Form first.",
+              "advanced": "Don't go to Open race weights yet."
+            },
+            "substitutions": "KB swings (sled push), DB lunges (sandbag), jumping squats (BBJ), ring rows (sled pull)."
+          },
+          "session_type": "hyrox_movement_pattern"
+        },
+        "engine": {
+          "title": "Foundation Engine",
+          "stimulus": "Mixed-modal aerobic at RPE 6.",
+          "full_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Easy spin / light row.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "emom",
+                "description": "25 min EMOM rotating 3 modalities.",
+                "duration_minutes": 25,
+                "details": [
+                  "Min 1: 8 cal row",
+                  "Min 2: 8 cal ski erg",
+                  "Min 3: 150m run",
+                  "Repeat 3-min cycle 8 times (24 min) + 1 free minute = 25 min.",
+                  "Pacing: 35-45 sec work / 15-25 sec rest. RPE 6."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy walk + stretch.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 20,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Easy spin.",
+                "duration_minutes": 2
+              },
+              {
+                "type": "emom",
+                "description": "16 min EMOM, same rotation.",
+                "duration_minutes": 16
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "Foundation Engine is base-building. Same session category returns at Helgerud 90-95% max HR in Peak Wk9.",
+            "week_context": "Wk1 25 → Wk2 30 → Wk3 33 min EMOM.",
+            "block_context": "Engine appears Foundation + Peak only. Drops out of Build.",
+            "scaling": {
+              "beginner": "6 cal / 6 cal / 100m.",
+              "advanced": "Keep RPE 6."
+            },
+            "substitutions": "Single-modality EMOM."
+          },
+          "session_type": "engine"
+        }
+      },
+      "notes": {
+        "about": "Foundation Wk1 — calibration. Leave reps in reserve. Set baseline pacing.",
+        "week_context": "Wk1 of Foundation block (3 weeks). Wk1 RPE 6 → Wk2 RPE 7 → Wk3 RPE 7.5.",
+        "block_context": "Foundation builds aerobic base + nervous system patterning before adding session types in Build."
+      }
+    },
+    {
+      "cycle_week": 2,
+      "block_phase": "foundation",
+      "block_week": 2,
+      "title": "Foundation — Wk2",
+      "summary": "Settled middle.",
+      "session_count": 5,
+      "sessions": {
+        "strength_a": {
+          "title": "Foundation Strength A (RPE 7)",
+          "stimulus": "RPE 7 same set/rep as Wk1. Loads should increase modestly.",
+          "full_rox": {
+            "estimated_duration_minutes": 60,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 4×6 @ RPE 7. Rep 6 should feel like 3 reps in reserve."
+              },
+              {
+                "type": "strength_set",
+                "description": "RDL: 3×8 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges (DBs): 3×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 3×15"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×6-8 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Plank: 3×45s"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 3×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "RDL: 2×8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 2×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 2×15"
+              },
+              {
+                "type": "strength_set",
+                "description": "Plank: 2×45s"
+              }
+            ]
+          },
+          "notes": {
+            "about": "RPE 7 same set/rep as Wk1. Loads should increase modestly.",
+            "week_context": "Wk1 RPE 6 → Wk2 RPE 7.",
+            "block_context": "Foundation strength progression sets anchor loads.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_a"
+        },
+        "strength_b": {
+          "title": "Foundation Strength B (RPE 7)",
+          "stimulus": "RPE 7 upper. Pull progression Wk1 RPE 6 → Wk2 RPE 7 → Wk3 RPE 7.5.",
+          "full_rox": {
+            "estimated_duration_minutes": 60,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Bench press: 4×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×8 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 3×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 3×8/side @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 3×30m heavy"
+              },
+              {
+                "type": "strength_set",
+                "description": "Hanging knee raises: 3×10"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Bench press: 3×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 2×8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 2×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 2×8/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 2×30m"
+              }
+            ]
+          },
+          "notes": {
+            "about": "RPE 7 upper. Pull progression Wk1 RPE 6 → Wk2 RPE 7 → Wk3 RPE 7.5.",
+            "week_context": "Wk2 of Foundation. Pull volume building.",
+            "block_context": "Foundation strength progression.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_b"
+        },
+        "easy_run": {
+          "title": "Foundation Easy Run",
+          "stimulus": "30 min Z2 main work.",
+          "full_rox": {
+            "estimated_duration_minutes": 35,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 30
+              },
+              {
+                "type": "main",
+                "description": "Form drills (optional last 3 min): high knees / A-skips / butt kicks.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 22
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "notes": {
+            "about": "+5 min from Wk1.",
+            "week_context": "Wk1 25 → Wk2 30 → Wk3 35 main Z2.",
+            "block_context": "Foundation linear Z2 progression.",
+            "substitutions": "Standard."
+          },
+          "session_type": "easy_run"
+        },
+        "hyrox_movement_pattern": {
+          "title": "Foundation Hyrox Movement Pattern (8-station rotation)",
+          "stimulus": "Full 8-station rotation. Builds station familiarity systematically.",
+          "full_rox": {
+            "estimated_duration_minutes": 45,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light row/jog + dynamic mobility.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "station_rotation",
+                "description": "8 stations × 5-min rotation = 40 min.",
+                "duration_minutes": 40,
+                "details": [
+                  "Ski / Sled push (60-70% Open) / Sled pull (light) / BBJ / Row / Farmer carry (40-50m moderate) / Sandbag lunges (50m light) / Wall balls (Open 6/4kg to target)."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 25,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light row/jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "station_rotation",
+                "description": "4 stations × 5-min rotation = 20 min.",
+                "duration_minutes": 20,
+                "details": [
+                  "Pick weakness-focused."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "Full 8-station rotation. Builds station familiarity systematically.",
+            "week_context": "Wk1 6 stations → Wk2 8 stations → Wk3 8 stations + light loads.",
+            "block_context": "After Wk3, this slot becomes Compromised Running.",
+            "substitutions": "KB swings, DB lunges, jumping squats, ring rows."
+          },
+          "session_type": "hyrox_movement_pattern"
+        },
+        "engine": {
+          "title": "Foundation Engine",
+          "stimulus": "+5 min from Wk1. RPE 6.",
+          "full_rox": {
+            "estimated_duration_minutes": 33,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Easy spin / light row.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "emom",
+                "description": "30 min EMOM, 8 cal row / 8 cal ski / 150m run, 10 cycles.",
+                "duration_minutes": 30,
+                "details": [
+                  "Pacing: 35-45 sec work / 15-25 sec rest. RPE 6."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy walk + stretch.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 22,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Easy spin.",
+                "duration_minutes": 2
+              },
+              {
+                "type": "emom",
+                "description": "18 min EMOM, same rotation.",
+                "duration_minutes": 18
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "+5 min from Wk1.",
+            "week_context": "Wk1 25 → Wk2 30 → Wk3 33.",
+            "block_context": "Engine appears Foundation + Peak only.",
+            "substitutions": "Single-modality EMOM."
+          },
+          "session_type": "engine"
+        }
+      },
+      "notes": {
+        "about": "Foundation Wk2 — settled middle. RPE bumps to 7 across strength.",
+        "week_context": "Wk2 of Foundation block. RPE bumps to 7. Volumes step up.",
+        "block_context": "Foundation builds aerobic base + nervous system patterning."
+      }
+    },
+    {
+      "cycle_week": 3,
+      "block_phase": "foundation",
+      "block_week": 3,
+      "title": "Foundation — Wk3",
+      "summary": "Foundation peak.",
+      "session_count": 5,
+      "sessions": {
+        "strength_a": {
+          "title": "Foundation Strength A (set/rep shift to 4×5, RPE 7.5)",
+          "stimulus": "Single shift in each direction (volume down 4×6→4×5, RPE up 7→7.5). Clean progression.",
+          "full_rox": {
+            "estimated_duration_minutes": 58,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 4×5 @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "RDL: 3×8 @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 3×10/leg, slightly heavier than Wk2"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 3×18"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×8 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Plank: 3×50s"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 3×5 @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "RDL: 2×8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 2×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 2×18"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Single shift in each direction (volume down 4×6→4×5, RPE up 7→7.5). Clean progression.",
+            "week_context": "Wk2 4×6 RPE 7 → Wk3 4×5 RPE 7.5 → Wk4 4×5 RPE 7 (Build start, slight de-load for new sessions).",
+            "block_context": "Foundation peak strength load.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_a"
+        },
+        "strength_b": {
+          "title": "Foundation Strength B (4×5, RPE 7.5)",
+          "stimulus": "Pull shifts to 4×6 (intensity holds, set count rises).",
+          "full_rox": {
+            "estimated_duration_minutes": 58,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Bench press: 4×5 @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 4×6 @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 3×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 3×8/side @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 3×30m heavy"
+              },
+              {
+                "type": "strength_set",
+                "description": "Hanging knee raises: 3×12"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Bench press: 3×5 @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×6"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 2×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 2×30m"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Pull shifts to 4×6 (intensity holds, set count rises).",
+            "week_context": "Wk3 of Foundation. Set/rep shift.",
+            "block_context": "Foundation peak.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_b"
+        },
+        "easy_run": {
+          "title": "Foundation Easy Run",
+          "stimulus": "35 min main work. Foundation Easy Run peak.",
+          "full_rox": {
+            "estimated_duration_minutes": 43,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 35
+              },
+              {
+                "type": "main",
+                "description": "Form drills (optional last 3 min).",
+                "duration_minutes": 3
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 25
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "35 min main work. Foundation Easy Run peak.",
+            "week_context": "Wk1 25 → Wk2 30 → Wk3 35 main Z2.",
+            "block_context": "Foundation linear Z2 progression.",
+            "substitutions": "Standard."
+          },
+          "session_type": "easy_run"
+        },
+        "hyrox_movement_pattern": {
+          "title": "Foundation Hyrox Movement Pattern (light loads added)",
+          "stimulus": "Last week before stations get done under fatigue.",
+          "full_rox": {
+            "estimated_duration_minutes": 45,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light row/jog + dynamic mobility.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "station_rotation",
+                "description": "8 stations × 5-min rotation = 40 min. Loads bumped to 70-80% Open weights (vs Wk2's 60-70%).",
+                "duration_minutes": 40
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 25,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light row.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "station_rotation",
+                "description": "4 stations × 5-min rotation = 20 min.",
+                "duration_minutes": 20
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "Last week before stations get done under fatigue.",
+            "week_context": "Wk3 stations + light loads. Wk4 onwards = Compromised Running replaces.",
+            "block_context": "Final Movement Pattern session.",
+            "substitutions": "Standard."
+          },
+          "session_type": "hyrox_movement_pattern"
+        },
+        "engine": {
+          "title": "Foundation Engine",
+          "stimulus": "Foundation Engine peak. +10% volume from Wk2 (vs original v2.1's +20% double-ramp).",
+          "full_rox": {
+            "estimated_duration_minutes": 37,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Easy spin / light row.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "emom",
+                "description": "33 min EMOM (11 cycles × 3 min), 9 cal row / 9 cal ski / 175m run.",
+                "duration_minutes": 33,
+                "details": [
+                  "Pacing: RPE 6-7."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy walk + stretch.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 25,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Easy spin.",
+                "duration_minutes": 2
+              },
+              {
+                "type": "emom",
+                "description": "21 min EMOM, same rotation.",
+                "duration_minutes": 21
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "Foundation Engine peak. +10% volume from Wk2.",
+            "week_context": "Wk1 25 → Wk2 30 → Wk3 33. Drops out Wk4-6. Returns Wk7 at RPE 7.",
+            "block_context": "Foundation Engine peak before Build drop-out.",
+            "substitutions": "Single-modality."
+          },
+          "session_type": "engine"
+        }
+      },
+      "notes": {
+        "about": "Foundation Wk3 — block peak. Set/rep shifts to 4×5 RPE 7.5. Final Movement Pattern week before Build introduces Compromised Running.",
+        "week_context": "Wk3 of Foundation block. Block peak.",
+        "block_context": "Foundation closes here. Build (Wk4-6) introduces Recovery Run, Tempo Run, Compromised Running."
+      }
+    },
+    {
+      "cycle_week": 4,
+      "block_phase": "build",
+      "block_week": 1,
+      "title": "Build — Wk4",
+      "summary": "New session types. Conservative volumes.",
+      "session_count": 6,
+      "sessions": {
+        "strength_a": {
+          "title": "Build Strength A (RPE 7, single-leg work introduced)",
+          "stimulus": "Wk4 introduces Copenhagen plank and single-leg RDL replaces bilateral. Hyrox movements are single-leg dominant.",
+          "full_rox": {
+            "estimated_duration_minutes": 58,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 4×5 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 3×8/side @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges with DBs: 3×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 3×18"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×8 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Copenhagen plank: 3×20s/side"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 3×5 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 2×8/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 2×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 2×18"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Wk4 introduces Copenhagen plank and single-leg RDL replaces bilateral. Hyrox movements are single-leg dominant.",
+            "week_context": "Wk4 4×5 RPE 7 → Wk5 RPE 7.5 → Wk6 RPE 8.",
+            "block_context": "Build supports Wk6 peak (RPE 8) and Wk9 apex.",
+            "scaling": {
+              "beginner": "Bilateral RDL, side plank.",
+              "advanced": "Keep RPE 7."
+            },
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_a"
+        },
+        "strength_b": {
+          "title": "Build Strength B (RPE 7, push press introduced)",
+          "stimulus": "Push press over bench — overhead drive translates to wall balls. Pull volume bumps to 4×8.",
+          "full_rox": {
+            "estimated_duration_minutes": 58,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 4×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 4×8 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 3×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg glute bridge: 3×12/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 3×30m heavy"
+              },
+              {
+                "type": "strength_set",
+                "description": "Ab wheel rollout: 3×8"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 3×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 2×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg glute bridge: 2×12/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 2×30m"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Push press over bench — overhead drive translates to wall balls. Pull volume bumps to 4×8.",
+            "week_context": "Wk4 of Build. Push press introduced.",
+            "block_context": "Build introduces overhead drive for wall ball transfer.",
+            "substitutions": "DB push press."
+          },
+          "session_type": "strength_b"
+        },
+        "easy_run": {
+          "title": "Build Easy Run",
+          "stimulus": "Holds 35 min from Wk3 — Build start has new session types so Easy Run holds before resuming +3-5/wk progression.",
+          "full_rox": {
+            "estimated_duration_minutes": 43,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 35
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 25
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "Holds 35 min from Wk3 — Build start has new session types so Easy Run holds.",
+            "week_context": "Wk4 holds 35 min. Wk5 38 → Wk6 40.",
+            "block_context": "Build Z2 progression.",
+            "substitutions": "Treadmill."
+          },
+          "session_type": "easy_run"
+        },
+        "recovery_run": {
+          "title": "Build Recovery Run (NEW session type)",
+          "stimulus": "Active recovery, distinct from Easy Run by HR ceiling.",
+          "full_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z1-Z2 recovery-paced. Cap at 65% max HR. Slower than Easy Run pace. Walking sections fine.",
+                "duration_minutes": 22,
+                "details": [
+                  "Main work: 22-27 min."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + light stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 20,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 2
+              },
+              {
+                "type": "main",
+                "description": "Slow run, cap 65% max HR.",
+                "duration_minutes": 16
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "Distinct from Easy Run by HR ceiling (65% max HR cap vs Easy Run's 60-70% range) and pacing language. Same execution at same pace = recovery effect disappears.",
+            "week_context": "Wk4 25-30 min. Stays 25-35 min through cycle.",
+            "block_context": "Best placed day after Tempo, Compromised Running, or Sim. Active flush.",
+            "scaling": {
+              "beginner": "100% walk valid.",
+              "advanced": "Hardest scaling — resist running fast. The 65% max HR ceiling is the objective check."
+            },
+            "substitutions": "Easy hike, swim Z1, light bike Z1."
+          },
+          "session_type": "recovery_run"
+        },
+        "tempo_run": {
+          "title": "Build Tempo Run (NEW session type)",
+          "stimulus": "Develop lactate threshold.",
+          "full_rox": {
+            "estimated_duration_minutes": 45,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog Z1, build to Z2 over 8 min, finish with 4×30s strides at tempo with 30s walk.",
+                "duration_minutes": 10
+              },
+              {
+                "type": "intervals",
+                "description": "3×6 min @ Z3 (70-80% max HR, 'comfortably hard'). Rest 2 min easy jog. 18 min total.",
+                "duration_minutes": 18
+              },
+              {
+                "type": "cooldown",
+                "description": "5 min easy Z2 + 5 min walk.",
+                "duration_minutes": 10
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog + strides.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "intervals",
+                "description": "3×4 min @ Z3, 90s rest.",
+                "duration_minutes": 12
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy + walk.",
+                "duration_minutes": 4
+              }
+            ]
+          },
+          "notes": {
+            "about": "Tempo intros conservative volume. Z3 is fastest pace held steady.",
+            "week_context": "Wk4 18 → Wk5 24 → Wk6 25 → Wk7 deload 12 → Wk8 18 → Wk9 30 (peak) → Wk10 15 → Wk11 15 → Wk12 9.",
+            "block_context": "Build Tempo intro.",
+            "substitutions": "Treadmill 1-2%."
+          },
+          "session_type": "tempo_run"
+        },
+        "compromised_running": {
+          "title": "Build Compromised Running (Aaron pattern, NEW session type)",
+          "stimulus": "Train pace under station fatigue. Aaron 4-min run + 2-min station pattern.",
+          "full_rox": {
+            "estimated_duration_minutes": 38,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light jog + dynamic mobility.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "rounds",
+                "description": "4 rounds (4 min run @ tempo + 2 min station). 24 min total work.",
+                "duration_minutes": 24,
+                "details": [
+                  "Round 1: Sled push (Open 152/102, 2×25m).",
+                  "Round 2: Wall balls (Open 6/4 to 3.00m/2.74m), 25 reps.",
+                  "Round 3: Sandbag lunges (Open 20/10), 50m.",
+                  "Round 4: Farmer's carry (heavy KBs 24/16), 50m."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light jog.",
+                "duration_minutes": 4
+              },
+              {
+                "type": "rounds",
+                "description": "3 rounds (4 min run + 2 min station).",
+                "duration_minutes": 18,
+                "details": [
+                  "Stations: sled push / wall balls / sandbag lunges."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 4
+              }
+            ]
+          },
+          "notes": {
+            "about": "Aaron pattern — 4-min run / 2-min station rhythm. Pacing is the variable.",
+            "week_context": "Wk4 4 → Wk5 5 → Wk6 6 → Wk7 deload (no Compromised — see Wk7 architectural note).",
+            "block_context": "Aaron pattern (rhythm) Build → Welling pattern (race format) Peak.",
+            "scaling": {
+              "beginner": "3 rounds, 60% Open weights.",
+              "advanced": "4 rounds Open weights, Pro for Pro athletes."
+            },
+            "substitutions": "KB swings (sled push), DB lunges (sandbag), jumping squats (BBJ)."
+          },
+          "session_type": "compromised_running"
+        }
+      },
+      "notes": {
+        "about": "Build Wk4 — block start. Recovery Run, Tempo Run, and Compromised Running (Aaron pattern) introduced. Movement Pattern and Engine drop out.",
+        "week_context": "Wk4 of Build block (3 weeks). New session types introduced.",
+        "block_context": "Build supports Wk6 peak (RPE 8) and Wk9 apex."
+      }
+    },
+    {
+      "cycle_week": 5,
+      "block_phase": "build",
+      "block_week": 2,
+      "title": "Build — Wk5",
+      "summary": "Settled middle.",
+      "session_count": 6,
+      "sessions": {
+        "strength_a": {
+          "title": "Build Strength A (RPE 7.5)",
+          "stimulus": "Bridge between Wk4 RPE 7 and Wk6 RPE 8.",
+          "full_rox": {
+            "estimated_duration_minutes": 60,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 4×5 @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 3×8/side @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges with DBs: 3×12/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 3×20"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 4×6 @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Copenhagen plank: 3×25s/side"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 3×5 @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 2×8/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 2×12/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 2×20"
+              },
+              {
+                "type": "strength_set",
+                "description": "Copenhagen plank: 2×25s/side"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Bridge between Wk4 RPE 7 and Wk6 RPE 8.",
+            "week_context": "Wk5 of Build. RPE 7.5.",
+            "block_context": "Build progression.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_a"
+        },
+        "strength_b": {
+          "title": "Build Strength B (RPE 7.5)",
+          "stimulus": "Push press progresses. Pull holds 4×8 high volume.",
+          "full_rox": {
+            "estimated_duration_minutes": 60,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 4×6 @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 4×8 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 3×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg glute bridge: 3×12/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 3×30m heavy"
+              },
+              {
+                "type": "strength_set",
+                "description": "Ab wheel rollout: 3×10"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 3×6 @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 2×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 2×30m"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Push press progresses. Pull holds 4×8 high volume.",
+            "week_context": "Wk5 of Build.",
+            "block_context": "Build progression.",
+            "substitutions": "DB push press, KB rack carry."
+          },
+          "session_type": "strength_b"
+        },
+        "easy_run": {
+          "title": "Build Easy Run",
+          "stimulus": "38 min main Z2 — corrects v2's progression break.",
+          "full_rox": {
+            "estimated_duration_minutes": 46,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 38
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 32,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 27
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "38 min main Z2.",
+            "week_context": "Wk5 of Build.",
+            "block_context": "Build Z2 progression.",
+            "substitutions": "Treadmill."
+          },
+          "session_type": "easy_run"
+        },
+        "recovery_run": {
+          "title": "Build Recovery Run",
+          "stimulus": "Active recovery, cap 65% max HR.",
+          "full_rox": {
+            "estimated_duration_minutes": 33,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z1-Z2 (cap 65%).",
+                "duration_minutes": 27
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 20,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 2
+              },
+              {
+                "type": "main",
+                "description": "Slow run.",
+                "duration_minutes": 16
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "27 min main Z1-Z2.",
+            "week_context": "Wk5 of Build.",
+            "block_context": "Active flush.",
+            "substitutions": "Hike, swim Z1, bike Z1."
+          },
+          "session_type": "recovery_run"
+        },
+        "tempo_run": {
+          "title": "Build Tempo Run",
+          "stimulus": "24 min total tempo.",
+          "full_rox": {
+            "estimated_duration_minutes": 50,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog Z1 → Z2 build + strides.",
+                "duration_minutes": 10
+              },
+              {
+                "type": "intervals",
+                "description": "4×6 min @ Z3, 2 min easy jog rest. 24 min total.",
+                "duration_minutes": 24
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy Z2 + walk.",
+                "duration_minutes": 10
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog + strides.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "intervals",
+                "description": "3×4 min @ Z3, 90s rest.",
+                "duration_minutes": 12
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy + walk.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "notes": {
+            "about": "24 min total tempo.",
+            "week_context": "Wk4 18 → Wk5 24 → Wk6 25.",
+            "block_context": "Build Tempo progression.",
+            "substitutions": "Treadmill."
+          },
+          "session_type": "tempo_run"
+        },
+        "compromised_running": {
+          "title": "Build Compromised Running (Aaron, sled pull included)",
+          "stimulus": "5 rounds with sled pull included.",
+          "full_rox": {
+            "estimated_duration_minutes": 42,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light jog + dynamic mobility.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "rounds",
+                "description": "5 rounds (4 min run + 2 min station). 30 min total work.",
+                "duration_minutes": 30,
+                "details": [
+                  "Round 1: Sled push (Open 152/102, 2×25m).",
+                  "Round 2: Wall balls (Open 6/4), 25 reps.",
+                  "Round 3: Sled pull (Open 103/78, 2×25m).",
+                  "Round 4: Sandbag lunges (Open 20/10), 50m.",
+                  "Round 5: Farmer's carry (heavy KBs 24/16), 50m."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light jog.",
+                "duration_minutes": 4
+              },
+              {
+                "type": "rounds",
+                "description": "3 rounds (4 min run + 2 min station).",
+                "duration_minutes": 18,
+                "details": [
+                  "Stations: farmer carry / BBJ / sled pull."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 4
+              }
+            ]
+          },
+          "notes": {
+            "about": "5 rounds with sled pull included.",
+            "week_context": "Wk5 of Build.",
+            "block_context": "Aaron pattern progression.",
+            "substitutions": "KB swings (sled push), ring rows (sled pull), DB lunges (sandbag), jumping squats (BBJ)."
+          },
+          "session_type": "compromised_running"
+        }
+      },
+      "notes": {
+        "about": "Build Wk5 — settled middle. Progressions across all session types.",
+        "week_context": "Wk5 of Build block. Sled pull added to Compromised.",
+        "block_context": "Build progression toward Wk6 peak."
+      }
+    },
+    {
+      "cycle_week": 6,
+      "block_phase": "build",
+      "block_week": 3,
+      "title": "Build — Wk6",
+      "summary": "Build peak. Fatigue note applies.",
+      "session_count": 6,
+      "sessions": {
+        "strength_a": {
+          "title": "Build Strength A (RPE 8 peak)",
+          "stimulus": "Wk6 peak. RPE 8 = rep 5 challenging, 1-2 reps in reserve. If fatigued, drop to RPE 7.5.",
+          "full_rox": {
+            "estimated_duration_minutes": 62,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 4×5 @ RPE 8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 3×8/side @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges with DBs: 3×12/leg, heaviest of Build"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 3×20"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 4×6 @ RPE 8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Copenhagen plank: 3×30s/side"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 32,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 3×5 @ RPE 8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 2×8/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 2×12/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 2×20"
+              },
+              {
+                "type": "strength_set",
+                "description": "Copenhagen plank: 2×30s/side"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Wk6 peak. RPE 8 = rep 5 challenging, 1-2 reps in reserve. If fatigued, drop to RPE 7.5.",
+            "week_context": "Wk6 RPE 8 → Wk7 deload 3×5 RPE 7. Wk9 apex returns to 4×5 RPE 8 (with progressive load — same set/rep, more weight).",
+            "block_context": "Build peak.",
+            "collision_warning": "Don't stack Strength A, Tempo, and Compromised Running on consecutive days. If fatigue is high, drop Strength A to RPE 7.5 OR cut Compromised by 1 round.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_a"
+        },
+        "strength_b": {
+          "title": "Build Strength B (RPE 8 peak)",
+          "stimulus": "Push press peaks RPE 8.",
+          "full_rox": {
+            "estimated_duration_minutes": 62,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 4×6 @ RPE 8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 4×8 @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 3×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg glute bridge: 3×12/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 3×35m heavy"
+              },
+              {
+                "type": "strength_set",
+                "description": "Ab wheel rollout: 3×10"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 32,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 3×6 @ RPE 8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 2×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 2×35m"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Push press peaks RPE 8.",
+            "week_context": "Wk6 of Build — peak.",
+            "block_context": "Build peak.",
+            "substitutions": "DB push press."
+          },
+          "session_type": "strength_b"
+        },
+        "easy_run": {
+          "title": "Build Easy Run",
+          "stimulus": "40 min main Z2. Build's longest run.",
+          "full_rox": {
+            "estimated_duration_minutes": 48,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 40
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 33,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 28
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "40 min main Z2. Build's longest run.",
+            "week_context": "Wk6 of Build.",
+            "block_context": "Build Z2 peak.",
+            "substitutions": "Standard."
+          },
+          "session_type": "easy_run"
+        },
+        "recovery_run": {
+          "title": "Build Recovery Run",
+          "stimulus": "30 min Z1-Z2, cap 65% max HR.",
+          "full_rox": {
+            "estimated_duration_minutes": 35,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z1-Z2 (cap 65%).",
+                "duration_minutes": 30
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 22,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 2
+              },
+              {
+                "type": "main",
+                "description": "Slow run.",
+                "duration_minutes": 18
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "30 min Z1-Z2.",
+            "week_context": "Wk6 of Build.",
+            "block_context": "Active flush.",
+            "substitutions": "Hike, swim, light bike."
+          },
+          "session_type": "recovery_run"
+        },
+        "tempo_run": {
+          "title": "Build Tempo Run (5×5 = 25 min)",
+          "stimulus": "Smoothed from v2's 4×7. Wk5→Wk6 ramp now +4% (was +17%).",
+          "full_rox": {
+            "estimated_duration_minutes": 52,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog Z1 → Z2 build + strides.",
+                "duration_minutes": 10
+              },
+              {
+                "type": "intervals",
+                "description": "5×5 min @ Z3, 90s easy jog rest. 25 min total.",
+                "duration_minutes": 25
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy Z2 + walk.",
+                "duration_minutes": 10
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog + strides.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "intervals",
+                "description": "4×4 min @ Z3, 90s rest.",
+                "duration_minutes": 16
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy + walk.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "notes": {
+            "about": "Smoothed from v2's 4×7. Wk5→Wk6 ramp now +4%.",
+            "week_context": "Wk6 of Build.",
+            "block_context": "Build Tempo progression.",
+            "collision_warning": "Don't stack Strength A, Tempo, and Compromised Running on consecutive days. If fatigue is high, drop Strength A to RPE 7.5 OR cut Compromised by 1 round.",
+            "substitutions": "Treadmill."
+          },
+          "session_type": "tempo_run"
+        },
+        "compromised_running": {
+          "title": "Build Compromised Running (Aaron 6 rounds peak)",
+          "stimulus": "Compromised peak = 6 rounds covering all 6 station patterns.",
+          "full_rox": {
+            "estimated_duration_minutes": 46,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light jog + dynamic mobility.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "rounds",
+                "description": "6 rounds (4 min run + 2 min station). 36 min total work.",
+                "duration_minutes": 36,
+                "details": [
+                  "Stations rotate full set: sled push / wall balls / sled pull / sandbag lunges / farmer carry / BBJ."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 32,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light jog.",
+                "duration_minutes": 4
+              },
+              {
+                "type": "rounds",
+                "description": "3 rounds (4 min run + 2 min station).",
+                "duration_minutes": 18,
+                "details": [
+                  "Stations: Sled Push / Sled Pull / BBJ."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 4
+              }
+            ]
+          },
+          "notes": {
+            "about": "Compromised peak = 6 rounds covering all 6 station patterns.",
+            "week_context": "Wk6 of Build — peak.",
+            "block_context": "Aaron pattern peak. Welling pattern arrives Wk9.",
+            "collision_warning": "Don't stack Strength A, Tempo, and Compromised Running on consecutive days. If fatigue is high, drop Strength A to RPE 7.5 OR cut Compromised by 1 round.",
+            "substitutions": "Standard."
+          },
+          "session_type": "compromised_running"
+        }
+      },
+      "notes": {
+        "about": "Build Wk6 — Build peak. RPE 8 strength, 6-round Compromised. First high-load week. If legs are heavy, keep strength at RPE 7.5 OR reduce Compromised by 1 round. Wk7 mini-deload follows.",
+        "week_context": "Wk6 of Build block — peak.",
+        "block_context": "Build closes here. Wk7 = Peak block opener (mini-deload).",
+        "collision_warning": "Don't stack Strength A, Tempo, and Compromised Running on consecutive days. If fatigue is high, drop Strength A to RPE 7.5 OR cut Compromised by 1 round."
+      }
+    },
+    {
+      "cycle_week": 7,
+      "block_phase": "peak",
+      "block_week": 1,
+      "title": "Peak — Wk7",
+      "summary": "Mini-deload week. Compromised dropped, Engine reintroduced.",
+      "session_count": 6,
+      "sessions": {
+        "strength_a": {
+          "title": "Peak Strength A (mini-deload, RPE 7)",
+          "stimulus": "Set count drops 4×5 → 3×5. RPE 8 → 7. Net volume cut ~25-30%.",
+          "full_rox": {
+            "estimated_duration_minutes": 50,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 3×5 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 2×8/side @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 2×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 3×15"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Copenhagen plank: 2×30s/side"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 2×5 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 2×8/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 2×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 2×15"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Set count drops 4×5 → 3×5. RPE 8 → 7. Net volume cut ~25-30%.",
+            "week_context": "Wk7 mini-deload. Wk8 returns to RPE 7-7.5 for sim, Wk9 returns to RPE 8 apex.",
+            "block_context": "Peak block opener — mini-deload before Wk8 sim and Wk9 apex.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_a"
+        },
+        "strength_b": {
+          "title": "Peak Strength B (mini-deload, RPE 7)",
+          "stimulus": "Pattern matches Strength A.",
+          "full_rox": {
+            "estimated_duration_minutes": 50,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 3×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 2×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg glute bridge: 2×12/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 2×30m"
+              },
+              {
+                "type": "strength_set",
+                "description": "Ab wheel rollout: 2×10"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 2×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 2×6"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 2×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 2×30m"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Pattern matches Strength A.",
+            "week_context": "Wk7 mini-deload.",
+            "block_context": "Peak block opener.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_b"
+        },
+        "easy_run": {
+          "title": "Peak Easy Run",
+          "stimulus": "35 min main Z2 — drops from Wk6's 40.",
+          "full_rox": {
+            "estimated_duration_minutes": 43,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 35
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 25
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "35 min main Z2 — drops from Wk6's 40.",
+            "week_context": "Wk7 mini-deload.",
+            "block_context": "Peak Z2 progression.",
+            "substitutions": "Standard."
+          },
+          "session_type": "easy_run"
+        },
+        "recovery_run": {
+          "title": "Peak Recovery Run",
+          "stimulus": "27 min Z1-Z2.",
+          "full_rox": {
+            "estimated_duration_minutes": 33,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z1-Z2 (cap 65%).",
+                "duration_minutes": 27
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 20,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 2
+              },
+              {
+                "type": "main",
+                "description": "Slow run.",
+                "duration_minutes": 16
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "27 min Z1-Z2.",
+            "week_context": "Wk7 of Peak.",
+            "block_context": "Active flush.",
+            "substitutions": "Hike, swim, light bike."
+          },
+          "session_type": "recovery_run"
+        },
+        "tempo_run": {
+          "title": "Peak Tempo Run (deload, 12 min)",
+          "stimulus": "Tempo deload — half Wk6's volume.",
+          "full_rox": {
+            "estimated_duration_minutes": 38,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog Z1 → Z2 build + strides.",
+                "duration_minutes": 10
+              },
+              {
+                "type": "intervals",
+                "description": "3×4 min @ Z3, 2 min rest. 12 min total.",
+                "duration_minutes": 12
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy Z2 + walk.",
+                "duration_minutes": 10
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 25,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog + strides.",
+                "duration_minutes": 7
+              },
+              {
+                "type": "intervals",
+                "description": "2×4 min @ Z3, 90s rest.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy + walk.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "notes": {
+            "about": "Tempo deload — half Wk6's volume.",
+            "week_context": "Wk6 25 → Wk7 12 → Wk8 18.",
+            "block_context": "Peak Tempo deload.",
+            "substitutions": "Treadmill."
+          },
+          "session_type": "tempo_run"
+        },
+        "engine": {
+          "title": "Peak Engine (REINTRODUCED, RPE 7, 9/9/175m)",
+          "stimulus": "Engine returns at RPE 7 — bridge between Foundation RPE 6 and Wk9 Helgerud.",
+          "full_rox": {
+            "estimated_duration_minutes": 33,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Easy spin / light row.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "emom",
+                "description": "25 min EMOM rotating 3 modalities at RPE 7.",
+                "duration_minutes": 25,
+                "details": [
+                  "Min 1: 9 cal row",
+                  "Min 2: 9 cal ski",
+                  "Min 3: 175m run",
+                  "Repeat 3-min cycle 8 times = 24 min, plus 1 free minute = 25 min.",
+                  "Pacing: RPE 7 — harder than Foundation, easier than Wk9 Helgerud."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy walk + stretch.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 22,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Easy spin.",
+                "duration_minutes": 2
+              },
+              {
+                "type": "emom",
+                "description": "18 min EMOM, same rotation.",
+                "duration_minutes": 18
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "v2.2 corrected per-minute volume to match Foundation peak. Higher per-minute than Foundation contradicted mini-deload intent.",
+            "week_context": "Foundation RPE 6 → Build drop-out → Wk7 RPE 7 (re-acclimation) → Wk9 Helgerud 90-95% max HR.",
+            "block_context": "Engine progression bridge.",
+            "substitutions": "Single-modality EMOM."
+          },
+          "session_type": "engine"
+        }
+      },
+      "notes": {
+        "about": "Peak Wk7 — mini-deload (Peak block opener). Volume cut ~25-30%, intensity preserved at moderate. Engine reintroduced at RPE 7. Compromised Running dropped this week intentionally.",
+        "week_context": "Wk7 of Peak block (4 weeks). Architectural: Engine is the 6th session because Wk7 is the only place in the cycle where Engine returns at moderate intensity (RPE 7) bridging Foundation RPE 6 → Wk9 Helgerud.",
+        "block_context": "Peak block opener. Wk8 Half-Sim, Wk9 apex, Wk10 Full Sim follow."
+      }
+    },
+    {
+      "cycle_week": 8,
+      "block_phase": "peak",
+      "block_week": 2,
+      "title": "Peak — Wk8",
+      "summary": "Race simulation 1 (Priority Station Half-Sim).",
+      "session_count": 6,
+      "sessions": {
+        "strength_a": {
+          "title": "Peak Strength A (RPE 7-7.5, lighter for sim)",
+          "stimulus": "Light to allow Half-Sim performance.",
+          "full_rox": {
+            "estimated_duration_minutes": 52,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 3×5 @ RPE 7-7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 2×8/side @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 2×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 3×18"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Copenhagen plank: 3×30s/side"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 2×5 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 2×8/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 2×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 2×18"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Light to allow Half-Sim performance.",
+            "week_context": "Wk8 of Peak — sim week.",
+            "block_context": "Peak — sim week light strength.",
+            "collision_warning": "Schedule 2-3 days before Half-Sim, not the day before.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_a"
+        },
+        "strength_b": {
+          "title": "Peak Strength B (RPE 7-7.5)",
+          "stimulus": "Strength B holds light for sim.",
+          "full_rox": {
+            "estimated_duration_minutes": 52,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 3×6 @ RPE 7-7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×8 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 3×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg glute bridge: 2×12/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 3×30m"
+              },
+              {
+                "type": "strength_set",
+                "description": "Ab wheel rollout: 3×10"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 2×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 2×8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 2×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 2×30m"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Strength B holds light for sim.",
+            "week_context": "Wk8 of Peak — sim week.",
+            "block_context": "Peak — sim week light strength.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_b"
+        },
+        "easy_run": {
+          "title": "Peak Easy Run",
+          "stimulus": "30 min main Z2.",
+          "full_rox": {
+            "estimated_duration_minutes": 38,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 30
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 22
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "notes": {
+            "about": "30 min main Z2.",
+            "week_context": "Wk8 of Peak.",
+            "block_context": "Peak Z2.",
+            "substitutions": "Treadmill."
+          },
+          "session_type": "easy_run"
+        },
+        "recovery_run": {
+          "title": "Peak Recovery Run",
+          "stimulus": "27 min Z1-Z2.",
+          "full_rox": {
+            "estimated_duration_minutes": 33,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z1-Z2 (cap 65%).",
+                "duration_minutes": 27
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 20,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 2
+              },
+              {
+                "type": "main",
+                "description": "Slow run.",
+                "duration_minutes": 16
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "27 min Z1-Z2.",
+            "week_context": "Wk8 of Peak.",
+            "block_context": "Active flush.",
+            "substitutions": "Hike, swim."
+          },
+          "session_type": "recovery_run"
+        },
+        "tempo_run": {
+          "title": "Peak Tempo Run",
+          "stimulus": "Build-back from Wk7 deload toward Wk9 peak.",
+          "full_rox": {
+            "estimated_duration_minutes": 46,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog Z1 → Z2 build + strides.",
+                "duration_minutes": 10
+              },
+              {
+                "type": "intervals",
+                "description": "3×6 min @ Z3, 2 min easy jog rest. 18 min total.",
+                "duration_minutes": 18
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy Z2 + walk.",
+                "duration_minutes": 10
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog + strides.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "intervals",
+                "description": "3×4 min @ Z3, 90s rest.",
+                "duration_minutes": 12
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy + walk.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "notes": {
+            "about": "Build-back from Wk7 deload toward Wk9 peak.",
+            "week_context": "Wk8 of Peak.",
+            "block_context": "Peak Tempo build-back.",
+            "substitutions": "Treadmill."
+          },
+          "session_type": "tempo_run"
+        },
+        "simulation": {
+          "title": "Peak Priority Station Half-Sim",
+          "stimulus": "First race-effort simulation. 4 priority stations at 80% race effort. Selection prioritizes race-critical coverage over literal race order.",
+          "full_rox": {
+            "estimated_duration_minutes": 55,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Jog or bike 5 min Z2 + dynamic mobility 3 min.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "rounds",
+                "description": "4 stations × 1 km run + station, in this order.",
+                "duration_minutes": 33,
+                "details": [
+                  "Run 1 km @ race pace (target 70-80% race effort).",
+                  "Station 1: Ski erg 1000m.",
+                  "Run 1 km. Station 2: Sled push 50m @ Open M 152kg / W 102kg race weight.",
+                  "Run 1 km. Station 3: Sandbag lunges 100m @ Open M 20kg / W 10kg.",
+                  "Run 1 km. Station 4: Wall balls — Open M 100 reps @ 6kg to 3.00m / Open W 75 reps @ 4kg to 2.74m / Pro M 100 @ 9kg to 3.00m / Pro W 100 @ 6kg to 2.74m.",
+                  "At 80% race effort throughout. ~30-35 min total work."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 38,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Jog + mobility.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "rounds",
+                "description": "3 stations × 1 km + station: ski / sled push / wall balls. Cuts sandbag if time-constrained.",
+                "duration_minutes": 25
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 4
+              }
+            ]
+          },
+          "notes": {
+            "about": "Renamed from 'Half-Hyrox Simulation' to 'Priority Station Half-Sim' since selection covers cardio (ski) + heavy (sled push) + locomotion (sandbag) + race-final (wall balls). Race-critical priority over literal race order. The literal race order half (stations 1-4 = ski, sled push, sled pull, BBJ) skips wall ball pacing exposure entirely, which is higher priority pre-Wk10 full sim.",
+            "week_context": "First sim. Wk10 Full Sim follows.",
+            "block_context": "Wk8 Priority Half-Sim → Wk9 apex training → Wk10 Full Sim → Wk11 sharpening.",
+            "collision_warning": "Half-Sim is priority. Don't place within 48 hrs of Tempo or Strength A.",
+            "scaling": {
+              "beginner": "3 stations (cut sandbag). Sled at 60-70% Open. 75 reps wall balls regardless.",
+              "advanced": "4 stations Open or Pro."
+            },
+            "substitutions": "KB swings (sled push), DB lunges (sandbag), KB swings (wall balls). Loss of station-specificity, brick effect preserved."
+          },
+          "session_type": "simulation",
+          "simulation_type": "priority_station_half_sim"
+        }
+      },
+      "notes": {
+        "about": "Peak Wk8 — Race simulation 1 (Priority Station Half-Sim) at 80% race effort.",
+        "week_context": "Wk8 of Peak — first sim week.",
+        "block_context": "First race-effort simulation. Wk10 Full Sim follows.",
+        "collision_warning": "Half-Sim is priority. Don't place within 48 hrs of Tempo or Strength A."
+      }
+    },
+    {
+      "cycle_week": 9,
+      "block_phase": "peak",
+      "block_week": 3,
+      "title": "Peak — Wk9 (APEX)",
+      "summary": "Cycle apex. Maximum weekly load. Optional 7th session.",
+      "session_count": 6,
+      "optional_session_count": 7,
+      "sessions": {
+        "strength_a": {
+          "title": "Peak Strength A (apex, RPE 8, sled pull added)",
+          "stimulus": "Apex lower-body strength. Squat at peak intensity. Deadlift at moderate volume. Sled pull race-critical addition.",
+          "full_rox": {
+            "estimated_duration_minutes": 62,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 4×5 @ RPE 8. Apex strength load — same set/rep as Wk6 but higher absolute weight."
+              },
+              {
+                "type": "strength_set",
+                "description": "Conventional deadlift: 3×5 @ RPE 7.5",
+                "rest": "Rest 2-3 min"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 3×8/side @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Sled pull: 3×50m @ 110-120% race weight (Open M 113-124kg, Open W 86-94kg). Focus: low hip position, hand-over-hand, consistent rhythm.",
+                "rest": "Rest 2 min"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 4×6 @ RPE 8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Copenhagen plank: 3×40s/side"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 32,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 3×5 @ RPE 8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Deadlift: 2×5 @ RPE 7.5"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 2×8/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Sled pull: 2×50m @ 110-120% race weight"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Apex strength session. Same 4×5 RPE 8 as Wk6 Build peak — but if you've trained Wk7-8 correctly, you should be lifting 5-10% more absolute weight than Wk6 at the same RPE 8. This is progressive overload at work — your nervous system adapted across the mini-deload + sim week, and Wk9 expresses that adaptation. The prescription looks identical; the loads should not be. Deadlift introduces moderate volume. Sled pull addresses race-critical gap from round 2 audit — train ABOVE race weight to make race weight feel manageable.",
+            "week_context": "Wk6 4×5 RPE 8 (Build peak) → Wk7 3×5 RPE 7 (deload) → Wk8 3×5 RPE 7-7.5 (sim) → Wk9 4×5 RPE 8 (apex).",
+            "block_context": "Apex week. RPE 8 ceiling — don't push to 9.",
+            "collision_warning": "24 hrs separation from Welling Compromised and Helgerud Engine (if doing optional 7th).",
+            "scaling": {
+              "beginner": "Drop deadlift to RDL. 3×5 squat. Sled pull at 90% Open weight. Band pull-up.",
+              "advanced": "Stay RPE 8. Don't max effort on sled pull — train it, don't race it."
+            },
+            "substitutions": "No sled — heavy back rows. No barbell — DB front-rack squat, DB RDL."
+          },
+          "session_type": "strength_a"
+        },
+        "strength_b": {
+          "title": "Peak Strength B (apex, RPE 8, RFESS default)",
+          "stimulus": "Apex upper. Bench at peak. RFESS replaces pistol for unilateral.",
+          "full_rox": {
+            "estimated_duration_minutes": 60,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Bench press: 4×5 @ RPE 8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 4×6 @ RPE 8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 4×8/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Rear-foot-elevated split squat (RFESS) with DBs: 3×6/side @ RPE 7.5. Demands knee stability, glute drive, single-leg balance — key Hyrox patterns. Loadable heavier than pistol, much safer under apex fatigue."
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 3×40m heavy"
+              },
+              {
+                "type": "strength_set",
+                "description": "Ab wheel rollout: 3×12"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 32,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Bench press: 3×5 @ RPE 8"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×6"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 2×8/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "RFESS: 2×6/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 2×40m"
+              }
+            ]
+          },
+          "notes": {
+            "about": "RFESS replaces pistol per round 2 audit. Pistols require ankle mobility and balance that fail under apex fatigue.",
+            "week_context": "Wk9 apex.",
+            "block_context": "Peak apex strength.",
+            "scaling": {
+              "beginner": "RFESS becomes split squat (no rear-foot elevation). Pistol NOT available for beginners. Lat pulldown for pull-ups.",
+              "advanced": "RFESS at heavier load. Pistol remains ADVANCED OPTION ONLY for athletes with proven pistol competency under fatigue (3×6/side bodyweight only if choosing pistol)."
+            },
+            "substitutions": "No rear-foot elevation surface — split squat with DBs. No bench — DB floor press."
+          },
+          "session_type": "strength_b"
+        },
+        "easy_run": {
+          "title": "Peak Easy Run (peak running volume)",
+          "stimulus": "50 min main — peak Easy Run distance for Cycle 1.",
+          "full_rox": {
+            "estimated_duration_minutes": 58,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 50
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 38,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 32
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "notes": {
+            "about": "50 min main — peak Easy Run distance for Cycle 1.",
+            "week_context": "Wk9 apex.",
+            "block_context": "Peak Z2 peak.",
+            "substitutions": "Treadmill 1-2%."
+          },
+          "session_type": "easy_run"
+        },
+        "recovery_run": {
+          "title": "Peak Recovery Run",
+          "stimulus": "30 min main Z1-Z2 (cap 65%). Recovery Run doesn't need to peak.",
+          "full_rox": {
+            "estimated_duration_minutes": 33,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z1-Z2 (cap 65%).",
+                "duration_minutes": 30
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 22,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 2
+              },
+              {
+                "type": "main",
+                "description": "Slow run.",
+                "duration_minutes": 18
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "v2.2 corrected — was macro 35 min vs detail 30 min mismatch. 30 min sufficient even in apex week. Recovery Run doesn't need to peak.",
+            "week_context": "Wk9 apex.",
+            "block_context": "Active flush.",
+            "substitutions": "Hike, swim Z1, light bike Z1."
+          },
+          "session_type": "recovery_run"
+        },
+        "tempo_run": {
+          "title": "Peak Tempo Run (peak 30 min, 90s rest)",
+          "stimulus": "Hardest Z3 session of cycle. 30 min total.",
+          "full_rox": {
+            "estimated_duration_minutes": 58,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog Z1 → Z2 build + strides.",
+                "duration_minutes": 10
+              },
+              {
+                "type": "intervals",
+                "description": "5×6 min @ Z3 (70-80% max HR, comfortably hard). 90s easy jog rest. 30 min total.",
+                "duration_minutes": 30
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy Z2 + walk.",
+                "duration_minutes": 10
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 32,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog + strides.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "intervals",
+                "description": "4×4 min @ Z3, 90s easy jog rest.",
+                "duration_minutes": 16
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy + walk.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "notes": {
+            "about": "Hardest Z3 session of cycle. 30 min total.",
+            "week_context": "Wk9 apex.",
+            "block_context": "Peak Tempo peak.",
+            "substitutions": "Treadmill, bike, row at Z3."
+          },
+          "session_type": "tempo_run"
+        },
+        "compromised_running": {
+          "title": "Peak Compromised Running (Welling, race-specific)",
+          "stimulus": "5×(1 km + 25 wall balls) — race brick at peak volume.",
+          "full_rox": {
+            "estimated_duration_minutes": 52,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light jog + dynamic mobility.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "rounds",
+                "description": "5 rounds (1 km run @ tempo + 25 wall balls).",
+                "duration_minutes": 42,
+                "details": [
+                  "Run: Z3 effort.",
+                  "Transition: 30 sec — race-transition speed.",
+                  "Wall balls: Open M 6kg to 3.00m, Open W 4kg to 2.74m, Pro M 9kg to 3.00m, Pro W 6kg to 2.74m. 25 reps. AIM UNBROKEN. If you must break, limit to 1 pause (20+5 or 18+7). 2+ breaks = load too heavy or run too hot — slow next round.",
+                  "Rest between rounds: 1-2 min."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 32,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light jog.",
+                "duration_minutes": 4
+              },
+              {
+                "type": "rounds",
+                "description": "3 rounds (1 km + 25 wall balls).",
+                "duration_minutes": 24,
+                "details": [
+                  "Rest 1-2 min between rounds."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 4
+              }
+            ]
+          },
+          "notes": {
+            "about": "Welling pattern is race-day specific.",
+            "week_context": "Wk9 apex Compromised.",
+            "block_context": "Aaron pattern Build → Welling Peak.",
+            "collision_warning": "24 hrs separation from Helgerud Engine and Strength A.",
+            "scaling": {
+              "beginner": "3 rounds, 800m runs, 20 wall balls.",
+              "advanced": "5 rounds Open, Pro for Pro athletes."
+            },
+            "substitutions": "KB swings (35 reps) for wall balls if no setup."
+          },
+          "session_type": "compromised_running"
+        },
+        "engine_optional": {
+          "title": "Peak Engine — Helgerud 4×4 + wall ball pacing finisher (OPTIONAL — replaces Recovery Run)",
+          "stimulus": "Maximum VO2 max stimulus + race-specific wall ball pacing. Optional 7th for athletes recovering well.",
+          "full_rox": {
+            "estimated_duration_minutes": 45,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "5 min Z2 jog/row/bike, 5 min progressive intensity build with 4×30s strides at Z4.",
+                "duration_minutes": 10
+              },
+              {
+                "type": "intervals",
+                "description": "4×4 min at 90-95% max HR (Z5). Rotate modality each interval.",
+                "duration_minutes": 28,
+                "details": [
+                  "Interval 1: 4 min run.",
+                  "3 min active recovery.",
+                  "Interval 2: 4 min ski erg.",
+                  "3 min active recovery.",
+                  "Interval 3: 4 min row.",
+                  "3 min active recovery.",
+                  "Interval 4: 4 min run (close out at strongest modality, push for negative split)."
+                ]
+              },
+              {
+                "type": "rounds",
+                "description": "WALL BALL PACING TEST FINISHER.",
+                "duration_minutes": 10,
+                "details": [
+                  "5×20 wall balls @ Open weight, 60s rest between sets.",
+                  "Time each set. Goal: all 5 sets within 5 seconds of each other.",
+                  "Log avg reps/min. Teaches sustainable pace for 100-rep race station."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy walk + stretch.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 32,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Easy spin + strides.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "intervals",
+                "description": "3×4 min @ 90-95% max HR, 2 min active recovery between. Same modality rotation.",
+                "duration_minutes": 18
+              },
+              {
+                "type": "rounds",
+                "description": "Wall ball pacing finisher: 3×20 wall balls @ Open, 60s rest.",
+                "duration_minutes": 6
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "notes": {
+            "about": "Helgerud 4×4 — evidence-supported VO2 max protocol. Talk-test during work intervals: 1-2 words max. Wall ball pacing test addresses 100-rep race station gap. 4-min intervals at 90-95% max HR with 3-min active recovery are an evidence-supported VO2 max protocol producing strong VO2 max gains in trained athletes.",
+            "week_context": "OPTIONAL 7th session. Default Wk9 = skip Engine. Advanced Wk9 = Engine REPLACES Recovery Run (not adds). Don't do all 7 sessions in apex week.",
+            "block_context": "Foundation Engine RPE 6 → Wk7 reintro RPE 7 → Wk9 Helgerud 90-95% max HR.",
+            "collision_warning": "24 hrs separation from Strength A and Compromised Running.",
+            "scaling": {
+              "beginner": "3×3 min single-modality (only run, only ski, OR only row — don't switch modalities at 95% max HR). Wall ball pacing reduced to 3×15 reps.",
+              "advanced": "4×4 min Full Rox structure."
+            },
+            "substitutions": "Single-modality 4×4 min run intervals = valid Helgerud session."
+          },
+          "session_type": "engine",
+          "optional": true,
+          "replaces": "recovery_run"
+        }
+      },
+      "notes": {
+        "about": "Peak Wk9 — APEX. Cycle's hardest week. Maximum running volume, peak tempo, optional Helgerud Engine, 5 rounds Welling Compromised, plus apex strength load. Same set/rep as Wk6 strength but higher absolute load (progressive overload at constant RPE 8).",
+        "week_context": "Default Wk9 = 6 sessions (Strength A, Strength B, Easy, Recovery, Tempo, Compromised). Most athletes skip Engine. Advanced Wk9 = Engine REPLACES Recovery Run, not adds to it.",
+        "block_context": "Apex week. Peak Z2, Tempo, and Compromised all peak here.",
+        "collision_warning": "Spread Tempo, Helgerud Engine (if doing optional 7th), and Compromised Running across the week with at least 1 rest or easy day between each. If scheduling conflicts arise, drop Engine to RPE 7 (Foundation level) rather than executing all three at full prescription within 48 hours."
+      }
+    },
+    {
+      "cycle_week": 10,
+      "block_phase": "peak",
+      "block_week": 4,
+      "title": "Peak — Wk10",
+      "summary": "Race simulation 2 (Full Sim).",
+      "session_count": 6,
+      "sessions": {
+        "strength_a": {
+          "title": "Peak Strength A (RPE 7, sim-week reduction)",
+          "stimulus": "Strength reduces for sim performance.",
+          "full_rox": {
+            "estimated_duration_minutes": 52,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 3×5 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 2×8/side @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 2×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 3×15"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Copenhagen plank: 3×30s/side"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 30,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 2×5 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 2×8/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 2×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 2×15"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Strength reduces for sim performance.",
+            "week_context": "Wk10 of Peak — sim week.",
+            "block_context": "Peak — sim week light strength.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_a"
+        },
+        "strength_b": {
+          "title": "Peak Strength B (RPE 7)",
+          "stimulus": "RFESS holds for unilateral capacity.",
+          "full_rox": {
+            "estimated_duration_minutes": 52,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 3×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 3×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "RFESS: 2×6/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 2×30m"
+              },
+              {
+                "type": "strength_set",
+                "description": "Ab wheel rollout: 2×10"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 2×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 2×6"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 2×10/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 2×30m"
+              }
+            ]
+          },
+          "notes": {
+            "about": "RFESS holds for unilateral capacity.",
+            "week_context": "Wk10 of Peak — sim week.",
+            "block_context": "Peak — sim week light strength.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_b"
+        },
+        "easy_run": {
+          "title": "Peak Easy Run",
+          "stimulus": "30 min main Z2.",
+          "full_rox": {
+            "estimated_duration_minutes": 38,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 30
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 22
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "notes": {
+            "about": "30 min main Z2.",
+            "week_context": "Wk10 of Peak.",
+            "block_context": "Peak Z2.",
+            "substitutions": "Treadmill."
+          },
+          "session_type": "easy_run"
+        },
+        "recovery_run": {
+          "title": "Peak Recovery Run",
+          "stimulus": "27 min Z1-Z2.",
+          "full_rox": {
+            "estimated_duration_minutes": 33,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z1-Z2 (cap 65%).",
+                "duration_minutes": 27
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 20,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 2
+              },
+              {
+                "type": "main",
+                "description": "Slow run.",
+                "duration_minutes": 16
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "27 min Z1-Z2.",
+            "week_context": "Wk10 of Peak.",
+            "block_context": "Active flush.",
+            "substitutions": "Hike, swim, light bike."
+          },
+          "session_type": "recovery_run"
+        },
+        "tempo_run": {
+          "title": "Peak Tempo Run (sim-week, 15 min)",
+          "stimulus": "Tempo reduced for Full Sim.",
+          "full_rox": {
+            "estimated_duration_minutes": 38,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog Z1 → Z2 build + strides.",
+                "duration_minutes": 10
+              },
+              {
+                "type": "intervals",
+                "description": "3×5 min @ Z3, 2 min rest. 15 min total.",
+                "duration_minutes": 15
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy Z2 + walk.",
+                "duration_minutes": 10
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 25,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog + strides.",
+                "duration_minutes": 7
+              },
+              {
+                "type": "intervals",
+                "description": "2×5 min @ Z3, 90s rest.",
+                "duration_minutes": 10
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy + walk.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "notes": {
+            "about": "Tempo reduced for Full Sim.",
+            "week_context": "Wk10 of Peak.",
+            "block_context": "Peak Tempo sim-week reduction.",
+            "substitutions": "Treadmill."
+          },
+          "session_type": "tempo_run"
+        },
+        "simulation": {
+          "title": "Peak Full Hyrox Simulation",
+          "stimulus": "Race-effort full simulation. 8 stations in race order at 85-90% race effort.",
+          "full_rox": {
+            "estimated_duration_minutes": 90,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Jog or bike 5 min Z2 + dynamic mobility 5 min.",
+                "duration_minutes": 10
+              },
+              {
+                "type": "rounds",
+                "description": "8 stations × 1 km run + station, in OFFICIAL race order.",
+                "duration_minutes": 75,
+                "details": [
+                  "Run 1 km @ race pace.",
+                  "Station 1: Ski erg 1000m.",
+                  "Run 1 km. Station 2: Sled push 50m @ Open M 152 / W 102.",
+                  "Run 1 km. Station 3: Sled pull 50m @ Open M 103 / W 78.",
+                  "Run 1 km. Station 4: Burpee broad jumps 80m.",
+                  "Run 1 km. Station 5: Row 1000m.",
+                  "Run 1 km. Station 6: Farmer carry 200m @ 2×24kg M / 2×16kg W.",
+                  "Run 1 km. Station 7: Sandbag lunges 100m @ Open M 20 / W 10.",
+                  "Run 1 km. Station 8: Wall balls — Open M 100 reps @ 6kg to 3.00m / Open W 75 reps @ 4kg to 2.74m / Pro M 100 @ 9kg to 3.00m / Pro W 100 @ 6kg to 2.74m.",
+                  "At 85-90% race effort throughout.",
+                  "Total 75-105 min for most intermediate athletes; faster athletes 60-75 min."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 38,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Jog + mobility.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "rounds",
+                "description": "4 stations × 1 km run + station, in this order.",
+                "duration_minutes": 29,
+                "details": [
+                  "Row 1000m → Sled Pull 50m @ Open M 103 / W 78 → Farmer Carry 200m → BBJ 80m.",
+                  "Quick Rox covers BACK-HALF stations not duplicated by Wk8 Half-Sim. With Wk8 (ski + sled push + sandbag + wall balls) + Wk10 (row + sled pull + farmer + BBJ) = full 8-station coverage for Quick Rox users."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 4
+              }
+            ]
+          },
+          "notes": {
+            "about": "Race order matters — body learns actual race sequence and transition patterns. 85-90% effort, not 100% — leaves room for better pacing on race day.",
+            "week_context": "Wk8 Half-Sim 80% → Wk10 Full Sim 85-90%. Two race-effort exposures.",
+            "block_context": "After Wk10, Race Prep begins (sharpening Wk11, deload/race Wk12).",
+            "collision_warning": "Schedule Full Sim with at least 48 hrs recovery before AND after.",
+            "scaling": {
+              "beginner": "6 stations (cut sled pull and BBJ). Open weights at 70-80%. Wall balls at 75 reps regardless.",
+              "advanced": "8 stations Open or Pro weights. Time the sim — use as race day benchmark."
+            },
+            "substitutions": "No Hyrox kit — KB swings (sled push), ring rows (sled pull), jumping squats (BBJ), DB lunges (sandbag), KB swings (wall balls). Race-specificity lost; brick effect preserved."
+          },
+          "session_type": "simulation",
+          "simulation_type": "full_sim"
+        }
+      },
+      "notes": {
+        "about": "Peak Wk10 — Race simulation 2 (Full Sim) at 85-90% race effort. Last week of Peak block.",
+        "week_context": "Wk10 of Peak — second sim week.",
+        "block_context": "Peak block closes here. Race Prep (Wk11-12) begins.",
+        "collision_warning": "Schedule Full Sim with at least 48 hrs recovery before AND after."
+      }
+    },
+    {
+      "cycle_week": 11,
+      "block_phase": "race_prep",
+      "block_week": 1,
+      "title": "Race Prep — Wk11",
+      "summary": "Sharpening week. Strict descending taper.",
+      "session_count": 6,
+      "sessions": {
+        "strength_a": {
+          "title": "Race Prep Strength A (sharpening, 3×4 RPE 7)",
+          "stimulus": "Sharpening preserves intensity (RPE 7 moderate-heavy), cuts volume.",
+          "full_rox": {
+            "estimated_duration_minutes": 45,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 3×4 @ RPE 7. Volume cut 40% from Wk9's 4×5."
+              },
+              {
+                "type": "strength_set",
+                "description": "RDL: 2×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 2×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 2×15"
+              },
+              {
+                "type": "strength_set",
+                "description": "Plank: 2×45s"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 25,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Back squat: 2×4 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "RDL: 2×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Walking lunges: 1×10/leg"
+              },
+              {
+                "type": "strength_set",
+                "description": "KB swing: 1×15"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Sharpening preserves intensity (RPE 7 moderate-heavy), cuts volume.",
+            "week_context": "Wk11 of Race Prep — sharpening. Wk12 = race week / structural deload.",
+            "block_context": "Race Prep sharpening.",
+            "collision_warning": "Don't push to RPE 8.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_a"
+        },
+        "strength_b": {
+          "title": "Race Prep Strength B (3×4 RPE 7)",
+          "stimulus": "Volume cut on all movements. RPE 7 preserves neural readiness.",
+          "full_rox": {
+            "estimated_duration_minutes": 45,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 8
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 3×4 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 3×6 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 2×8/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-leg RDL: 2×6/side @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 2×30m"
+              },
+              {
+                "type": "strength_set",
+                "description": "Ab wheel rollout: 2×8"
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 25,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Standard.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "strength_set",
+                "description": "Push press: 2×4 @ RPE 7"
+              },
+              {
+                "type": "strength_set",
+                "description": "Weighted pull-up: 2×6"
+              },
+              {
+                "type": "strength_set",
+                "description": "Single-arm DB row: 1×8/side"
+              },
+              {
+                "type": "strength_set",
+                "description": "Farmer's carry: 1×30m"
+              }
+            ]
+          },
+          "notes": {
+            "about": "Volume cut on all movements. RPE 7 preserves neural readiness.",
+            "week_context": "Wk11 of Race Prep — sharpening.",
+            "block_context": "Race Prep sharpening.",
+            "substitutions": "Standard."
+          },
+          "session_type": "strength_b"
+        },
+        "easy_run": {
+          "title": "Race Prep Easy Run",
+          "stimulus": "30 min main — down from Wk9's 50.",
+          "full_rox": {
+            "estimated_duration_minutes": 38,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 5
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 30
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z2 work.",
+                "duration_minutes": 22
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "notes": {
+            "about": "30 min main — down from Wk9's 50.",
+            "week_context": "Wk11 of Race Prep.",
+            "block_context": "Race Prep Z2 reduction.",
+            "substitutions": "Treadmill."
+          },
+          "session_type": "easy_run"
+        },
+        "recovery_run": {
+          "title": "Race Prep Recovery Run",
+          "stimulus": "22-25 min Z1-Z2.",
+          "full_rox": {
+            "estimated_duration_minutes": 28,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "main",
+                "description": "Z1-Z2 (cap 65%).",
+                "duration_minutes": 22
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 18,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk.",
+                "duration_minutes": 2
+              },
+              {
+                "type": "main",
+                "description": "Slow run.",
+                "duration_minutes": 14
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 2
+              }
+            ]
+          },
+          "notes": {
+            "about": "22-25 min Z1-Z2.",
+            "week_context": "Wk11 of Race Prep.",
+            "block_context": "Active flush.",
+            "substitutions": "Hike, swim, light bike."
+          },
+          "session_type": "recovery_run"
+        },
+        "tempo_run": {
+          "title": "Race Prep Tempo Run (sharpening, 3×5 = 15 min)",
+          "stimulus": "Strict descending taper. Wk9 30 → Wk10 15 → Wk11 15 → Wk12 9. Tempo intensity preserved (Z3), volume held flat from Wk10 to maintain clean taper curve.",
+          "full_rox": {
+            "estimated_duration_minutes": 38,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog Z1 → Z2 build + strides.",
+                "duration_minutes": 10
+              },
+              {
+                "type": "intervals",
+                "description": "3×5 min @ Z3, 2 min easy jog rest. 15 min total.",
+                "duration_minutes": 15
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy Z2 + walk.",
+                "duration_minutes": 10
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 25,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Walk-to-jog + strides.",
+                "duration_minutes": 7
+              },
+              {
+                "type": "intervals",
+                "description": "2×5 min @ Z3, 90s rest.",
+                "duration_minutes": 10
+              },
+              {
+                "type": "cooldown",
+                "description": "Easy + walk.",
+                "duration_minutes": 5
+              }
+            ]
+          },
+          "notes": {
+            "about": "Strict descending taper per Mujika & Padilla taper meta-analysis: strict volume reduction with intensity preservation is the proven taper protocol.",
+            "week_context": "Wk9 30 → Wk10 15 → Wk11 15 → Wk12 9.",
+            "block_context": "Race Prep Tempo sharpening.",
+            "substitutions": "Treadmill."
+          },
+          "session_type": "tempo_run"
+        },
+        "compromised_running": {
+          "title": "Race Prep Compromised Running (Welling, 3 rounds)",
+          "stimulus": "Sharpening Welling. 3 rounds vs Wk9's 5. Pattern preserved, volume cut 40%.",
+          "full_rox": {
+            "estimated_duration_minutes": 32,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light jog + dynamic mobility.",
+                "duration_minutes": 4
+              },
+              {
+                "type": "rounds",
+                "description": "3 rounds (1 km run @ tempo + 25 wall balls).",
+                "duration_minutes": 24,
+                "details": [
+                  "Run: Z3 effort.",
+                  "Transition: 30s.",
+                  "Wall balls: aim unbroken, 1 break max.",
+                  "Rest: 1-2 min between rounds."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk + stretch.",
+                "duration_minutes": 4
+              }
+            ]
+          },
+          "quick_rox": {
+            "estimated_duration_minutes": 24,
+            "structure": [
+              {
+                "type": "warmup",
+                "description": "Light jog.",
+                "duration_minutes": 3
+              },
+              {
+                "type": "rounds",
+                "description": "2 rounds (1 km + 25 wall balls).",
+                "duration_minutes": 18,
+                "details": [
+                  "Rest 1-2 min between."
+                ]
+              },
+              {
+                "type": "cooldown",
+                "description": "Walk.",
+                "duration_minutes": 3
+              }
+            ]
+          },
+          "notes": {
+            "about": "Sharpening Welling. 3 rounds vs Wk9's 5. Pattern preserved, volume cut 40%.",
+            "week_context": "Wk11 of Race Prep.",
+            "block_context": "Final Compromised before Wk12.",
+            "scaling": {
+              "beginner": "2 rounds 800m runs, 20 wall balls.",
+              "advanced": "3 rounds Open, Pro for Pro athletes."
+            },
+            "substitutions": "KB swings (35 reps)."
+          },
+          "session_type": "compromised_running"
+        }
+      },
+      "notes": {
+        "about": "Race Prep Wk11 — sharpening. Volume reduced 30-40% from Wk9 apex, intensity preserved. You're maintaining neural readiness.",
+        "week_context": "Wk11 of Race Prep block (2 weeks). Wk12 = race week or structural deload.",
+        "block_context": "Race Prep sharpening before Wk12 divergence.",
+        "collision_warning": "If feeling fatigued, drop one session entirely. Drop priority order: (1) Keep Tempo and Compromised Running (core sharpening). (2) Drop Recovery Run if short on time. (3) Drop Easy Run last. (4) Don't drop Tempo or Compromised unless injury risk."
+      }
+    },
+    {
+      "cycle_week": 12,
+      "block_phase": "race_prep",
+      "block_week": 2,
+      "title": "Race Prep — Wk12 (divergent)",
+      "summary": "Race week / structural deload.",
+      "is_divergent": true,
+      "variants": {
+        "racer": {
+          "label": "Racer (race this week)",
+          "session_count": 4,
+          "intro": "3-4 sessions total. Skip ALL other session types — Recovery Run, Engine, Compromised Running, extra Strength. Rest days are part of the taper.",
+          "sequencing": "If race is 6 days out: Day -6 optional Strength → Day -5 Tempo → Day -4 Easy → Day -3 rest → Day -2 rest → Day -1 rest → Race Day. Adjust window proportionally for shorter notice.",
+          "sessions": {
+            "race_prep_strength_optional": {
+              "title": "Race Prep Strength (optional)",
+              "stimulus": "Light strength session. Execute Day -6 or Day -5 only if feeling fresh. Skip if any doubt or if race is Friday-Sunday.",
+              "full_rox": {
+                "estimated_duration_minutes": 30,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Standard.",
+                    "duration_minutes": 8
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Back squat: 2×3 @ RPE 6. Neural maintenance only."
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Push press: 2×3 @ RPE 6"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Pull-up: 2×3 @ RPE 6"
+                  },
+                  {
+                    "type": "cooldown",
+                    "description": "Easy stretch.",
+                    "duration_minutes": 3
+                  }
+                ]
+              },
+              "quick_rox": {
+                "estimated_duration_minutes": 22,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Standard.",
+                    "duration_minutes": 5
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Back squat: 1×3 @ RPE 6"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Push press: 1×3 @ RPE 6"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Pull-up: 1×3 @ RPE 6"
+                  }
+                ]
+              },
+              "notes": {
+                "about": "Light strength session. Execute Day -6 or Day -5 only if feeling fresh. Skip if any doubt or if race is Friday-Sunday. Day -4 or later: SKIP entirely.",
+                "week_context": "5-6 days before race.",
+                "block_context": "Race week neural maintenance only.",
+                "collision_warning": "If racing this weekend, do not perform this session.",
+                "scaling": {
+                  "beginner": "Skip entirely.",
+                  "advanced": "2×3 RPE 6 max — discipline check, not strength training."
+                },
+                "substitutions": "Skip."
+              },
+              "session_type": "race_prep_strength",
+              "optional": true
+            },
+            "race_prep_tempo": {
+              "title": "Race Prep Tempo (3×3 min sharp)",
+              "stimulus": "Final pre-race tempo sharpener. Day -5 or Day -4.",
+              "full_rox": {
+                "estimated_duration_minutes": 30,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Walk-to-jog Z1 → Z2 build + 3×30s strides at tempo with 30s walk.",
+                    "duration_minutes": 10
+                  },
+                  {
+                    "type": "intervals",
+                    "description": "3×3 min @ Z3 (70-80% max HR). Rest 2 min easy jog. 9 min total.",
+                    "duration_minutes": 9
+                  },
+                  {
+                    "type": "cooldown",
+                    "description": "Easy + walk.",
+                    "duration_minutes": 10
+                  }
+                ]
+              },
+              "quick_rox": {
+                "estimated_duration_minutes": 22,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Walk-to-jog + strides.",
+                    "duration_minutes": 8
+                  },
+                  {
+                    "type": "intervals",
+                    "description": "2×3 min @ Z3, 90s rest.",
+                    "duration_minutes": 6
+                  },
+                  {
+                    "type": "cooldown",
+                    "description": "Easy + walk.",
+                    "duration_minutes": 5
+                  }
+                ]
+              },
+              "notes": {
+                "about": "Race-week sharpener. Sharp but short. Keep tempo pace memory active without taxing recovery.",
+                "week_context": "Day -5 or Day -4 (NEVER within 2 days of race day).",
+                "block_context": "Final tempo before race.",
+                "collision_warning": "Don't do within 2 days of race day.",
+                "scaling": {
+                  "beginner": "2×3 min @ Z3.",
+                  "advanced": "Stay 3×3 min."
+                },
+                "substitutions": "Treadmill."
+              },
+              "session_type": "race_prep_tempo"
+            },
+            "race_prep_easy_run": {
+              "title": "Race Prep Easy Run (mid-week, sharp)",
+              "stimulus": "Day -4 or Day -3. Keep legs primed.",
+              "full_rox": {
+                "estimated_duration_minutes": 28,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Walk-to-jog.",
+                    "duration_minutes": 5
+                  },
+                  {
+                    "type": "main",
+                    "description": "Z2 work.",
+                    "duration_minutes": 22
+                  },
+                  {
+                    "type": "cooldown",
+                    "description": "Walk.",
+                    "duration_minutes": 3
+                  }
+                ]
+              },
+              "quick_rox": {
+                "estimated_duration_minutes": 22,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Walk-to-jog.",
+                    "duration_minutes": 3
+                  },
+                  {
+                    "type": "main",
+                    "description": "Z2 work.",
+                    "duration_minutes": 17
+                  },
+                  {
+                    "type": "cooldown",
+                    "description": "Walk.",
+                    "duration_minutes": 2
+                  }
+                ]
+              },
+              "notes": {
+                "about": "Day -4 or Day -3. Keep legs primed.",
+                "week_context": "Mid-race-week sharpener.",
+                "block_context": "Final easy run before race.",
+                "substitutions": "Treadmill."
+              },
+              "session_type": "race_prep_easy_run"
+            },
+            "race_day": {
+              "title": "Race Day or Final 80% Sim",
+              "stimulus": "Race day. Trust the taper.",
+              "full_rox": {
+                "estimated_duration_minutes": 90,
+                "structure": [
+                  {
+                    "type": "main",
+                    "description": "If racing this weekend: race execution at 100% effort. Trust the taper. The race is your training expressed."
+                  },
+                  {
+                    "type": "main",
+                    "description": "If race delayed/rescheduled: final 80% sim using Wk10 Full Sim structure as template."
+                  }
+                ]
+              },
+              "quick_rox": {
+                "estimated_duration_minutes": 60,
+                "structure": [
+                  {
+                    "type": "main",
+                    "description": "Race execution at 100% effort. Trust the taper."
+                  }
+                ]
+              },
+              "notes": {
+                "about": "Race day or final 80% sim if race delayed.",
+                "week_context": "Race day.",
+                "block_context": "The race is your training expressed.",
+                "substitutions": "N/A — race day."
+              },
+              "session_type": "race_day"
+            }
+          }
+        },
+        "continuous": {
+          "label": "Continuous trainee (no race)",
+          "session_count": 5,
+          "intro": "Structural deload. 11 weeks of training (no mid-cycle full deload). This week is structural deload before Cycle 2.",
+          "sessions": {
+            "strength_a": {
+              "title": "Continuous Strength A (deep deload, RPE 5)",
+              "stimulus": "Structural deload. RPE 5 = leaving 5 reps in reserve. Keeping movement patterns active.",
+              "full_rox": {
+                "estimated_duration_minutes": 35,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Standard.",
+                    "duration_minutes": 8
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Back squat: 2×3 @ RPE 5"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "RDL: 2×3 @ RPE 5"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Walking lunges: 2×6/leg bodyweight or light DBs"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "KB swing: 2×10 light"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Plank: 2×30s"
+                  },
+                  {
+                    "type": "cooldown",
+                    "description": "Easy stretch.",
+                    "duration_minutes": 3
+                  }
+                ]
+              },
+              "quick_rox": {
+                "estimated_duration_minutes": 25,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Standard.",
+                    "duration_minutes": 5
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Back squat: 1×3 @ RPE 5"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "RDL: 1×3 @ RPE 5"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Walking lunges: 1×6/leg"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "KB swing: 1×10"
+                  }
+                ]
+              },
+              "notes": {
+                "about": "Structural deload. RPE 5 = leaving 5 reps in reserve. Keeping movement patterns active.",
+                "week_context": "11 weeks of training (no mid-cycle full deload). Wk12 is structural deload before Cycle 2.",
+                "block_context": "Continuous trainee deload.",
+                "scaling": {
+                  "beginner": "Bodyweight only.",
+                  "advanced": "Stay RPE 5. Resist 'just one heavy set.'"
+                },
+                "substitutions": "Skip if needed."
+              },
+              "session_type": "strength_a"
+            },
+            "strength_b": {
+              "title": "Continuous Strength B (deep deload, RPE 5)",
+              "stimulus": "Light upper. RPE 5.",
+              "full_rox": {
+                "estimated_duration_minutes": 35,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Standard.",
+                    "duration_minutes": 8
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Push press: 2×3 @ RPE 5"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Weighted pull-up: 2×3 @ RPE 5 (or band-assisted)"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Single-arm DB row: 2×6/side light"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Single-leg RDL: 2×6/side light"
+                  },
+                  {
+                    "type": "cooldown",
+                    "description": "Easy stretch.",
+                    "duration_minutes": 3
+                  }
+                ]
+              },
+              "quick_rox": {
+                "estimated_duration_minutes": 25,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Standard.",
+                    "duration_minutes": 5
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Push press: 1×3 @ RPE 5"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Pull-up: 1×3 @ RPE 5"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Single-arm DB row: 1×6/side"
+                  },
+                  {
+                    "type": "strength_set",
+                    "description": "Single-leg RDL: 1×6/side"
+                  }
+                ]
+              },
+              "notes": {
+                "about": "Light upper deload.",
+                "week_context": "Wk12 continuous deload.",
+                "block_context": "Continuous trainee deload.",
+                "substitutions": "Skip if needed."
+              },
+              "session_type": "strength_b"
+            },
+            "easy_run": {
+              "title": "Continuous Easy Run (deload duration)",
+              "stimulus": "22 min Z2.",
+              "full_rox": {
+                "estimated_duration_minutes": 28,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Walk-to-jog.",
+                    "duration_minutes": 5
+                  },
+                  {
+                    "type": "main",
+                    "description": "Z2 work.",
+                    "duration_minutes": 22
+                  },
+                  {
+                    "type": "cooldown",
+                    "description": "Walk.",
+                    "duration_minutes": 3
+                  }
+                ]
+              },
+              "quick_rox": {
+                "estimated_duration_minutes": 22,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Walk-to-jog.",
+                    "duration_minutes": 3
+                  },
+                  {
+                    "type": "main",
+                    "description": "Z2 work.",
+                    "duration_minutes": 17
+                  },
+                  {
+                    "type": "cooldown",
+                    "description": "Walk.",
+                    "duration_minutes": 2
+                  }
+                ]
+              },
+              "notes": {
+                "about": "22 min Z2 — short deload run.",
+                "week_context": "Wk12 continuous deload.",
+                "block_context": "Continuous trainee deload.",
+                "substitutions": "Treadmill."
+              },
+              "session_type": "easy_run"
+            },
+            "recovery_run": {
+              "title": "Continuous Recovery Run",
+              "stimulus": "20 min Z1-low Z2 — Recovery Run shortest of cycle.",
+              "full_rox": {
+                "estimated_duration_minutes": 25,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Walk.",
+                    "duration_minutes": 3
+                  },
+                  {
+                    "type": "main",
+                    "description": "18 min Z1-low Z2, preferably below 60% max HR, hard cap 65%.",
+                    "duration_minutes": 18
+                  },
+                  {
+                    "type": "cooldown",
+                    "description": "Walk.",
+                    "duration_minutes": 4
+                  }
+                ]
+              },
+              "quick_rox": {
+                "estimated_duration_minutes": 18,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Walk.",
+                    "duration_minutes": 2
+                  },
+                  {
+                    "type": "main",
+                    "description": "Slow walk-jog.",
+                    "duration_minutes": 14
+                  },
+                  {
+                    "type": "cooldown",
+                    "description": "Walk.",
+                    "duration_minutes": 2
+                  }
+                ]
+              },
+              "notes": {
+                "about": "20 min Z1-low Z2 — Recovery Run shortest of cycle.",
+                "week_context": "Wk12 continuous deload.",
+                "block_context": "Continuous trainee deload.",
+                "substitutions": "Walk, hike, swim Z1."
+              },
+              "session_type": "recovery_run"
+            },
+            "continuous_light_emom": {
+              "title": "Continuous Light EMOM",
+              "stimulus": "Light station maintenance. RPE 5-6. Movement maintenance, not training stimulus.",
+              "full_rox": {
+                "estimated_duration_minutes": 25,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Light row + dynamic mobility.",
+                    "duration_minutes": 3
+                  },
+                  {
+                    "type": "emom",
+                    "description": "20 min light station review. Rotate 4 stations × 5 min each at RPE 5-6.",
+                    "duration_minutes": 20,
+                    "details": [
+                      "Station 1: Light wall balls (lower than race weight, focus on form), 15-20 reps.",
+                      "Station 2: Light sled push (50% Open weight or less), or substitute with KB swings 15 reps.",
+                      "Station 3: Row 500m at RPE 5.",
+                      "Station 4: Farmer carry (light, 30m).",
+                      "Walk 1 min between stations."
+                    ]
+                  },
+                  {
+                    "type": "cooldown",
+                    "description": "Walk + stretch.",
+                    "duration_minutes": 2
+                  }
+                ]
+              },
+              "quick_rox": {
+                "estimated_duration_minutes": 25,
+                "structure": [
+                  {
+                    "type": "warmup",
+                    "description": "Light row.",
+                    "duration_minutes": 3
+                  },
+                  {
+                    "type": "emom",
+                    "description": "20 min light station review (already short — same as Full Rox).",
+                    "duration_minutes": 20
+                  },
+                  {
+                    "type": "cooldown",
+                    "description": "Walk.",
+                    "duration_minutes": 2
+                  }
+                ]
+              },
+              "notes": {
+                "about": "Final session of Cycle 1 for continuous trainees. Light, slow, technical. Keeps station patterns active before Cycle 2.",
+                "week_context": "Replaces sims/Compromised Running for continuous trainees.",
+                "block_context": "Continuous trainee deload.",
+                "scaling": {
+                  "beginner": "Stay 3-station EMOM (drop wall balls). Lightest loads.",
+                  "advanced": "Stay RPE 5-6. Don't push."
+                },
+                "substitutions": "Single-modality EMOM (e.g., 20 min light row at RPE 5) is valid if equipment limited. Default to wall balls or air squats over jumping squats — avoid impact on fatigued joints during deload."
+              },
+              "session_type": "continuous_light_emom"
+            }
+          }
+        }
+      },
+      "notes": {
+        "about": "Race week / structural deload. Single week where the cycle's framing-only-difference rule breaks: race week emphasizes neural priming + glycogen super-comp; structural deload emphasizes systemic fatigue clearance.",
+        "week_context": "Cycle close. Pick the variant that matches your situation.",
+        "block_context": "Race Prep close. Cycle 2 begins after Wk12."
+      }
+    }
+  ]
+}
