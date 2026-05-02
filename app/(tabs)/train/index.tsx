@@ -142,11 +142,33 @@ function WeekPage({
   onOpen: (slug: SessionSlug) => void;
 }) {
   const { theme } = useApp();
+  const router = useRouter();
   const mon = isoToDate(week.week_start);
   const monLabel = mon.toLocaleDateString("en-US", { month: "long", day: "numeric" });
 
   return (
     <ScrollView contentContainerStyle={styles.pageContent}>
+      <Pressable
+        onPress={() => router.push("/train/cycle")}
+        style={({ pressed }) => [
+          styles.cycleEntry,
+          {
+            backgroundColor: theme.card,
+            borderColor: theme.accent + "60",
+            opacity: pressed ? 0.85 : 1,
+          },
+        ]}
+      >
+        <Ionicons name="layers-outline" size={18} color={theme.accent} />
+        <View style={{ flex: 1 }}>
+          <Text style={[styles.cycleEntryTitle, { color: theme.text }]}>12-week Cycle (preview)</Text>
+          <Text style={[styles.cycleEntrySub, { color: theme.textSecondary }]}>
+            Browse the full HR Cycle 1 programming
+          </Text>
+        </View>
+        <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
+      </Pressable>
+
       {isFuture && (
         <View style={[styles.previewBanner, { backgroundColor: theme.accent + "12", borderColor: theme.accent + "40" }]}>
           <Ionicons name="eye-outline" size={14} color={theme.accent} />
@@ -256,6 +278,18 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   previewText: { fontSize: 12, fontWeight: "600", flex: 1 },
+  cycleEntry: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    borderWidth: 1,
+    borderRadius: borderRadius.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm + 2,
+    marginBottom: spacing.md,
+  },
+  cycleEntryTitle: { fontSize: 14, fontWeight: "700" },
+  cycleEntrySub: { fontSize: 11, fontWeight: "500", marginTop: 1 },
   card: {
     flexDirection: "row",
     alignItems: "center",

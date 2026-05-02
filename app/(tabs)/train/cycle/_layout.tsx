@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
-import { useApp } from "../../../lib/context";
+import { useApp } from "../../../../lib/context";
 
-export default function TrainStackLayout() {
+export default function CycleStackLayout() {
   const { theme } = useApp();
   return (
     <Stack
@@ -11,8 +11,8 @@ export default function TrainStackLayout() {
       }}
     >
       <Stack.Screen name="index" />
-      <Stack.Screen name="[session]" />
-      <Stack.Screen name="cycle" />
+      <Stack.Screen name="week" />
+      <Stack.Screen name="session" />
     </Stack>
   );
 }
