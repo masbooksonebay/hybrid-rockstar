@@ -11,7 +11,6 @@ export default function TrainStackLayout() {
       }}
     >
       <Stack.Screen name="index" />
-      <Stack.Screen name="[session]" />
       <Stack.Screen name="cycle" />
     </Stack>
   );

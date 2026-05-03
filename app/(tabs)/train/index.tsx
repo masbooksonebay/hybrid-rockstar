@@ -1,71 +1,105 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Text, ScrollView, Pressable, StyleSheet, Animated, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useFocusEffect, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PagerView from "react-native-pager-view";
 import { useApp } from "../../../lib/context";
 import {
-  getReachableWeeks,
-  getCompletedSessions,
-  SESSION_ORDER,
-  SESSION_LABELS,
-  SessionSlug,
-  Week,
-  isFutureWeek,
-} from "../../../lib/programming";
-import { formatWeekRange, daysUntil } from "../../../lib/dates";
+  BLOCK_LABELS,
+  CycleSession,
+  CycleWeek,
+  getCycle,
+  getSessionLabel,
+  getWeekSessions,
+} from "../../../lib/cycle";
+import {
+  getCurrentWeek,
+  isSessionComplete,
+  startCycle,
+  useCycleProgress,
+} from "../../../lib/cycleProgress";
+import { daysUntil } from "../../../lib/dates";
 import { spacing, borderRadius } from "../../../constants/theme";
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export default function TrainScreen() {
   const { theme, settings } = useApp();
   const router = useRouter();
-  const { weeks, currentIndex: currentIdx } = getReachableWeeks();
-  const pagerRef = useRef<PagerView>(null);
-  const [activeIdx, setActiveIdx] = useState<number>(currentIdx);
-  const [completedByWeek, setCompletedByWeek] = useState<Record<string, SessionSlug[]>>({});
+  const cycle = getCycle();
+  const progress = useCycleProgress();
+  const cycleStarted = progress.startDate != null;
+  const currentWeek = getCurrentWeek(progress.startDate) ?? 1;
+  const initialIdx = Math.max(0, Math.min(currentWeek - 1, cycle.weeks.length - 1));
 
-  useFocusEffect(
-    useCallback(() => {
-      let cancelled = false;
-      (async () => {
-        const map: Record<string, SessionSlug[]> = {};
-        for (const w of weeks) {
-          map[w.week_start] = await getCompletedSessions(w.week_start);
-        }
-        if (!cancelled) setCompletedByWeek(map);
-      })();
-      return () => {
-        cancelled = true;
-      };
-    }, [weeks])
-  );
+  const pagerRef = useRef<PagerView>(null);
+  const [activeIdx, setActiveIdx] = useState<number>(initialIdx);
 
   const goTo = (idx: number) => {
-    if (idx < 0 || idx >= weeks.length) return;
+    if (idx < 0 || idx >= cycle.weeks.length) return;
     pagerRef.current?.setPage(idx);
   };
 
   const raceDays = settings.raceDate ? daysUntil(settings.raceDate) : null;
-  const activeWeek = weeks[activeIdx];
-  const offset = activeIdx - currentIdx;
-  const weekRange = formatWeekRange(isoToDate(activeWeek.week_start));
+
+  if (!cycleStarted) {
+    return (
+      <SafeAreaView edges={["top"]} style={[styles.container, { backgroundColor: theme.background }]}>
+        <BrandHeader theme={theme} />
+        <ScrollView contentContainerStyle={styles.startWrap} keyboardShouldPersistTaps="handled">
+          {raceDays !== null && raceDays >= 0 && (
+            <Text style={[styles.countdown, { color: theme.accent, marginBottom: spacing.lg }]}>
+              {raceDays === 0 ? "Race day" : `${raceDays} day${raceDays === 1 ? "" : "s"} to race`}
+            </Text>
+          )}
+          <Pressable
+            onPress={() => startCycle()}
+            style={({ pressed }) => [
+              styles.startCta,
+              { backgroundColor: theme.accent, opacity: pressed ? 0.85 : 1 },
+            ]}
+          >
+            <Ionicons name="play-circle" size={26} color="#fff" />
+            <View style={{ flex: 1 }}>
+              <Text style={styles.startCtaTitle}>Start Cycle</Text>
+              <Text style={styles.startCtaBody}>
+                Tap to begin Wk1 of HR Cycle 1 today. 12 weeks, ~5–6 sessions per week.
+              </Text>
+            </View>
+          </Pressable>
+          <Pressable
+            onPress={() => router.push("/train/cycle")}
+            style={({ pressed }) => [
+              styles.cycleLink,
+              { borderColor: theme.border, opacity: pressed ? 0.7 : 1 },
+            ]}
+          >
+            <Text style={[styles.cycleLinkText, { color: theme.text }]}>
+              View full 12-week cycle
+            </Text>
+            <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
+          </Pressable>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
+
+  const activeWeek = cycle.weeks[activeIdx];
+  const offset = activeIdx - (currentWeek - 1);
+  const weekRange = formatCycleWeekRange(progress.startDate!, activeWeek.cycle_week);
   let headerText: string;
   if (offset === 0) headerText = `This Week (${weekRange})`;
   else if (offset === -1) headerText = `Last Week (${weekRange})`;
   else if (offset === 1) headerText = `Next Week (${weekRange})`;
-  else headerText = weekRange;
+  else headerText = `Wk ${activeWeek.cycle_week} · ${weekRange}`;
 
   const leftEnabled = activeIdx > 0;
-  const rightEnabled = activeIdx < weeks.length - 1;
-  const isFuture = isFutureWeek(activeWeek.week_start);
+  const rightEnabled = activeIdx < cycle.weeks.length - 1;
 
   return (
     <SafeAreaView edges={["top"]} style={[styles.container, { backgroundColor: theme.background }]}>
-      <View style={styles.brandHeader}>
-        <Text style={[styles.brandText, { color: theme.text }]}>HYBRID ROCKSTAR</Text>
-      </View>
-      <View style={[styles.brandLine, { backgroundColor: theme.accent }]} />
+      <BrandHeader theme={theme} />
 
       <View style={styles.eyebrowBlock}>
         <View style={styles.eyebrowRow}>
@@ -107,22 +141,12 @@ export default function TrainScreen() {
       <PagerView
         ref={pagerRef}
         style={styles.pager}
-        initialPage={currentIdx}
+        initialPage={initialIdx}
         onPageSelected={(e) => setActiveIdx(e.nativeEvent.position)}
       >
-        {weeks.map((week) => (
-          <View key={week.week_start} style={styles.page}>
-            <WeekPage
-              week={week}
-              completed={completedByWeek[week.week_start] ?? []}
-              isFuture={isFuture && week.week_start === activeWeek.week_start ? true : isFutureWeek(week.week_start)}
-              onOpen={(slug) =>
-                router.push({
-                  pathname: "/train/[session]",
-                  params: { session: slug, week: week.week_start },
-                })
-              }
-            />
+        {cycle.weeks.map((week) => (
+          <View key={week.cycle_week} style={styles.page}>
+            <WeekPage week={week} />
           </View>
         ))}
       </PagerView>
@@ -130,88 +154,80 @@ export default function TrainScreen() {
   );
 }
 
-function WeekPage({
-  week,
-  completed,
-  isFuture,
-  onOpen,
-}: {
-  week: Week;
-  completed: SessionSlug[];
-  isFuture: boolean;
-  onOpen: (slug: SessionSlug) => void;
-}) {
+function BrandHeader({ theme }: { theme: any }) {
+  return (
+    <>
+      <View style={styles.brandHeader}>
+        <Text style={[styles.brandText, { color: theme.text }]}>HYBRID ROCKSTAR</Text>
+      </View>
+      <View style={[styles.brandLine, { backgroundColor: theme.accent }]} />
+    </>
+  );
+}
+
+function WeekPage({ week }: { week: CycleWeek }) {
   const { theme } = useApp();
   const router = useRouter();
-  const mon = isoToDate(week.week_start);
-  const monLabel = mon.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+  const progress = useCycleProgress();
+  const sessions = getWeekSessions(week);
+  const blockLabel = BLOCK_LABELS[week.block_phase];
 
   return (
     <ScrollView contentContainerStyle={styles.pageContent}>
       <Pressable
         onPress={() => router.push("/train/cycle")}
         style={({ pressed }) => [
-          styles.cycleEntry,
-          {
-            backgroundColor: theme.card,
-            borderColor: theme.accent + "60",
-            opacity: pressed ? 0.85 : 1,
-          },
+          styles.cycleLink,
+          { borderColor: theme.border, opacity: pressed ? 0.7 : 1, marginBottom: spacing.md },
         ]}
       >
-        <Ionicons name="layers-outline" size={18} color={theme.accent} />
-        <View style={{ flex: 1 }}>
-          <Text style={[styles.cycleEntryTitle, { color: theme.text }]}>12-week Cycle (preview)</Text>
-          <Text style={[styles.cycleEntrySub, { color: theme.textSecondary }]}>
-            Browse the full HR Cycle 1 programming
-          </Text>
-        </View>
-        <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
+        <Text style={[styles.cycleLinkText, { color: theme.text }]}>
+          View full 12-week cycle
+        </Text>
+        <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
       </Pressable>
 
-      {isFuture && (
-        <View style={[styles.previewBanner, { backgroundColor: theme.accent + "12", borderColor: theme.accent + "40" }]}>
-          <Ionicons name="eye-outline" size={14} color={theme.accent} />
-          <Text style={[styles.previewText, { color: theme.text }]}>
-            Preview — training starts Monday, {monLabel}
-          </Text>
-        </View>
-      )}
+      <View style={styles.weekHeader}>
+        <Text style={[styles.weekEyebrow, { color: theme.accent }]}>
+          {blockLabel.toUpperCase()} · WK{week.cycle_week}
+        </Text>
+        <Text style={[styles.weekTitle, { color: theme.text }]}>{week.title}</Text>
+      </View>
 
-      {SESSION_ORDER.map((slug) => {
-        const session = week.sessions[slug];
-        if (!session) return null;
-        return (
-          <SessionCard
-            key={slug}
-            slug={slug}
-            title={session.title}
-            stimulus={session.stimulus}
-            fullDuration={session.full_rox.estimated_duration_minutes}
-            quickDuration={session.quick_rox.estimated_duration_minutes}
-            completed={completed.includes(slug)}
-            onPress={() => onOpen(slug)}
-          />
-        );
-      })}
+      {sessions.map(({ key, session }, index) => (
+        <SessionCard
+          key={key}
+          dayNumber={index + 1}
+          sessionKey={key}
+          session={session}
+          completed={isSessionComplete(progress, week.cycle_week, key)}
+          onPress={() =>
+            router.push({
+              pathname: "/train/cycle/session",
+              params: { w: String(week.cycle_week), s: key },
+            })
+          }
+        />
+      ))}
       <View style={{ height: 40 }} />
     </ScrollView>
   );
 }
 
 interface SessionCardProps {
-  slug: SessionSlug;
-  title: string;
-  stimulus: string;
-  fullDuration: number;
-  quickDuration: number;
+  dayNumber: number;
+  sessionKey: string;
+  session: CycleSession;
   completed: boolean;
   onPress: () => void;
 }
 
-function SessionCard({ slug, title, stimulus, fullDuration, quickDuration, completed, onPress }: SessionCardProps) {
+function SessionCard({ dayNumber, sessionKey, session, completed, onPress }: SessionCardProps) {
   const { theme } = useApp();
   const scale = useState(new Animated.Value(1))[0];
+  const typeLabel = session.session_type
+    ? getSessionLabel(session.session_type).toUpperCase()
+    : sessionKey.replace(/_/g, " ").toUpperCase();
 
   const onPressIn = () => {
     Animated.spring(scale, { toValue: 0.97, useNativeDriver: true, speed: 30, bounciness: 4 }).start();
@@ -228,20 +244,29 @@ function SessionCard({ slug, title, stimulus, fullDuration, quickDuration, compl
         onPressOut={onPressOut}
         style={({ pressed }) => [
           styles.card,
-          { backgroundColor: theme.card, borderColor: theme.border, opacity: pressed ? 0.85 : 1 },
+          {
+            backgroundColor: theme.card,
+            borderColor: theme.border,
+            opacity: pressed ? 0.7 : completed ? 0.5 : 1,
+          },
         ]}
       >
         <View style={styles.cardBody}>
-          <Text style={[styles.category, { color: theme.accent }]}>{SESSION_LABELS[slug]}</Text>
-          <Text style={[styles.title, { color: theme.text }]}>{title}</Text>
-          <Text style={[styles.stimulus, { color: theme.textSecondary }]}>{stimulus}</Text>
+          <Text style={[styles.category, { color: theme.accent }]}>
+            DAY {dayNumber} · {typeLabel}
+          </Text>
+          <Text style={[styles.title, { color: theme.text }]}>{session.title}</Text>
+          <Text style={[styles.stimulus, { color: theme.textSecondary }]} numberOfLines={2}>
+            {session.stimulus}
+          </Text>
           <Text style={[styles.duration, { color: theme.textSecondary }]}>
-            Full Rox ~{fullDuration}m · Quick Rox ~{quickDuration}m
+            Full Rox ~{session.full_rox.estimated_duration_minutes}m · Quick Rox ~
+            {session.quick_rox.estimated_duration_minutes}m
           </Text>
         </View>
         {completed && (
           <View style={styles.check}>
-            <Ionicons name="checkmark-circle" size={28} color="#34C759" />
+            <Ionicons name="checkmark-circle" size={28} color={theme.accent} />
           </View>
         )}
       </Pressable>
@@ -249,9 +274,18 @@ function SessionCard({ slug, title, stimulus, fullDuration, quickDuration, compl
   );
 }
 
-function isoToDate(iso: string): Date {
-  const [y, m, d] = iso.split("-").map((p) => parseInt(p, 10));
-  return new Date(y, m - 1, d);
+function formatCycleWeekRange(startDateISO: string, cycleWeek: number): string {
+  const start = new Date(startDateISO);
+  const wkStart = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+  wkStart.setDate(wkStart.getDate() + (cycleWeek - 1) * 7);
+  const wkEnd = new Date(wkStart);
+  wkEnd.setDate(wkStart.getDate() + 6);
+  const startLabel = `${MONTHS[wkStart.getMonth()]} ${wkStart.getDate()}`;
+  const endLabel =
+    wkStart.getMonth() === wkEnd.getMonth()
+      ? `${wkEnd.getDate()}`
+      : `${MONTHS[wkEnd.getMonth()]} ${wkEnd.getDate()}`;
+  return `${startLabel}–${endLabel}`;
 }
 
 const styles = StyleSheet.create({
@@ -259,6 +293,27 @@ const styles = StyleSheet.create({
   brandHeader: { alignItems: "center", marginTop: spacing.sm, paddingBottom: spacing.sm },
   brandText: { fontSize: 22, fontWeight: "900", letterSpacing: 4 },
   brandLine: { width: "100%", height: 2, marginBottom: spacing.md },
+  startWrap: { padding: spacing.md, alignItems: "stretch" },
+  startCta: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm + 2,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+    marginBottom: spacing.md,
+  },
+  startCtaTitle: { color: "#fff", fontSize: 17, fontWeight: "800", marginBottom: 2 },
+  startCtaBody: { color: "rgba(255,255,255,0.85)", fontSize: 12, lineHeight: 17 },
+  cycleLink: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderWidth: 1,
+    borderRadius: borderRadius.sm,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm + 2,
+  },
+  cycleLinkText: { fontSize: 14, fontWeight: "700" },
   eyebrowBlock: { paddingHorizontal: spacing.md, marginBottom: spacing.sm },
   eyebrowRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
   chev: { width: 32, height: 32, alignItems: "center", justifyContent: "center" },
@@ -267,29 +322,9 @@ const styles = StyleSheet.create({
   pager: { flex: 1 },
   page: { flex: 1 },
   pageContent: { paddingHorizontal: spacing.md, paddingTop: spacing.xs, paddingBottom: spacing.md },
-  previewBanner: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    borderWidth: 1,
-    borderRadius: borderRadius.sm,
-    paddingHorizontal: spacing.sm + 4,
-    paddingVertical: spacing.sm,
-    marginBottom: spacing.md,
-  },
-  previewText: { fontSize: 12, fontWeight: "600", flex: 1 },
-  cycleEntry: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    borderWidth: 1,
-    borderRadius: borderRadius.md,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm + 2,
-    marginBottom: spacing.md,
-  },
-  cycleEntryTitle: { fontSize: 14, fontWeight: "700" },
-  cycleEntrySub: { fontSize: 11, fontWeight: "500", marginTop: 1 },
+  weekHeader: { marginBottom: spacing.md },
+  weekEyebrow: { fontSize: 11, fontWeight: "800", letterSpacing: 1.2, marginBottom: 4 },
+  weekTitle: { fontSize: 20, fontWeight: "800" },
   card: {
     flexDirection: "row",
     alignItems: "center",

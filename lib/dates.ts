@@ -6,26 +6,6 @@ function startOfDay(d: Date): Date {
   return x;
 }
 
-export function mondayOfWeek(d: Date = new Date()): Date {
-  const x = startOfDay(d);
-  const day = x.getDay();
-  const diff = (day + 6) % 7;
-  x.setDate(x.getDate() - diff);
-  return x;
-}
-
-export function formatWeekRange(d: Date = new Date()): string {
-  const mon = mondayOfWeek(d);
-  const sun = new Date(mon);
-  sun.setDate(mon.getDate() + 6);
-  const monLabel = `${MONTHS[mon.getMonth()]} ${mon.getDate()}`;
-  const sunLabel =
-    mon.getMonth() === sun.getMonth()
-      ? `${sun.getDate()}`
-      : `${MONTHS[sun.getMonth()]} ${sun.getDate()}`;
-  return `${monLabel}\u2013${sunLabel}`;
-}
-
 export function daysUntil(iso: string): number {
   const target = startOfDay(new Date(iso));
   const today = startOfDay(new Date());
