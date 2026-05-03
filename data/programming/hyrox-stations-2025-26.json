@@ -1,6 +1,6 @@
 {
   "version": "2025-26",
-  "source_note": "HYROX Singles 2025/26. Open Women wall ball reps confirmed at 75 (2025/26 rule change) — verified across FitnessVolt (April 2026), Hello Hyrox (Jan 2026), HYROX London Olympia 2026 event guide. Coach to re-verify against active rulebook.",
+  "source_note": "HYROX Singles 2025/26. Wall balls = 100 reps for ALL divisions per the official 25/26 Singles Rulebook (PDF, July 2025). Wall ball target heights: 9 ft = 2.74m (Open W / Pro W), 10 ft = 3.05m (Open M / Pro M). Verified March 2026 against Hybrid Pro Coach, PUMA HYROX, Red Bull HYROX, Rox Lyfe Wall Balls Guide, HyCrew FAQ.",
   "divisions": ["open_men", "open_women", "pro_men", "pro_women"],
   "division_labels": {
     "open_men": "Open M",
@@ -58,9 +58,9 @@
       "label": "Wall Ball",
       "distance": "—",
       "weights": {
-        "open_men": "6 kg → 3.00m / 100 reps",
-        "open_women": "4 kg → 2.74m / 75 reps",
-        "pro_men": "9 kg → 3.00m / 100 reps",
+        "open_men": "6 kg → 3.05m / 100 reps",
+        "open_women": "4 kg → 2.74m / 100 reps",
+        "pro_men": "9 kg → 3.05m / 100 reps",
         "pro_women": "6 kg → 2.74m / 100 reps"
       }
     },
