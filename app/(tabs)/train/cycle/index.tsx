@@ -16,13 +16,20 @@ import {
   CycleWeek,
   blockMiniSummary,
   getCycle,
+  getWeekSessions,
 } from "../../../../lib/cycle";
 import {
+  CycleProgress,
   getCurrentWeek,
+  getNextUncompletedSession,
+  getWeekCompletion,
+  isCycleComplete,
   startCycle,
   useCycleProgress,
 } from "../../../../lib/cycleProgress";
 import { spacing, borderRadius } from "../../../../constants/theme";
+
+const COMPLETE_GREEN = "#34C759";
 
 const BLOCK_ACCENTS: Record<BlockPhase, string> = {
   foundation: "#34C759",
@@ -53,6 +60,38 @@ export default function CycleOverviewScreen() {
     const w = cycle.weeks.find((wk) => wk.cycle_week === currentWeek);
     return w ? BLOCK_LABELS[w.block_phase] : null;
   }, [cycle, currentWeek]);
+
+  const weekKeyIndex = useMemo(
+    () =>
+      cycle.weeks.map((w) => ({
+        cycle_week: w.cycle_week,
+        sessionKeys: getWeekSessions(w).map(({ key }) => key),
+      })),
+    [cycle]
+  );
+
+  const upNext = useMemo(
+    () =>
+      cycleStarted
+        ? getNextUncompletedSession(progress, weekKeyIndex, currentWeek ?? 1)
+        : null,
+    [cycleStarted, progress, weekKeyIndex, currentWeek]
+  );
+
+  const cycleComplete = useMemo(
+    () => cycleStarted && isCycleComplete(progress, weekKeyIndex),
+    [cycleStarted, progress, weekKeyIndex]
+  );
+
+  const upNextSession = useMemo(() => {
+    if (!upNext) return null;
+    const w = cycle.weeks.find((wk) => wk.cycle_week === upNext.weekIndex);
+    if (!w) return null;
+    const sessions = getWeekSessions(w);
+    const found = sessions.find(({ key }) => key === upNext.sessionKey);
+    if (!found) return null;
+    return { week: w, sessionKey: upNext.sessionKey, session: found.session };
+  }, [upNext, cycle]);
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={[styles.container, { backgroundColor: theme.background }]}>
@@ -104,6 +143,58 @@ export default function CycleOverviewScreen() {
           </Pressable>
         )}
 
+        {cycleStarted && cycleComplete && (
+          <View
+            style={[
+              styles.upNextCard,
+              { backgroundColor: theme.card, borderColor: COMPLETE_GREEN },
+            ]}
+          >
+            <Ionicons name="trophy" size={22} color={COMPLETE_GREEN} />
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.upNextEyebrow, { color: COMPLETE_GREEN }]}>
+                CYCLE COMPLETE
+              </Text>
+              <Text style={[styles.upNextTitle, { color: theme.text }]}>
+                All {cycle.cycle_length_weeks} weeks done. Nice work.
+              </Text>
+            </View>
+          </View>
+        )}
+
+        {cycleStarted && !cycleComplete && upNextSession && (
+          <Pressable
+            onPress={() =>
+              router.push({
+                pathname: "/train/cycle/session",
+                params: {
+                  w: String(upNextSession.week.cycle_week),
+                  s: upNextSession.sessionKey,
+                },
+              })
+            }
+            style={({ pressed }) => [
+              styles.upNextCard,
+              {
+                backgroundColor: theme.card,
+                borderColor: theme.accent,
+                opacity: pressed ? 0.85 : 1,
+              },
+            ]}
+          >
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.upNextEyebrow, { color: theme.accent }]}>
+                UP NEXT · WK{upNextSession.week.cycle_week}{" "}
+                {upNextDayLabel(upNextSession.week, upNextSession.sessionKey)}
+              </Text>
+              <Text style={[styles.upNextTitle, { color: theme.text }]} numberOfLines={2}>
+                {upNextSession.session.title}
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color={theme.textSecondary} />
+          </Pressable>
+        )}
+
         {grouped.map((block) => (
           <View key={block.key} style={styles.blockSection}>
             <View style={styles.blockHeaderRow}>
@@ -123,6 +214,8 @@ export default function CycleOverviewScreen() {
                 key={w.cycle_week}
                 week={w}
                 isCurrent={currentWeek != null && w.cycle_week === currentWeek}
+                progress={progress}
+                cycleStarted={cycleStarted}
                 onPress={() =>
                   router.push({
                     pathname: "/train/cycle/week",
@@ -143,19 +236,33 @@ export default function CycleOverviewScreen() {
 function WeekTile({
   week,
   isCurrent,
+  progress,
+  cycleStarted,
   onPress,
 }: {
   week: CycleWeek;
   isCurrent: boolean;
+  progress: CycleProgress;
+  cycleStarted: boolean;
   onPress: () => void;
 }) {
   const { theme } = useApp();
   const accent = BLOCK_ACCENTS[week.block_phase];
-  const sessionCount = week.is_divergent
+
+  const totalSessions = week.is_divergent
+    ? week.variants?.continuous.session_count ?? 0
+    : week.session_count ?? 0;
+  const completion = getWeekCompletion(progress, week.cycle_week, totalSessions);
+
+  let countColor = theme.textSecondary;
+  if (cycleStarted && completion.completed > 0) {
+    countColor =
+      completion.completed >= completion.total ? COMPLETE_GREEN : theme.accent;
+  }
+
+  const sessionCountText = week.is_divergent
     ? `${week.variants?.racer.session_count}/${week.variants?.continuous.session_count} (R/C)`
-    : week.optional_session_count
-    ? `${week.session_count} (+1 opt)`
-    : `${week.session_count}`;
+    : `${completion.completed}/${completion.total}`;
 
   return (
     <Pressable
@@ -189,9 +296,9 @@ function WeekTile({
       </Text>
       <View style={styles.tileFooter}>
         <View style={styles.tileMetaRow}>
-          <Ionicons name="list-outline" size={13} color={theme.textSecondary} />
-          <Text style={[styles.tileMeta, { color: theme.textSecondary }]}>
-            {sessionCount} sessions
+          <Ionicons name="list-outline" size={13} color={countColor} />
+          <Text style={[styles.tileMeta, { color: countColor }]}>
+            {sessionCountText} sessions
           </Text>
         </View>
         {week.notes.collision_warning && (
@@ -205,6 +312,13 @@ function WeekTile({
       </View>
     </Pressable>
   );
+}
+
+function upNextDayLabel(week: CycleWeek, sessionKey: string): string {
+  const sessions = getWeekSessions(week);
+  const idx = sessions.findIndex(({ key }) => key === sessionKey);
+  if (idx < 0) return "";
+  return `· D${idx + 1}`;
 }
 
 const styles = StyleSheet.create({
@@ -232,6 +346,17 @@ const styles = StyleSheet.create({
   },
   startCtaTitle: { color: "#fff", fontSize: 16, fontWeight: "800", marginBottom: 2 },
   startCtaBody: { color: "rgba(255,255,255,0.85)", fontSize: 12, lineHeight: 17 },
+  upNextCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm + 2,
+    padding: spacing.md - 2,
+    borderRadius: borderRadius.md,
+    borderWidth: 1.5,
+    marginBottom: spacing.lg,
+  },
+  upNextEyebrow: { fontSize: 11, fontWeight: "800", letterSpacing: 1.2, marginBottom: 4 },
+  upNextTitle: { fontSize: 15, fontWeight: "700", lineHeight: 20 },
   blockSection: { marginBottom: spacing.lg },
   blockHeaderRow: {
     flexDirection: "row",
