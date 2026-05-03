@@ -19,6 +19,7 @@ import {
   getSessionLabel,
   getWeekSessions,
 } from "../../../../lib/cycle";
+import { isSessionComplete, useCycleProgress } from "../../../../lib/cycleProgress";
 import { spacing, borderRadius } from "../../../../constants/theme";
 
 export default function CycleWeekScreen() {
@@ -49,6 +50,7 @@ export default function CycleWeekScreen() {
   const blockLabel = BLOCK_LABELS[week.block_phase];
   const sessions = getWeekSessions(week, variant);
   const variantData = week.is_divergent && week.variants ? week.variants[variant] : undefined;
+  const progress = useCycleProgress();
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={[styles.container, { backgroundColor: theme.background }]}>
@@ -111,6 +113,7 @@ export default function CycleWeekScreen() {
             key={key}
             sessionKey={key}
             session={session}
+            completed={isSessionComplete(progress, week.cycle_week, key)}
             onPress={() =>
               router.push({
                 pathname: "/train/cycle/session",
@@ -172,10 +175,12 @@ function CollisionCallout({ text }: { text: string }) {
 function SessionListItem({
   sessionKey,
   session,
+  completed,
   onPress,
 }: {
   sessionKey: string;
   session: CycleSession;
+  completed: boolean;
   onPress: () => void;
 }) {
   const { theme } = useApp();
@@ -190,7 +195,7 @@ function SessionListItem({
         {
           backgroundColor: theme.card,
           borderColor: theme.border,
-          opacity: pressed ? 0.85 : 1,
+          opacity: pressed ? 0.7 : completed ? 0.5 : 1,
         },
       ]}
     >
@@ -214,7 +219,11 @@ function SessionListItem({
           Full ~{session.full_rox.estimated_duration_minutes}m · Quick ~{session.quick_rox.estimated_duration_minutes}m
         </Text>
       </View>
-      <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
+      {completed ? (
+        <Ionicons name="checkmark-circle" size={22} color={theme.accent} />
+      ) : (
+        <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
+      )}
     </Pressable>
   );
 }

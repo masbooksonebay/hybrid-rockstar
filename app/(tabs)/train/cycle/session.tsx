@@ -14,6 +14,12 @@ import {
   getStations,
   sessionUsesStationWeights,
 } from "../../../../lib/cycle";
+import {
+  isSessionComplete,
+  markSessionComplete,
+  markSessionIncomplete,
+  useCycleProgress,
+} from "../../../../lib/cycleProgress";
 import { spacing, borderRadius } from "../../../../constants/theme";
 
 type RoxVersion = "full" | "quick";
@@ -54,6 +60,16 @@ export default function CycleSessionScreen() {
       ? `${blockLabel} Wk${week.cycle_week} — ${variant === "racer" ? "Racer" : "Continuous"}`
       : `${blockLabel} Wk${week.cycle_week}`;
   const showStations = sessionUsesStationWeights(session);
+  const progress = useCycleProgress();
+  const completed = isSessionComplete(progress, week.cycle_week, sessionKey);
+
+  const onToggleComplete = () => {
+    if (completed) {
+      markSessionIncomplete(week.cycle_week, sessionKey);
+    } else {
+      markSessionComplete(week.cycle_week, sessionKey);
+    }
+  };
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={[styles.container, { backgroundColor: theme.background }]}>
@@ -132,6 +148,39 @@ export default function CycleSessionScreen() {
         )}
 
         {showStations && <StationWeightsDisclosure />}
+
+        <View style={styles.completeBlock}>
+          <Pressable
+            onPress={onToggleComplete}
+            style={({ pressed }) => [
+              styles.completeBtn,
+              {
+                backgroundColor: completed ? "transparent" : theme.accent,
+                borderColor: theme.accent,
+                opacity: pressed ? 0.85 : 1,
+              },
+            ]}
+          >
+            <Ionicons
+              name={completed ? "checkmark-circle" : "checkmark-circle-outline"}
+              size={20}
+              color={completed ? theme.accent : "#fff"}
+            />
+            <Text
+              style={[
+                styles.completeBtnText,
+                { color: completed ? theme.accent : "#fff" },
+              ]}
+            >
+              {completed ? "Completed" : "Mark complete"}
+            </Text>
+          </Pressable>
+          {completed && (
+            <Text style={[styles.undoHint, { color: theme.textSecondary }]}>
+              Tap to mark incomplete
+            </Text>
+          )}
+        </View>
 
         <View style={{ height: 60 }} />
       </ScrollView>
@@ -425,4 +474,18 @@ const styles = StyleSheet.create({
   tableStationDist: { fontSize: 10, fontWeight: "500", marginTop: 1 },
   tableCell: { fontSize: 11, fontWeight: "500" },
   tableFooter: { fontSize: 11, fontStyle: "italic", marginTop: spacing.sm },
+  completeBlock: { marginTop: spacing.lg, alignItems: "center" },
+  completeBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    paddingVertical: spacing.md - 2,
+    paddingHorizontal: spacing.lg,
+    borderRadius: borderRadius.md,
+    borderWidth: 1.5,
+    alignSelf: "stretch",
+  },
+  completeBtnText: { fontSize: 16, fontWeight: "700" },
+  undoHint: { fontSize: 12, marginTop: 8 },
 });
