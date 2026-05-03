@@ -17,7 +17,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { fetch as expoFetch } from "expo/fetch";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useApp } from "../../lib/context";
-import { COACH_ROB_SYSTEM_PROMPT } from "../../lib/coachPrompt";
+import { buildSystemPrompt } from "../../lib/coachPrompt";
+import { getCurrentCoachContext } from "../../lib/coachContext";
+import { getCycle } from "../../lib/cycle";
+import { useCycleProgress } from "../../lib/cycleProgress";
 import { RULES } from "../../data/rules";
 import { spacing, borderRadius } from "../../constants/theme";
 import DoneKeyboardToolbar, { KEYBOARD_DONE_ID } from "../../components/DoneKeyboardToolbar";
@@ -42,6 +45,8 @@ const SUGGESTIONS = [
 
 export default function CoachScreen() {
   const { theme, settings } = useApp();
+  const progress = useCycleProgress();
+  const cycle = useMemo(() => getCycle(), []);
   const tabBarHeight = useBottomTabBarHeight();
   const [tab, setTab] = useState<"chat" | "rules">("chat");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -88,13 +93,12 @@ export default function CoachScreen() {
     };
 
     try {
+      const ctx = getCurrentCoachContext(progress, settings, cycle);
       const res = await expoFetch(COACH_ROB_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          system:
-            COACH_ROB_SYSTEM_PROMPT +
-            `\n\nUser's format: ${settings.format ?? "unset"}. Tier: ${settings.tier ?? "unset"}. Gender: ${settings.gender ?? "unset"}.`,
+          system: buildSystemPrompt(ctx),
           messages: baseMessages.map((m) => ({ role: m.role, content: m.content })),
         }),
       });

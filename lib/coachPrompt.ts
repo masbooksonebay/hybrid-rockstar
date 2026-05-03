@@ -1,3 +1,5 @@
+import { CoachContext } from "./coachContext";
+
 export const COACH_ROB_SYSTEM_PROMPT = `You are Coach Rob, an expert hybrid racing coach inside the Hybrid Rockstar app. You have deep knowledge of hybrid racing rules, training methodology, pacing strategy, nutrition, and movement standards.
 
 RACE FORMAT:
@@ -62,3 +64,54 @@ COACHING STYLE:
 - If asked about something outside hybrid racing, say you're focused on hybrid racing training.
 - Never claim to be a doctor or give medical advice.
 - Keep responses concise — athletes want answers, not essays.`;
+
+export function buildSystemPrompt(ctx?: CoachContext): string {
+  const lines: string[] = [COACH_ROB_SYSTEM_PROMPT];
+
+  if (ctx) {
+    const stateLines: string[] = [];
+
+    const division = [
+      ctx.format ?? null,
+      ctx.format === "Individual" || ctx.format === "Doubles" ? ctx.tier ?? null : null,
+      ctx.gender ?? null,
+    ]
+      .filter((p) => p != null && p !== "")
+      .join(" · ");
+    if (division) stateLines.push(`- Division: ${division}`);
+    else stateLines.push("- Division: not set");
+
+    if (ctx.cycleStarted && ctx.currentWeek != null) {
+      stateLines.push(
+        `- Cycle: HR Cycle 1${ctx.cycleVersion ? " " + ctx.cycleVersion : ""}`
+      );
+      const blockBit =
+        ctx.blockLabel && ctx.blockWeek != null && ctx.blockTotalWeeks != null
+          ? ` (${ctx.blockLabel} block, week ${ctx.blockWeek} of ${ctx.blockTotalWeeks})`
+          : "";
+      stateLines.push(
+        `- Current week: Wk ${ctx.currentWeek}${
+          ctx.totalWeeks ? " of " + ctx.totalWeeks : ""
+        }${blockBit}`
+      );
+      if (ctx.sessionsCompletedThisWeek != null && ctx.sessionsThisWeekTotal != null) {
+        stateLines.push(
+          `- Sessions completed this week: ${ctx.sessionsCompletedThisWeek} of ${ctx.sessionsThisWeekTotal}`
+        );
+      }
+      if (ctx.sessionsCompletedInCycle != null) {
+        stateLines.push(`- Sessions completed in cycle: ${ctx.sessionsCompletedInCycle}`);
+      }
+    } else {
+      stateLines.push("- Cycle: user has not started a cycle yet");
+    }
+
+    if (ctx.raceDateLine) stateLines.push(`- Race date: ${ctx.raceDateLine}`);
+
+    if (stateLines.length > 0) {
+      lines.push("\n\nCURRENT USER STATE\n" + stateLines.join("\n"));
+    }
+  }
+
+  return lines.join("");
+}
