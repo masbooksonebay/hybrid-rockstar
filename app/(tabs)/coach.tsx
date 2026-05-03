@@ -36,6 +36,7 @@ if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental
 interface Message { role: "user" | "assistant"; content: string }
 
 const SUGGESTIONS = [
+  "How does Hybrid Rockstar programming work?",
   "What are the station weights for my division?",
   "How do I pace a hybrid race?",
   "What's the penalty for incomplete reps?",
