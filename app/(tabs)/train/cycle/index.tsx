@@ -17,9 +17,12 @@ import {
   blockMiniSummary,
   getCycle,
 } from "../../../../lib/cycle";
+import {
+  getCurrentWeek,
+  startCycle,
+  useCycleProgress,
+} from "../../../../lib/cycleProgress";
 import { spacing, borderRadius } from "../../../../constants/theme";
-
-const CURRENT_WEEK_DEFAULT = 1;
 
 const BLOCK_ACCENTS: Record<BlockPhase, string> = {
   foundation: "#34C759",
@@ -32,6 +35,9 @@ export default function CycleOverviewScreen() {
   const { theme } = useApp();
   const router = useRouter();
   const cycle = getCycle();
+  const progress = useCycleProgress();
+  const currentWeek = getCurrentWeek(progress.startDate);
+  const cycleStarted = progress.startDate != null;
 
   const grouped = useMemo(() => {
     return cycle.block_structure.map((block) => ({
@@ -41,6 +47,12 @@ export default function CycleOverviewScreen() {
       weeks: cycle.weeks.filter((w) => w.block_phase === block.key),
     }));
   }, [cycle]);
+
+  const currentBlockLabel = useMemo(() => {
+    if (currentWeek == null) return null;
+    const w = cycle.weeks.find((wk) => wk.cycle_week === currentWeek);
+    return w ? BLOCK_LABELS[w.block_phase] : null;
+  }, [cycle, currentWeek]);
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={[styles.container, { backgroundColor: theme.background }]}>
@@ -59,13 +71,38 @@ export default function CycleOverviewScreen() {
           <Text style={[styles.cycleEyebrow, { color: theme.accent }]}>
             HR CYCLE 1 · {cycle.cycle_version.toUpperCase()}
           </Text>
-          <Text style={[styles.cycleTitle, { color: theme.text }]}>
-            12 weeks · 4 blocks
-          </Text>
+          {cycleStarted && currentWeek != null ? (
+            <Text style={[styles.cycleTitle, { color: theme.text }]}>
+              Week {currentWeek} of {cycle.cycle_length_weeks}
+              {currentBlockLabel ? ` · ${currentBlockLabel}` : ""}
+            </Text>
+          ) : (
+            <Text style={[styles.cycleTitle, { color: theme.text }]}>
+              12 weeks · 4 blocks
+            </Text>
+          )}
           <Text style={[styles.cycleSummary, { color: theme.textSecondary }]}>
             Foundation → Build → Peak → Race Prep. Tap a week to view sessions.
           </Text>
         </View>
+
+        {!cycleStarted && (
+          <Pressable
+            onPress={() => startCycle()}
+            style={({ pressed }) => [
+              styles.startCta,
+              { backgroundColor: theme.accent, opacity: pressed ? 0.85 : 1 },
+            ]}
+          >
+            <Ionicons name="play-circle" size={22} color="#fff" />
+            <View style={{ flex: 1 }}>
+              <Text style={styles.startCtaTitle}>Start Cycle</Text>
+              <Text style={styles.startCtaBody}>
+                Tap to begin Wk1 today. Tracks your week-by-week progress.
+              </Text>
+            </View>
+          </Pressable>
+        )}
 
         {grouped.map((block) => (
           <View key={block.key} style={styles.blockSection}>
@@ -85,7 +122,7 @@ export default function CycleOverviewScreen() {
               <WeekTile
                 key={w.cycle_week}
                 week={w}
-                isCurrent={w.cycle_week === CURRENT_WEEK_DEFAULT}
+                isCurrent={currentWeek != null && w.cycle_week === currentWeek}
                 onPress={() =>
                   router.push({
                     pathname: "/train/cycle/week",
@@ -185,6 +222,16 @@ const styles = StyleSheet.create({
   cycleEyebrow: { fontSize: 11, fontWeight: "800", letterSpacing: 1.2, marginBottom: 4 },
   cycleTitle: { fontSize: 22, fontWeight: "800", marginBottom: 4 },
   cycleSummary: { fontSize: 13, lineHeight: 18 },
+  startCta: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm + 2,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+    marginBottom: spacing.lg,
+  },
+  startCtaTitle: { color: "#fff", fontSize: 16, fontWeight: "800", marginBottom: 2 },
+  startCtaBody: { color: "rgba(255,255,255,0.85)", fontSize: 12, lineHeight: 17 },
   blockSection: { marginBottom: spacing.lg },
   blockHeaderRow: {
     flexDirection: "row",
