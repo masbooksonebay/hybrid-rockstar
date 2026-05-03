@@ -11,7 +11,6 @@ import {
   ActivityIndicator,
   LayoutAnimation,
   UIManager,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -25,6 +24,7 @@ import DoneKeyboardToolbar, { KEYBOARD_DONE_ID } from "../../components/DoneKeyb
 
 const COACH_ROB_API_URL = "https://hybrid-rockstar-api.vercel.app/api/coach-rob";
 const CONNECT_ERROR_MESSAGE = "Coach Rob is having trouble connecting. Please try again in a moment.";
+const PILL_BG = "#1C1C1E";
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -48,7 +48,30 @@ export default function CoachScreen() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [rulesSearch, setRulesSearch] = useState("");
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    const showEvt = Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
+    const hideEvt = Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
+    const showSub = Keyboard.addListener(showEvt, (e) => {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      setKeyboardHeight(e.endCoordinates.height);
+    });
+    const hideSub = Keyboard.addListener(hideEvt, () => {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      setKeyboardHeight(0);
+    });
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
+  // Keyboard height is measured from the screen bottom. The screen sits inside the
+  // tabs navigator, so its real bottom is at the top of the tab bar — without this
+  // subtraction the input pill would float (keyboardHeight - tabBarHeight) too high.
+  const keyboardLift = Math.max(0, keyboardHeight - tabBarHeight);
 
   const sendMessage = async (text: string) => {
     if (!text.trim()) return;
@@ -149,12 +172,10 @@ export default function CoachScreen() {
     setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
   };
 
+  const canSend = input.trim().length > 0;
+
   return (
-    <KeyboardAvoidingView
-      style={[styles.container, { backgroundColor: theme.background }]}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? tabBarHeight : 0}
-    >
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <View style={[styles.tabRow, { borderBottomColor: theme.border }]}>
         <TouchableOpacity style={[styles.tab, tab === "chat" && { borderBottomColor: theme.accent, borderBottomWidth: 2 }]} onPress={() => setTab("chat")}>
           <Text style={[styles.tabText, { color: tab === "chat" ? theme.text : theme.textSecondary }]}>CHAT</Text>
@@ -169,6 +190,7 @@ export default function CoachScreen() {
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
             <ScrollView
               ref={scrollRef}
+              style={styles.chatScroll}
               contentContainerStyle={styles.chatContent}
               keyboardShouldPersistTaps="handled"
               keyboardDismissMode="interactive"
@@ -193,39 +215,45 @@ export default function CoachScreen() {
                   <ActivityIndicator size="small" color={theme.accent} />
                 </View>
               )}
-              <View style={{ height: 20 }} />
+              <View style={{ height: 12 }} />
             </ScrollView>
           </TouchableWithoutFeedback>
 
           <Text style={[styles.disclaimer, { color: theme.textSecondary }]}>AI responses are for training guidance only. Always verify rules with the official race organization.</Text>
 
-          <View style={[styles.inputRow, { backgroundColor: theme.card, borderTopColor: theme.border }]}>
-            <TextInput
-              style={[styles.input, { color: theme.text }]}
-              placeholder="Ask Coach Rob anything about hybrid racing..."
-              placeholderTextColor={theme.textSecondary}
-              value={input}
-              onChangeText={setInput}
-              onSubmitEditing={() => sendMessage(input)}
-              returnKeyType="send"
-              multiline={false}
-              blurOnSubmit={false}
-            />
-            <TouchableOpacity
-              onPress={() => Keyboard.dismiss()}
-              hitSlop={10}
-              style={styles.doneBtn}
-              accessibilityLabel="Dismiss keyboard"
-            >
-              <Text style={[styles.doneText, { color: theme.accent }]}>Done</Text>
-            </TouchableOpacity>
+          <View style={{ paddingBottom: keyboardLift }}>
+            <View style={[styles.inputPill, { backgroundColor: PILL_BG }]}>
+              <TextInput
+                style={[styles.input, { color: theme.text }]}
+                placeholder="Ask Coach Rob anything about hybrid racing..."
+                placeholderTextColor={theme.textSecondary}
+                value={input}
+                onChangeText={setInput}
+                onSubmitEditing={() => sendMessage(input)}
+                returnKeyType="default"
+                multiline={false}
+                blurOnSubmit={false}
+                autoCorrect={false}
+                autoCapitalize="sentences"
+              />
+              <TouchableOpacity
+                onPress={() => sendMessage(input)}
+                disabled={!canSend}
+                hitSlop={8}
+                style={[styles.sendBtn, { backgroundColor: theme.accent, opacity: canSend ? 1 : 0.4 }]}
+                accessibilityLabel="Send message"
+                accessibilityRole="button"
+              >
+                <Ionicons name="arrow-up" size={18} color="#FFFFFF" />
+              </TouchableOpacity>
+            </View>
           </View>
         </>
       ) : (
         <RulesTab search={rulesSearch} setSearch={setRulesSearch} />
       )}
       <DoneKeyboardToolbar />
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 
@@ -310,6 +338,7 @@ const styles = StyleSheet.create({
   tabRow: { flexDirection: "row", borderBottomWidth: 1, position: "relative" },
   tab: { flex: 1, alignItems: "center", paddingVertical: spacing.sm + 4, borderBottomWidth: 2, borderBottomColor: "transparent" },
   tabText: { fontSize: 13, fontWeight: "700", letterSpacing: 0.5 },
+  chatScroll: { flex: 1 },
   chatContent: { padding: spacing.md, flexGrow: 1 },
   suggestions: { marginTop: spacing.xl, alignItems: "center", gap: spacing.sm },
   suggestTitle: { fontSize: 14, marginBottom: spacing.sm },
@@ -317,11 +346,26 @@ const styles = StyleSheet.create({
   suggestText: { fontSize: 14, textAlign: "center" },
   bubble: { maxWidth: "80%", borderRadius: borderRadius.md, padding: spacing.md, marginBottom: spacing.sm },
   bubbleText: { fontSize: 15, lineHeight: 22 },
-  disclaimer: { fontSize: 10, textAlign: "center", paddingVertical: spacing.xs },
-  inputRow: { flexDirection: "row", alignItems: "center", paddingHorizontal: spacing.md, paddingVertical: spacing.sm + 4, borderTopWidth: 1, gap: spacing.sm },
-  input: { flex: 1, fontSize: 15, paddingVertical: spacing.sm },
-  doneBtn: { width: 44, height: 22, justifyContent: "center", alignItems: "center" },
-  doneText: { fontSize: 15, fontWeight: "600" },
+  disclaimer: { fontSize: 11, textAlign: "center", paddingHorizontal: spacing.md, paddingVertical: spacing.xs + 2 },
+  inputPill: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 12,
+    marginBottom: 8,
+    borderRadius: 22,
+    paddingLeft: 12,
+    paddingRight: 4,
+    paddingVertical: 8,
+  },
+  input: { flex: 1, fontSize: 16, paddingVertical: 4 },
+  sendBtn: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 4,
+  },
   rulesContent: { padding: spacing.md },
   rulesNote: { fontSize: 11, textAlign: "center", marginBottom: spacing.md },
   searchRow: { flexDirection: "row", alignItems: "center", borderWidth: 1, borderRadius: borderRadius.sm, paddingHorizontal: spacing.sm + 4, marginBottom: spacing.md },
