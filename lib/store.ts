@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export type ThemeMode = "light" | "dark" | "system";
+export type ThemeMode = "light" | "dark";
 export type Format = "Individual" | "Doubles" | "Mixed Doubles" | "Relay";
 export type Tier = "Open" | "Pro";
 
@@ -17,7 +17,7 @@ export interface Settings {
 }
 
 export const DEFAULT_SETTINGS: Settings = {
-  themeMode: "system",
+  themeMode: "dark",
   format: null,
   tier: null,
   gender: null,
@@ -48,6 +48,10 @@ export async function saveSettings(s: Settings): Promise<void> {
 
 function migrate(s: Settings & { darkMode?: boolean; division?: string }): Settings {
   const out: Settings = { ...DEFAULT_SETTINGS, ...s };
+  // Legacy "system" / "automatic" theme values silently collapse to "dark".
+  if ((out.themeMode as string) !== "light" && (out.themeMode as string) !== "dark") {
+    out.themeMode = "dark";
+  }
   if (out.themeMode == null && typeof s.darkMode === "boolean") {
     out.themeMode = s.darkMode ? "dark" : "light";
   }

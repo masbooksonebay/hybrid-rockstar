@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
-import { useColorScheme } from "react-native";
 import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings } from "./store";
 import { darkTheme, lightTheme, Theme } from "../constants/theme";
 
@@ -24,7 +23,6 @@ export function useApp() {
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
   const [loaded, setLoaded] = useState(false);
-  const systemScheme = useColorScheme();
 
   useEffect(() => {
     loadSettings().then((s) => { setSettings(s); setLoaded(true); });
@@ -38,12 +36,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  const isDark =
-    settings.themeMode === "dark"
-      ? true
-      : settings.themeMode === "light"
-      ? false
-      : systemScheme !== "light";
+  const isDark = settings.themeMode === "dark";
   const theme = isDark ? darkTheme : lightTheme;
 
   if (!loaded) return null;

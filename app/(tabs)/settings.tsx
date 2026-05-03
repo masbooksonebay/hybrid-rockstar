@@ -19,7 +19,6 @@ import * as Notifications from "expo-notifications";
 import { useApp } from "../../lib/context";
 import { Format, Tier, ThemeMode } from "../../lib/store";
 import { spacing, borderRadius } from "../../constants/theme";
-import InfoModal from "../../components/InfoModal";
 
 const FORMATS: Format[] = ["Individual", "Doubles", "Mixed Doubles", "Relay"];
 const TIERS: Tier[] = ["Open", "Pro"];
@@ -31,7 +30,6 @@ export default function SettingsScreen() {
   const [ageOpen, setAgeOpen] = useState(false);
   const [racePickerOpen, setRacePickerOpen] = useState(false);
   const [timePickerOpen, setTimePickerOpen] = useState(false);
-  const [themeInfoOpen, setThemeInfoOpen] = useState(false);
 
   const showTier = settings.format === "Individual" || settings.format === "Doubles";
 
@@ -95,7 +93,6 @@ export default function SettingsScreen() {
   const themeModes: { v: ThemeMode; label: string }[] = [
     { v: "light", label: "Light" },
     { v: "dark", label: "Dark" },
-    { v: "system", label: "Automatic" },
   ];
 
   return (
@@ -167,25 +164,18 @@ export default function SettingsScreen() {
             <View style={styles.pills}>
               {themeModes.map((m) => {
                 const active = settings.themeMode === m.v;
-                const isAutomatic = m.v === "system";
                 return (
-                  <View key={m.v} style={styles.pillWithIcon}>
-                    <TouchableOpacity
-                      style={[
-                        styles.pill,
-                        { borderColor: theme.border },
-                        active && { backgroundColor: theme.accent, borderColor: theme.accent },
-                      ]}
-                      onPress={() => updateSettings({ themeMode: m.v })}
-                    >
-                      <Text style={[styles.pillText, { color: active ? "#fff" : theme.text }]}>{m.label}</Text>
-                    </TouchableOpacity>
-                    {isAutomatic && (
-                      <TouchableOpacity onPress={() => setThemeInfoOpen(true)} hitSlop={8} style={styles.inlineInfo}>
-                        <Ionicons name="information-circle-outline" size={16} color={theme.textSecondary} />
-                      </TouchableOpacity>
-                    )}
-                  </View>
+                  <TouchableOpacity
+                    key={m.v}
+                    style={[
+                      styles.pill,
+                      { borderColor: theme.border },
+                      active && { backgroundColor: theme.accent, borderColor: theme.accent },
+                    ]}
+                    onPress={() => updateSettings({ themeMode: m.v })}
+                  >
+                    <Text style={[styles.pillText, { color: active ? "#fff" : theme.text }]}>{m.label}</Text>
+                  </TouchableOpacity>
                 );
               })}
             </View>
@@ -340,15 +330,6 @@ export default function SettingsScreen() {
           </View>
         </View>
       </Modal>
-
-      <InfoModal
-        visible={themeInfoOpen}
-        title="Automatic Theme"
-        body={
-          "Automatic matches your iPhone's appearance setting. When your iPhone is in Light mode, the app displays in Light. When your iPhone switches to Dark mode, the app switches too.\n\nChoose Light or Dark to override and lock the app to that theme regardless of your iPhone setting."
-        }
-        onClose={() => setThemeInfoOpen(false)}
-      />
     </ScrollView>
   );
 }
@@ -466,8 +447,6 @@ const styles = StyleSheet.create({
   pills: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 6 },
   pill: { borderRadius: borderRadius.sm, paddingHorizontal: spacing.sm + 4, paddingVertical: 6, borderWidth: 1 },
   pillText: { fontSize: 13, fontWeight: "600" },
-  pillWithIcon: { flexDirection: "row", alignItems: "center" },
-  inlineInfo: { marginLeft: 4, padding: 4 },
   modal: { flex: 1 },
   modalHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: spacing.md, paddingTop: spacing.md },
   modalTitle: { fontSize: 22, fontWeight: "800" },
