@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export type ThemeMode = "light" | "dark";
 export type Format = "Individual" | "Doubles" | "Mixed Doubles" | "Relay";
 export type Tier = "Open" | "Pro";
+export type Goal = "finish_strong" | "compete_for_time";
 
 export interface Settings {
   themeMode: ThemeMode;
@@ -14,6 +15,10 @@ export interface Settings {
   notificationsEnabled: boolean;
   notificationsTime: string;
   analyticsEnabled: boolean;
+  hasCompletedOnboarding: boolean;
+  cycleStartDate: string | null;
+  paceSecondsPerKm: number | null;
+  goal: Goal | null;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -26,6 +31,13 @@ export const DEFAULT_SETTINGS: Settings = {
   notificationsEnabled: false,
   notificationsTime: "07:00",
   analyticsEnabled: true,
+  // Every install (App Store or TestFlight upgrade) onboards exactly once.
+  // No grandfathering — existing persisted settings will lack this field and
+  // fall back to false via the spread merge in loadSettings().
+  hasCompletedOnboarding: false,
+  cycleStartDate: null,
+  paceSecondsPerKm: null,
+  goal: null,
 };
 
 const SETTINGS_KEY = "hr_settings";

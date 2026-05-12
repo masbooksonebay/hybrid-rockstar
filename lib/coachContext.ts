@@ -18,6 +18,9 @@ export interface CoachContext {
   format?: string | null;
   tier?: string | null;
   gender?: string | null;
+  plannedCycleStartLine?: string;
+  goalLine?: string;
+  paceLine?: string;
 }
 
 export function getCurrentCoachContext(
@@ -36,6 +39,10 @@ export function getCurrentCoachContext(
 
   const raceDateLine = formatRaceDateLine(settings.raceDate);
   if (raceDateLine) base.raceDateLine = raceDateLine;
+
+  base.plannedCycleStartLine = formatPlannedStartLine(settings.cycleStartDate);
+  base.goalLine = formatGoalLine(settings.goal);
+  base.paceLine = formatPaceLine(settings.paceSecondsPerKm);
 
   if (!cycleStarted) return base;
 
@@ -75,4 +82,31 @@ function formatRaceDateLine(raceDateISO: string | null): string | null {
   if (days > 0) return `Race in ${days} day${days === 1 ? "" : "s"} (${dateLabel})`;
   if (days === 0) return `Race today (${dateLabel})`;
   return `Race was ${Math.abs(days)} day${Math.abs(days) === 1 ? "" : "s"} ago (${dateLabel})`;
+}
+
+function formatPlannedStartLine(iso: string | null): string {
+  if (!iso) return "not set yet";
+  const d = new Date(iso);
+  const dateLabel = d.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+  const days = daysUntil(iso);
+  if (days > 0) return `${dateLabel} (in ${days} day${days === 1 ? "" : "s"})`;
+  if (days === 0) return `${dateLabel} (today)`;
+  return `${dateLabel} (${Math.abs(days)} day${Math.abs(days) === 1 ? "" : "s"} ago)`;
+}
+
+function formatGoalLine(goal: Settings["goal"]): string {
+  if (goal === "finish_strong") return "finish strong";
+  if (goal === "compete_for_time") return "compete for time";
+  return "not set";
+}
+
+function formatPaceLine(seconds: number | null): string {
+  if (seconds == null) return "not provided";
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, "0")} per km`;
 }

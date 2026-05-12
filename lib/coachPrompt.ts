@@ -148,6 +148,10 @@ export function buildSystemPrompt(ctx?: CoachContext): string {
     }
 
     if (ctx.raceDateLine) stateLines.push(`- Race date: ${ctx.raceDateLine}`);
+    if (ctx.plannedCycleStartLine)
+      stateLines.push(`- Planned cycle start: ${ctx.plannedCycleStartLine}`);
+    if (ctx.goalLine) stateLines.push(`- Goal: ${ctx.goalLine}`);
+    if (ctx.paceLine) stateLines.push(`- 1km pace: ${ctx.paceLine}`);
 
     if (stateLines.length > 0) {
       lines.push("\n\nCURRENT USER STATE\n" + stateLines.join("\n"));

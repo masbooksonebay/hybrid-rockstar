@@ -10,6 +10,7 @@ function Inner() {
       <StatusBar style={isDark ? "light" : "dark"} />
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.background } }}>
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
       </Stack>
     </>
   );
