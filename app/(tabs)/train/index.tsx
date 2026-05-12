@@ -260,8 +260,8 @@ function SessionCard({ dayNumber, sessionKey, session, completed, onPress }: Ses
             {session.stimulus}
           </Text>
           <Text style={[styles.duration, { color: theme.textSecondary }]}>
-            Full Rox ~{session.full_rox.estimated_duration_minutes}m · Quick Rox ~
-            {session.quick_rox.estimated_duration_minutes}m
+            FullRox ~{session.full_rox.estimated_duration_minutes}m · HalfRox ~
+            {session.half_rox.estimated_duration_minutes}m
           </Text>
         </View>
         {completed && (

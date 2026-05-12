@@ -216,7 +216,7 @@ function SessionListItem({
           {session.stimulus}
         </Text>
         <Text style={[styles.sessionMeta, { color: theme.textSecondary }]}>
-          Full ~{session.full_rox.estimated_duration_minutes}m · Quick ~{session.quick_rox.estimated_duration_minutes}m
+          FullRox ~{session.full_rox.estimated_duration_minutes}m · HalfRox ~{session.half_rox.estimated_duration_minutes}m
         </Text>
       </View>
       {completed ? (

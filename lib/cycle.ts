@@ -50,7 +50,7 @@ export interface CycleSession {
   optional?: boolean;
   replaces?: string;
   full_rox: SessionVersion;
-  quick_rox: SessionVersion;
+  half_rox: SessionVersion;
   notes: SessionNotes;
 }
 

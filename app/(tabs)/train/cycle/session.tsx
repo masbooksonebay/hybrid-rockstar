@@ -22,7 +22,7 @@ import {
 } from "../../../../lib/cycleProgress";
 import { spacing, borderRadius } from "../../../../constants/theme";
 
-type RoxVersion = "full" | "quick";
+type RoxVersion = "full" | "half";
 
 export default function CycleSessionScreen() {
   const { theme } = useApp();
@@ -53,7 +53,7 @@ export default function CycleSessionScreen() {
     );
   }
 
-  const versionData = version === "full" ? session.full_rox : session.quick_rox;
+  const versionData = version === "full" ? session.full_rox : session.half_rox;
   const blockLabel = BLOCK_LABELS[week.block_phase];
   const contextLine =
     week.is_divergent && variant
@@ -101,14 +101,14 @@ export default function CycleSessionScreen() {
 
         <View style={[styles.segment, { borderColor: theme.border, backgroundColor: theme.card }]}>
           <SegmentButton
-            label={`Full Rox ~${session.full_rox.estimated_duration_minutes}m`}
+            label={`FullRox ~${session.full_rox.estimated_duration_minutes}m`}
             active={version === "full"}
             onPress={() => setVersion("full")}
           />
           <SegmentButton
-            label={`Quick Rox ~${session.quick_rox.estimated_duration_minutes}m`}
-            active={version === "quick"}
-            onPress={() => setVersion("quick")}
+            label={`HalfRox ~${session.half_rox.estimated_duration_minutes}m`}
+            active={version === "half"}
+            onPress={() => setVersion("half")}
           />
         </View>
 
