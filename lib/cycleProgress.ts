@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { loadSettings } from "./store";
+import { rescheduleNotifications } from "./notifications";
 
 const STORAGE_KEYS = {
   startDate: "hr.cycle.startDate",
@@ -96,6 +98,10 @@ export async function markSessionComplete(
   await AsyncStorage.setItem(STORAGE_KEYS.completed, JSON.stringify(next));
   cache = { ...current, completedSessions: next };
   notify();
+  // Reschedule so the next daily notification's body reflects the new
+  // remaining-sessions count (and switches to the "All sessions complete"
+  // copy on the last completion of the week).
+  await refreshNotification();
 }
 
 export async function markSessionIncomplete(
@@ -109,6 +115,17 @@ export async function markSessionIncomplete(
   await AsyncStorage.setItem(STORAGE_KEYS.completed, JSON.stringify(next));
   cache = { ...current, completedSessions: next };
   notify();
+  await refreshNotification();
+}
+
+async function refreshNotification(): Promise<void> {
+  if (!cache) return;
+  try {
+    const settings = await loadSettings();
+    await rescheduleNotifications(settings, cache);
+  } catch {
+    // Notification reschedule failures shouldn't surface in the completion UX.
+  }
 }
 
 export function isSessionComplete(

@@ -1,9 +1,27 @@
 import { useState } from "react";
-import { View, Text, ScrollView, Pressable, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Pressable,
+  StyleSheet,
+  Modal,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useApp } from "../../../../lib/context";
+
+// Android needs LayoutAnimation explicitly enabled. No-op on iOS.
+if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
+const TIER_EXPLAINER_BODY =
+  "Both tiers cover all 8 Hyrox stations across the cycle. FullRox sessions run about twice as long as HalfRox — pick based on how much time you have per session.";
 import {
   BLOCK_LABELS,
   CycleSession,
@@ -25,8 +43,17 @@ import { spacing, borderRadius } from "../../../../constants/theme";
 type RoxVersion = "full" | "half";
 
 export default function CycleSessionScreen() {
-  const { theme } = useApp();
+  const { theme, settings, updateSettings } = useApp();
   const router = useRouter();
+  const [explainerModalOpen, setExplainerModalOpen] = useState(false);
+
+  const onDismissExplainer = () => {
+    // Animate the conditional swap from card → icon. `configureNext` arms a
+    // one-shot animation for the next layout pass triggered by the state
+    // change below.
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    updateSettings({ hasSeenTierExplainer: true });
+  };
   const params = useLocalSearchParams<{ w?: string; s?: string; variant?: string }>();
   const weekNumber = parseInt(params.w ?? "1", 10);
   const sessionKey = params.s ?? "";
@@ -112,6 +139,38 @@ export default function CycleSessionScreen() {
           />
         </View>
 
+        {settings.hasSeenTierExplainer ? (
+          <Pressable
+            onPress={() => setExplainerModalOpen(true)}
+            hitSlop={8}
+            style={styles.explainerInfoRow}
+          >
+            <Ionicons name="information-circle-outline" size={20} color={theme.textSecondary} />
+            <Text style={[styles.explainerInfoLabel, { color: theme.textSecondary }]}>
+              FullRox vs HalfRox
+            </Text>
+          </Pressable>
+        ) : (
+          <View
+            style={[
+              styles.explainerCard,
+              { backgroundColor: theme.card, borderColor: theme.border },
+            ]}
+          >
+            <Pressable
+              onPress={onDismissExplainer}
+              hitSlop={12}
+              style={styles.explainerClose}
+              accessibilityLabel="Dismiss explainer"
+            >
+              <Ionicons name="close" size={18} color={theme.textSecondary} />
+            </Pressable>
+            <Text style={[styles.explainerBody, { color: theme.textSecondary }]}>
+              {TIER_EXPLAINER_BODY}
+            </Text>
+          </View>
+        )}
+
         {session.notes.collision_warning && (
           <CollisionCallout text={session.notes.collision_warning} />
         )}
@@ -184,6 +243,46 @@ export default function CycleSessionScreen() {
 
         <View style={{ height: 60 }} />
       </ScrollView>
+
+      {/* Info modal — opened from the info-icon row after explainer dismissal. */}
+      <Modal
+        visible={explainerModalOpen}
+        animationType="fade"
+        transparent
+        onRequestClose={() => setExplainerModalOpen(false)}
+      >
+        <Pressable
+          style={styles.explainerBackdrop}
+          onPress={() => setExplainerModalOpen(false)}
+        >
+          <Pressable
+            style={[
+              styles.explainerSheet,
+              { backgroundColor: theme.card, borderColor: theme.border },
+            ]}
+            onPress={() => {
+              /* swallow taps so the backdrop doesn't dismiss when interacting
+                 with the sheet body */
+            }}
+          >
+            <Text style={[styles.explainerSheetTitle, { color: theme.text }]}>
+              FullRox vs HalfRox
+            </Text>
+            <Text style={[styles.explainerBody, { color: theme.textSecondary }]}>
+              {TIER_EXPLAINER_BODY}
+            </Text>
+            <Pressable
+              onPress={() => setExplainerModalOpen(false)}
+              style={({ pressed }) => [
+                styles.explainerGotIt,
+                { backgroundColor: theme.accent, opacity: pressed ? 0.85 : 1 },
+              ]}
+            >
+              <Text style={styles.explainerGotItText}>Got it</Text>
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -416,6 +515,56 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   segmentText: { fontSize: 13, fontWeight: "600" },
+  explainerCard: {
+    position: "relative",
+    borderRadius: borderRadius.sm,
+    borderWidth: 1,
+    padding: 12,
+    paddingRight: 36,
+    marginBottom: spacing.md,
+  },
+  explainerClose: {
+    position: "absolute",
+    top: 8,
+    right: 8,
+    width: 28,
+    height: 28,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  explainerBody: { fontSize: 13, lineHeight: 19 },
+  explainerInfoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingVertical: 6,
+    marginBottom: spacing.sm,
+  },
+  explainerInfoLabel: { fontSize: 12, fontWeight: "500" },
+  explainerBackdrop: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.55)",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: spacing.lg,
+  },
+  explainerSheet: {
+    width: "100%",
+    maxWidth: 360,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+    padding: spacing.md + 2,
+    gap: spacing.sm + 2,
+  },
+  explainerSheetTitle: { fontSize: 17, fontWeight: "700" },
+  explainerGotIt: {
+    minHeight: 44,
+    borderRadius: borderRadius.sm,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: spacing.xs,
+  },
+  explainerGotItText: { color: "#fff", fontSize: 15, fontWeight: "700" },
   collisionBanner: {
     flexDirection: "row",
     gap: 10,

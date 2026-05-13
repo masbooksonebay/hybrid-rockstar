@@ -19,6 +19,8 @@ import * as Notifications from "expo-notifications";
 import { useApp } from "../../lib/context";
 import { Format, Tier, ThemeMode } from "../../lib/store";
 import { spacing, borderRadius } from "../../constants/theme";
+import { useCycleProgress } from "../../lib/cycleProgress";
+import { rescheduleNotifications } from "../../lib/notifications";
 
 const FORMATS: Format[] = ["Individual", "Doubles", "Mixed Doubles", "Relay"];
 const TIERS: Tier[] = ["Open", "Pro"];
@@ -27,6 +29,7 @@ const AGE_GROUPS = ["16–24", "25–29", "30–34", "35–39", "40–44", "45�
 
 export default function SettingsScreen() {
   const { settings, theme, updateSettings } = useApp();
+  const progress = useCycleProgress();
   const [ageOpen, setAgeOpen] = useState(false);
   const [racePickerOpen, setRacePickerOpen] = useState(false);
   const [timePickerOpen, setTimePickerOpen] = useState(false);
@@ -39,13 +42,29 @@ export default function SettingsScreen() {
       if (status !== "granted") {
         Alert.alert(
           "Permission needed",
-          "Enable notifications in iOS Settings to receive training reminders."
+          "Notifications need to be enabled in iOS Settings > Hybrid Rockstar to receive reminders."
         );
         updateSettings({ notificationsEnabled: false });
+        // Permission denied — cancel any straggling scheduled notifications so
+        // the OS never fires a stale one.
+        await rescheduleNotifications({ ...settings, notificationsEnabled: false }, progress);
         return;
       }
     }
     updateSettings({ notificationsEnabled: val });
+    // Toggle ON → schedule with current cycle body. Toggle OFF → cancel.
+    // _layout.tsx's useEffect also fires this on settings change as a safety
+    // net; the duplicate call is idempotent (cancel-then-schedule).
+    await rescheduleNotifications({ ...settings, notificationsEnabled: val }, progress);
+  };
+
+  const onChangeReminderTime = async (hhmm: string) => {
+    updateSettings({ notificationsTime: hhmm });
+    // Reschedule with new time so the next firing lands on the picked hour.
+    await rescheduleNotifications(
+      { ...settings, notificationsTime: hhmm },
+      progress
+    );
   };
 
   const onRateApp = async () => {
@@ -323,7 +342,7 @@ export default function SettingsScreen() {
                 if (d) {
                   const h = d.getHours().toString().padStart(2, "0");
                   const m = d.getMinutes().toString().padStart(2, "0");
-                  updateSettings({ notificationsTime: `${h}:${m}` });
+                  onChangeReminderTime(`${h}:${m}`);
                 }
               }}
             />

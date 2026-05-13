@@ -19,6 +19,7 @@ export interface Settings {
   cycleStartDate: string | null;
   paceSecondsPerKm: number | null;
   goal: Goal | null;
+  hasSeenTierExplainer: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -38,6 +39,9 @@ export const DEFAULT_SETTINGS: Settings = {
   cycleStartDate: null,
   paceSecondsPerKm: null,
   goal: null,
+  // Existing users land here as `false` via the spread-DEFAULT_SETTINGS merge
+  // in loadSettings() — they see the explainer once on next session-card visit.
+  hasSeenTierExplainer: false,
 };
 
 const SETTINGS_KEY = "hr_settings";
