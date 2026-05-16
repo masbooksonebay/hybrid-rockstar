@@ -22,14 +22,17 @@ if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental
 
 const TIER_EXPLAINER_BODY =
   "Both tiers cover all 8 Hyrox stations across the cycle. FullRox sessions run about twice as long as HalfRox — pick based on how much time you have per session.";
+
+const RPE_BODY =
+  "Rate of Perceived Exertion. A 1-10 self-rated effort scale used throughout strength and conditioning programming. RPE 6 = moderate, could keep going indefinitely. RPE 7 = hard, 3-4 reps in reserve on lifts. RPE 8 = very hard, 1-2 reps in reserve. RPE 9 = barely complete, 0-1 reps left. RPE 10 = maximum, no reps left.";
 import {
-  BLOCK_LABELS,
   CycleSession,
   Step,
   Wk12Variant,
   getCycleWeek,
   getSession,
   getStations,
+  getWeekSessions,
   sessionUsesStationWeights,
 } from "../../../../lib/cycle";
 import {
@@ -39,6 +42,13 @@ import {
   useCycleProgress,
 } from "../../../../lib/cycleProgress";
 import { spacing, borderRadius } from "../../../../constants/theme";
+import { SegmentButton } from "../../../../components/train/SegmentButton";
+import { CollisionCallout } from "../../../../components/train/CollisionCallout";
+
+function dayNumberFromKey(key: string, fallbackIndex: number): number {
+  const m = /^d(\d+)$/.exec(key);
+  return m ? parseInt(m[1], 10) : fallbackIndex + 1;
+}
 
 type RoxVersion = "full" | "half";
 
@@ -81,11 +91,14 @@ export default function CycleSessionScreen() {
   }
 
   const versionData = version === "full" ? session.full_rox : session.half_rox;
-  const blockLabel = BLOCK_LABELS[week.block_phase];
-  const contextLine =
-    week.is_divergent && variant
-      ? `${blockLabel} Wk${week.cycle_week} — ${variant === "racer" ? "Racer" : "Continuous"}`
-      : `${blockLabel} Wk${week.cycle_week}`;
+  // Derive day number by locating this session in the week's ordered list —
+  // covers both static keys ("d1") and any future divergent-variant shape.
+  const weekSessions = getWeekSessions(week, week.is_divergent ? variant : undefined);
+  const sessionIdx = weekSessions.findIndex(({ key }) => key === sessionKey);
+  const dayNumber = dayNumberFromKey(sessionKey, sessionIdx >= 0 ? sessionIdx : 0);
+  // Eyebrow is just "DAY N" here — the h1 directly below carries the session
+  // name, so the "· TYPE" suffix (kept on the week list) would be redundant.
+  const headerEyebrow = `DAY ${dayNumber}`;
   const showStations = sessionUsesStationWeights(session);
   const progress = useCycleProgress();
   const completed = isSessionComplete(progress, week.cycle_week, sessionKey);
@@ -102,18 +115,18 @@ export default function CycleSessionScreen() {
     <SafeAreaView edges={["top", "bottom"]} style={[styles.container, { backgroundColor: theme.background }]}>
       <Stack.Screen options={{ headerShown: false }} />
 
+      {/* Header title intentionally blank — the page h1 below carries the
+          session name. Back chevron stays. */}
       <View style={styles.topBar}>
         <Pressable onPress={() => router.back()} hitSlop={12} style={styles.chev}>
           <Ionicons name="chevron-back" size={26} color={theme.text} />
         </Pressable>
-        <Text style={[styles.topTitle, { color: theme.text }]} numberOfLines={1}>
-          {session.title}
-        </Text>
+        <View style={{ flex: 1 }} />
         <View style={styles.chev} />
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
-        <Text style={[styles.context, { color: theme.accent }]}>{contextLine}</Text>
+        <Text style={[styles.context, { color: theme.accent }]}>{headerEyebrow}</Text>
         <Text style={[styles.title, { color: theme.text }]}>{session.title}</Text>
         <Text style={[styles.stimulus, { color: theme.textSecondary }]}>{session.stimulus}</Text>
 
@@ -181,30 +194,29 @@ export default function CycleSessionScreen() {
           ))}
         </View>
 
-        <NotesDisclosure title="Notes" defaultOpen>
-          <NoteSubsection label="About" body={session.notes.about} />
-          <NoteSubsection label="Week context" body={session.notes.week_context} />
-          <NoteSubsection label="Block context" body={session.notes.block_context} />
+        {/* Notes accordion always renders because the "What is RPE?" reference
+            sub-section is included on every session. Default closed. */}
+        <NotesDisclosure title="Notes">
+          {session.notes.about && (
+            <NoteSubsection label="About" body={session.notes.about} />
+          )}
+          {session.notes.week_context && (
+            <NoteSubsection label="Week context" body={session.notes.week_context} />
+          )}
+          {session.notes.block_context && (
+            <NoteSubsection label="Block context" body={session.notes.block_context} />
+          )}
+          {session.notes.scaling?.beginner && (
+            <NoteSubsection label="Scaling — Beginner" body={session.notes.scaling.beginner} />
+          )}
+          {session.notes.scaling?.advanced && (
+            <NoteSubsection label="Scaling — Advanced" body={session.notes.scaling.advanced} />
+          )}
+          {session.notes.substitutions && (
+            <NoteSubsection label="Substitutions" body={session.notes.substitutions} />
+          )}
+          <NoteSubsection label="What is RPE?" body={RPE_BODY} />
         </NotesDisclosure>
-
-        {(session.notes.scaling?.beginner || session.notes.scaling?.advanced) && (
-          <NotesDisclosure title="Scaling">
-            {session.notes.scaling.beginner && (
-              <NoteSubsection label="Beginner" body={session.notes.scaling.beginner} />
-            )}
-            {session.notes.scaling.advanced && (
-              <NoteSubsection label="Advanced" body={session.notes.scaling.advanced} />
-            )}
-          </NotesDisclosure>
-        )}
-
-        {session.notes.substitutions && (
-          <NotesDisclosure title="Substitutions">
-            <Text style={[styles.noteBody, { color: theme.textSecondary }]}>
-              {session.notes.substitutions}
-            </Text>
-          </NotesDisclosure>
-        )}
 
         {showStations && <StationWeightsDisclosure />}
 
@@ -284,36 +296,6 @@ export default function CycleSessionScreen() {
         </Pressable>
       </Modal>
     </SafeAreaView>
-  );
-}
-
-function SegmentButton({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
-  const { theme } = useApp();
-  return (
-    <Pressable
-      onPress={onPress}
-      style={[styles.segmentBtn, active && { backgroundColor: theme.accent }]}
-    >
-      <Text style={[styles.segmentText, { color: active ? "#fff" : theme.textSecondary }]}>{label}</Text>
-    </Pressable>
-  );
-}
-
-function CollisionCallout({ text }: { text: string }) {
-  const { theme } = useApp();
-  return (
-    <View
-      style={[
-        styles.collisionBanner,
-        { backgroundColor: "rgba(255, 149, 0, 0.12)", borderColor: "#FF9500" },
-      ]}
-    >
-      <Ionicons name="warning-outline" size={18} color="#FF9500" style={{ marginTop: 1 }} />
-      <View style={{ flex: 1 }}>
-        <Text style={[styles.collisionLabel, { color: "#FF9500" }]}>Collision warning</Text>
-        <Text style={[styles.collisionBody, { color: theme.text }]}>{text}</Text>
-      </View>
-    </View>
   );
 }
 
@@ -486,7 +468,6 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.xs,
   },
   chev: { width: 40, height: 40, alignItems: "center", justifyContent: "center" },
-  topTitle: { flex: 1, textAlign: "center", fontSize: 14, fontWeight: "700" },
   scroll: { padding: spacing.md, paddingTop: 0 },
   context: { fontSize: 11, fontWeight: "800", letterSpacing: 1.2, marginBottom: 6 },
   title: { fontSize: 26, fontWeight: "800", marginBottom: 4 },
@@ -508,13 +489,6 @@ const styles = StyleSheet.create({
     padding: 3,
     marginBottom: spacing.md,
   },
-  segmentBtn: {
-    flex: 1,
-    paddingVertical: spacing.sm + 2,
-    borderRadius: borderRadius.sm - 2,
-    alignItems: "center",
-  },
-  segmentText: { fontSize: 13, fontWeight: "600" },
   explainerCard: {
     position: "relative",
     borderRadius: borderRadius.sm,
@@ -565,16 +539,6 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
   },
   explainerGotItText: { color: "#fff", fontSize: 15, fontWeight: "700" },
-  collisionBanner: {
-    flexDirection: "row",
-    gap: 10,
-    padding: spacing.sm + 4,
-    borderRadius: borderRadius.sm,
-    borderWidth: 1,
-    marginBottom: spacing.md,
-  },
-  collisionLabel: { fontSize: 11, fontWeight: "800", letterSpacing: 1, marginBottom: 4 },
-  collisionBody: { fontSize: 13, lineHeight: 19 },
   stepsBlock: { marginBottom: spacing.sm },
   stepRow: {
     paddingVertical: spacing.sm + 2,

@@ -1,7 +1,7 @@
 import * as Notifications from "expo-notifications";
 import { Settings } from "./store";
 import type { CycleProgress } from "./cycleProgress";
-import { getCurrentWeek } from "./cycleProgress";
+import { getActiveWeek } from "./cycleProgress";
 import { BLOCK_LABELS, getCycle, getWeekSessions } from "./cycle";
 
 interface NotificationContent {
@@ -22,14 +22,18 @@ export function buildNotificationBody(
     return { title, body: "Tap to start your cycle" };
   }
 
-  const currentWeek = getCurrentWeek(progress.startDate);
+  const cycle = getCycle();
+  const weekKeyIndex = cycle.weeks.map((w) => ({
+    cycle_week: w.cycle_week,
+    sessionKeys: getWeekSessions(w).map(({ key }) => key),
+  }));
+  const currentWeek = getActiveWeek(progress, settings.raceDate, weekKeyIndex);
   if (currentWeek == null) {
-    // getCurrentWeek only returns null when startDate is unparseable, which
-    // shouldn't happen for any normally-written value — treat as pre-cycle.
+    // getActiveWeek returns null only when startDate is missing (handled above)
+    // or unparseable — treat as pre-cycle.
     return { title, body: "Tap to start your cycle" };
   }
 
-  const cycle = getCycle();
   const week = cycle.weeks.find((w) => w.cycle_week === currentWeek);
   if (!week) {
     // Cycle data missing the week (e.g. cycle complete past wk12). Generic
@@ -53,7 +57,7 @@ export function buildNotificationBody(
   const sessionWord = remaining === 1 ? "session" : "sessions";
   return {
     title,
-    body: `${blockLabel} Wk ${currentWeek} · ${remaining} ${sessionWord} remaining`,
+    body: `${blockLabel} Week ${currentWeek} · ${remaining} ${sessionWord} remaining`,
   };
 }
 

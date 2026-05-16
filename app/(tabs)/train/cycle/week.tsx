@@ -14,13 +14,21 @@ import {
   BLOCK_LABELS,
   CycleSession,
   Wk12Variant,
-  blockMiniSummary,
   getCycleWeek,
   getSessionLabel,
   getWeekSessions,
 } from "../../../../lib/cycle";
 import { isSessionComplete, useCycleProgress } from "../../../../lib/cycleProgress";
 import { spacing, borderRadius } from "../../../../constants/theme";
+import { SegmentButton } from "../../../../components/train/SegmentButton";
+import { CollisionCallout } from "../../../../components/train/CollisionCallout";
+
+// Day numbers track the position-in-week-after-variant-resolution. Keeps
+// labeling consistent with /train and /train/cycle/session.
+function dayNumberFromKey(key: string, fallbackIndex: number): number {
+  const m = /^d(\d+)$/.exec(key);
+  return m ? parseInt(m[1], 10) : fallbackIndex + 1;
+}
 
 export default function CycleWeekScreen() {
   const { theme } = useApp();
@@ -61,7 +69,7 @@ export default function CycleWeekScreen() {
           <Ionicons name="chevron-back" size={26} color={theme.text} />
         </Pressable>
         <Text style={[styles.topTitle, { color: theme.text }]} numberOfLines={1}>
-          Wk{week.cycle_week}
+          Week {week.cycle_week}
         </Text>
         <View style={styles.chev} />
       </View>
@@ -69,11 +77,11 @@ export default function CycleWeekScreen() {
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
         <View style={styles.headerBlock}>
           <Text style={[styles.eyebrow, { color: theme.accent }]}>
-            {blockLabel.toUpperCase()} · WK{week.cycle_week}
+            {blockLabel.toUpperCase()}
           </Text>
           <Text style={[styles.title, { color: theme.text }]}>{week.title}</Text>
           <Text style={[styles.summary, { color: theme.textSecondary }]}>
-            {blockMiniSummary(week)}
+            {week.summary}
           </Text>
         </View>
 
@@ -105,14 +113,15 @@ export default function CycleWeekScreen() {
         )}
 
         {week.notes.collision_warning && (
-          <CollisionCallout text={week.notes.collision_warning} />
+          <CollisionCallout text={week.notes.collision_warning} label="Week collision warning" />
         )}
 
-        {sessions.map(({ key, session }) => (
+        {sessions.map(({ key, session }, idx) => (
           <SessionListItem
             key={key}
             sessionKey={key}
             session={session}
+            dayNumber={dayNumberFromKey(key, idx)}
             completed={isSessionComplete(progress, week.cycle_week, key)}
             onPress={() =>
               router.push({
@@ -142,44 +151,16 @@ export default function CycleWeekScreen() {
   );
 }
 
-function SegmentButton({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
-  const { theme } = useApp();
-  return (
-    <Pressable
-      onPress={onPress}
-      style={[styles.segmentBtn, active && { backgroundColor: theme.accent }]}
-    >
-      <Text style={[styles.segmentText, { color: active ? "#fff" : theme.textSecondary }]}>{label}</Text>
-    </Pressable>
-  );
-}
-
-function CollisionCallout({ text }: { text: string }) {
-  const { theme } = useApp();
-  return (
-    <View
-      style={[
-        styles.collisionBanner,
-        { backgroundColor: "rgba(255, 149, 0, 0.12)", borderColor: "#FF9500" },
-      ]}
-    >
-      <Ionicons name="warning-outline" size={18} color="#FF9500" style={{ marginTop: 1 }} />
-      <View style={{ flex: 1 }}>
-        <Text style={[styles.collisionLabel, { color: "#FF9500" }]}>Week collision warning</Text>
-        <Text style={[styles.collisionBody, { color: theme.text }]}>{text}</Text>
-      </View>
-    </View>
-  );
-}
-
 function SessionListItem({
   sessionKey,
   session,
+  dayNumber,
   completed,
   onPress,
 }: {
   sessionKey: string;
   session: CycleSession;
+  dayNumber: number;
   completed: boolean;
   onPress: () => void;
 }) {
@@ -201,7 +182,7 @@ function SessionListItem({
     >
       <View style={{ flex: 1 }}>
         <View style={styles.cardTop}>
-          <Text style={[styles.sessionType, { color: theme.accent }]}>{typeLabel}</Text>
+          <Text style={[styles.sessionType, { color: theme.accent }]}>DAY {dayNumber} · {typeLabel}</Text>
           {session.optional && (
             <View style={[styles.optionalChip, { borderColor: theme.accent }]}>
               <Text style={[styles.optionalChipText, { color: theme.accent }]}>OPTIONAL</Text>
@@ -251,13 +232,6 @@ const styles = StyleSheet.create({
     padding: 3,
     marginBottom: spacing.md,
   },
-  segmentBtn: {
-    flex: 1,
-    paddingVertical: spacing.sm + 2,
-    borderRadius: borderRadius.sm - 2,
-    alignItems: "center",
-  },
-  segmentText: { fontSize: 13, fontWeight: "600", textAlign: "center" },
   introBanner: {
     padding: spacing.sm + 4,
     borderRadius: borderRadius.sm,
@@ -272,16 +246,6 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
     marginBottom: 4,
   },
-  collisionBanner: {
-    flexDirection: "row",
-    gap: 10,
-    padding: spacing.sm + 4,
-    borderRadius: borderRadius.sm,
-    borderWidth: 1,
-    marginBottom: spacing.md,
-  },
-  collisionLabel: { fontSize: 11, fontWeight: "800", letterSpacing: 1, marginBottom: 4 },
-  collisionBody: { fontSize: 13, lineHeight: 19 },
   sessionCard: {
     flexDirection: "row",
     alignItems: "center",

@@ -1,5 +1,5 @@
 import { BLOCK_LABELS, Cycle, getWeekSessions } from "./cycle";
-import { CycleProgress, getCurrentWeek } from "./cycleProgress";
+import { CycleProgress, getActiveWeek } from "./cycleProgress";
 import { Settings } from "./store";
 import { daysUntil } from "./dates";
 
@@ -46,7 +46,12 @@ export function getCurrentCoachContext(
 
   if (!cycleStarted) return base;
 
-  const currentWeek = getCurrentWeek(progress.startDate) ?? 1;
+  const weekKeyIndex = cycle.weeks.map((w) => ({
+    cycle_week: w.cycle_week,
+    sessionKeys: getWeekSessions(w).map(({ key }) => key),
+  }));
+  const currentWeek =
+    getActiveWeek(progress, settings.raceDate, weekKeyIndex) ?? 1;
   const week = cycle.weeks.find((w) => w.cycle_week === currentWeek);
   if (!week) return { ...base, cycleVersion: cycle.cycle_version };
 

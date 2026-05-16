@@ -59,8 +59,8 @@
       "cycle_week": 1,
       "block_phase": "foundation",
       "block_week": 1,
-      "title": "Foundation — Wk1 (Intro)",
-      "summary": "Foundation intro. RPE cap 7. 5 sessions.",
+      "title": "Intro",
+      "summary": "Ease into the program with five short, moderate-intensity sessions. Focus on movement quality and learning the format.",
       "session_count": 5,
       "sessions": {
         "d1": {
@@ -113,8 +113,8 @@
           },
           "notes": {
             "about": "Foundation intro session. Calibrate RPE — pick a weight where rep 5 feels solid with 3-4 reps in reserve. HalfRox preserves both A-pair lifts; time savings come from skipping accessories.",
-            "week_context": "Wk1 RPE 6-7 → Wk2 RPE 7 → Wk3 RPE 7 with set count up.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "week_context": "Week 1 RPE 6-7 → Week 2 RPE 7 → Week 3 RPE 7 with set count up.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "Goblet squat or bodyweight squat. DB RDL.",
               "advanced": "Hold RPE 6-7 — calibration week."
@@ -158,8 +158,8 @@
           },
           "notes": {
             "about": "Aerobic base. Conversational pace, nasal breathing if possible (useful Z2 self-check).",
-            "week_context": "Wk1 Easy Run is 35 min main work.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "week_context": "Week 1 Easy Run is 35 min main work.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "Run/walk intervals to keep effort easy.",
               "advanced": "Stay Z2 — resist pace creep."
@@ -217,8 +217,8 @@
           },
           "notes": {
             "about": "Press + pull baseline. Farmers carry at moderate load to start grip endurance.",
-            "week_context": "Wk1 RPE 6-7 — calibrate.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "week_context": "Week 1 RPE 6-7 — calibrate.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "Ring rows, DB bench. Light farmer carries.",
               "advanced": "Hold RPE 6-7."
@@ -282,8 +282,8 @@
           },
           "notes": {
             "about": "First exposure to all 8 race stations at sub-race volume and load. Focus is mechanics, not speed. Sandbag lunge load runs lighter than other stations per Framework Spec §9.",
-            "week_context": "Wk1 establishes 8-station vocabulary at 25-60% race volume/load. Wk2 ramps to 65-70% with race-weight sled focus block.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "week_context": "Week 1 establishes 8-station vocabulary at 25-60% race volume/load. Week 2 ramps to 65-70% with race-weight sled focus block.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "Stay at 25-50% loads. Skip Wall Balls if depth or target consistency are questionable.",
               "advanced": "Hold Foundation loads — race-weight exposure builds gradually."
@@ -328,7 +328,7 @@
           "notes": {
             "about": "Second Easy Run of the week. Same target as D2 — keep it conversational.",
             "week_context": "Foundation builds aerobic base with two Easy Runs per week.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "Run/walk intervals.",
               "advanced": "Stay Z2."
@@ -338,22 +338,22 @@
         }
       },
       "notes": {
-        "about": "Foundation Wk1 — intro. 5 sessions establishing baselines on key lifts, two Easy Runs for aerobic base, one full 8-station rotation at light load. Calibrate RPE this week.",
-        "week_context": "Foundation Wk1 → Wk2 → Wk3 builds aerobic time from ~70 min to ~90 min/week and station load from 25-60% to ~75% race weight.",
-        "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7."
+        "about": "Foundation Week 1 — intro. 5 sessions establishing baselines on key lifts, two Easy Runs for aerobic base, one full 8-station rotation at light load. Calibrate RPE this week.",
+        "week_context": "Foundation Week 1 → Week 2 → Week 3 builds aerobic time from ~70 min to ~90 min/week and station load from 25-60% to ~75% race weight.",
+        "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7."
       }
     },
     {
       "cycle_week": 2,
       "block_phase": "foundation",
       "block_week": 2,
-      "title": "Foundation — Wk2 (Development)",
-      "summary": "Foundation development. RPE cap 7 (with brief race-weight sled focus block on D4).",
+      "title": "Development",
+      "summary": "Volume builds slightly. Most work stays moderate. Day 4 introduces a brief sled-focus block.",
       "session_count": 5,
       "sessions": {
         "d1": {
           "title": "Strength A",
-          "stimulus": "Add 5-10 lbs from Wk1 if Wk1 felt sub-RPE 7. Settle into RPE 7 working weights.",
+          "stimulus": "Add 5-10 lbs from Week 1 if Week 1 felt sub-RPE 7. Settle into RPE 7 working weights.",
           "session_type": "strength_a",
           "full_rox": {
             "estimated_duration_minutes": 58,
@@ -395,8 +395,8 @@
           },
           "notes": {
             "about": "RPE 7 working weights. Add Single-leg Glute Bridge to the unilateral progression.",
-            "week_context": "Wk2 sits between Wk1 calibration and Wk3 set-count progression.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "week_context": "Week 2 sits between Week 1 calibration and Week 3 set-count progression.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "Stay at unweighted lunges. Goblet squat if barbell isn't dialed.",
               "advanced": "Stay RPE 7."
@@ -440,8 +440,8 @@
           },
           "notes": {
             "about": "Easy Run main work bumps to 40 min.",
-            "week_context": "Foundation aerobic time builds Wk1 35 → Wk2 40 → Wk3 45 min main.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "week_context": "Foundation aerobic time builds Week 1 35 → Week 2 40 → Week 3 45 min main.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "Run/walk intervals.",
               "advanced": "Stay Z2."
@@ -493,8 +493,8 @@
           },
           "notes": {
             "about": "Settle into RPE 7. Farmers carry steps up to 60m to build grip endurance.",
-            "week_context": "Wk2 farmers 60m → Wk3 80m → Wk4 80m loaded heavier.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "week_context": "Week 2 farmers 60m → Week 3 80m → Week 4 80m loaded heavier.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "Ring rows, DB bench, lighter farmer load.",
               "advanced": "Stay RPE 7."
@@ -504,7 +504,7 @@
         },
         "d4": {
           "title": "Hyrox Movement Pattern",
-          "stimulus": "8-station rotation at 65-70% race weight + brief race-weight sled focus block. Note on RPE: the race-weight sled focus block briefly exceeds the Wk2 RPE 7 cap. This is intentional — a controlled, technique-focused first exposure to race-weight handling. Total dose is 3×12.5m at full race weight with ample rest, which is below race-station distance and below race-fatigue context.",
+          "stimulus": "8-station rotation at 65-70% race weight + brief race-weight sled focus block. Note on RPE: the race-weight sled focus block briefly exceeds the Week 2 RPE 7 cap. This is intentional — a controlled, technique-focused first exposure to race-weight handling. Total dose is 3×12.5m at full race weight with ample rest, which is below race-station distance and below race-fatigue context.",
           "session_type": "hyrox_movement_pattern",
           "full_rox": {
             "estimated_duration_minutes": 58,
@@ -516,7 +516,7 @@
               },
               {
                 "type": "station_rotation",
-                "description": "8-station rotation (same as Wk1 D4) at 65-70% race weight where applicable.",
+                "description": "8-station rotation (same as Week 1 D4) at 65-70% race weight where applicable.",
                 "duration_minutes": 35,
                 "details": [
                   "SkiErg 300m",
@@ -569,8 +569,8 @@
           },
           "notes": {
             "about": "Second Movement Pattern session ramps load to 65-70% race weight and adds first race-weight sled exposure as a brief focus block.",
-            "week_context": "Wk2 D4 first race-weight sled handling. Wk3 D4 expands sled push/pull to full 50m race distance at 75% load.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "week_context": "Week 2 D4 first race-weight sled handling. Week 3 D4 expands sled push/pull to full 50m race distance at 75% load.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "Skip race-weight focus block. Stay at 50-60% loads on rotation.",
               "advanced": "Sled focus block at race weight as written — control body position."
@@ -624,8 +624,8 @@
           },
           "notes": {
             "about": "Non-running aerobic capacity work. Pick rower or bike — whichever feels less like running.",
-            "week_context": "Engine appears in Foundation Wk2-3 and returns in Wk7 Mini-Deload.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "week_context": "Engine appears in Foundation Week 2-3 and returns in Week 7 Mini-Deload.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "Hold RPE 6.",
               "advanced": "Hold RPE 7 — don't push to threshold."
@@ -635,17 +635,17 @@
         }
       },
       "notes": {
-        "about": "Foundation Wk2 — development. RPE settles at 7 across strength. Movement Pattern adds first race-weight sled exposure as a controlled focus block. Engine debuts.",
-        "week_context": "Wk2 sits between Wk1 calibration and Wk3 Foundation peak.",
-        "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7."
+        "about": "Foundation Week 2 — development. RPE settles at 7 across strength. Movement Pattern adds first race-weight sled exposure as a controlled focus block. Engine debuts.",
+        "week_context": "Week 2 sits between Week 1 calibration and Week 3 Foundation peak.",
+        "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7."
       }
     },
     {
       "cycle_week": 3,
       "block_phase": "foundation",
       "block_week": 3,
-      "title": "Foundation — Wk3 (Peak)",
-      "summary": "Foundation peak. RPE cap 7. Set count up; full 8-station race-distance rotation.",
+      "title": "Peak",
+      "summary": "First peak of the cycle. Set counts increase and every session runs all eight stations in race order.",
       "session_count": 5,
       "sessions": {
         "d1": {
@@ -691,9 +691,9 @@
             ]
           },
           "notes": {
-            "about": "Foundation peak: more sets, same RPE. Total volume up ~25% from Wk1.",
-            "week_context": "Wk3 caps Foundation strength volume before Build introduces RPE 8.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "about": "Foundation peak: more sets, same RPE. Total volume up ~25% from Week 1.",
+            "week_context": "Week 3 caps Foundation strength volume before Build introduces RPE 8.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "4×5 squat if 5×5 fatigues form.",
               "advanced": "Stay RPE 7 — Build introduces RPE 8 next week."
@@ -738,7 +738,7 @@
           "notes": {
             "about": "Foundation Easy Run peak — 45 min main work.",
             "week_context": "Foundation aerobic peak before Build adds Recovery + Tempo + Compromised.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "Run/walk intervals.",
               "advanced": "Stay Z2."
@@ -790,8 +790,8 @@
           },
           "notes": {
             "about": "Foundation strength peak. Farmers up to 80m.",
-            "week_context": "Wk3 caps Foundation strength volume.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "week_context": "Week 3 caps Foundation strength volume.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "4×5 if 5×5 fatigues form.",
               "advanced": "Stay RPE 7."
@@ -843,7 +843,7 @@
               },
               {
                 "type": "station_rotation",
-                "description": "4 stations at 50% of corresponding FullRox prescription. These four complete the 8-station Foundation exposure rotation when paired with Wk2 D4 HalfRox.",
+                "description": "4 stations at 50% of corresponding FullRox prescription. These four complete the 8-station Foundation exposure rotation when paired with Week 2 D4 HalfRox.",
                 "duration_minutes": 25,
                 "details": [
                   "Sled Pull 25m at 75% race weight",
@@ -861,8 +861,8 @@
           },
           "notes": {
             "about": "Foundation movement-pattern peak. Sled push/pull move to full race distance (with reduced load) since 12.5m turf marking precludes clean partial sled distance below 25m. Wall balls at race weight, smooth sets only.",
-            "week_context": "Wk3 D4 caps the Movement Pattern progression before Build switches to Compromised Running and Tempo.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "week_context": "Week 3 D4 caps the Movement Pattern progression before Build switches to Compromised Running and Tempo.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "Hold loads at 50-60%; reduce wall ball reps to 25.",
               "advanced": "Hold per spec — Build introduces race-weight Compromised next week."
@@ -916,8 +916,8 @@
           },
           "notes": {
             "about": "Foundation Engine peak. First Z3 efforts in the cycle.",
-            "week_context": "Engine appears Foundation + Peak only. Returns in Wk7.",
-            "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
+            "week_context": "Engine appears Foundation + Peak only. Returns in Week 7.",
+            "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7.",
             "scaling": {
               "beginner": "Drop Z3 efforts; hold steady state.",
               "advanced": "Hold RPE 7 ceiling on Z3 efforts."
@@ -927,17 +927,17 @@
         }
       },
       "notes": {
-        "about": "Foundation Wk3 — peak. Strength set counts up. Movement Pattern caps with full 8-station rotation. Engine adds Z3 efforts.",
-        "week_context": "Wk3 caps the Foundation block. Build introduces Tempo + Recovery Run + Compromised Running.",
-        "block_context": "Foundation block (Wk 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7."
+        "about": "Foundation Week 3 — peak. Strength set counts up. Movement Pattern caps with full 8-station rotation. Engine adds Z3 efforts.",
+        "week_context": "Week 3 caps the Foundation block. Build introduces Tempo + Recovery Run + Compromised Running.",
+        "block_context": "Foundation block (Week 1-3): establish aerobic base, learn station mechanics at light load, build movement quality. RPE caps at 7."
       }
     },
     {
       "cycle_week": 4,
       "block_phase": "build",
       "block_week": 1,
-      "title": "Build — Wk4 (Intro)",
-      "summary": "Build intro. Tempo, Recovery, Compromised introduced. RPE cap 8.",
+      "title": "Intro",
+      "summary": "Build block opens. Three new session types appear: Tempo, Recovery, and Compromised. Intensity rises slightly.",
       "session_count": 6,
       "sessions": {
         "d1": {
@@ -984,8 +984,8 @@
           },
           "notes": {
             "about": "First RPE 8 squat exposure. Add hip thrust for heavier glute work.",
-            "week_context": "Wk4 RPE 7-8 → Wk5 RPE 8 → Wk6 RPE 8 with reps down to 5×3.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Week 4 RPE 7-8 → Week 5 RPE 8 → Week 6 RPE 8 with reps down to 5×3.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "RPE 7 ceiling.",
               "advanced": "Push to RPE 8."
@@ -1019,8 +1019,8 @@
           },
           "notes": {
             "about": "45 min Z2 — Build holds Foundation peak distance.",
-            "week_context": "Easy Run main work holds 45 min Wk4-6.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Easy Run main work holds 45 min Week 4-6.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "Run/walk intervals.",
               "advanced": "Stay Z2."
@@ -1072,8 +1072,8 @@
           },
           "notes": {
             "about": "Build intro upper. RPE 7-8.",
-            "week_context": "Build strength ramps RPE 7-8 → 8 → 8 across Wk4-6.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Build strength ramps RPE 7-8 → 8 → 8 across Week 4-6.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "RPE 7 ceiling.",
               "advanced": "Push to RPE 8 if grip and form hold."
@@ -1127,8 +1127,8 @@
           },
           "notes": {
             "about": "Tempo intro: 4×5 min Z3 with short rest. First threshold work in the cycle.",
-            "week_context": "Wk4 4×5 min → Wk5 5×5 min → Wk6 4×6 min.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Week 4 4×5 min → Week 5 5×5 min → Week 6 4×6 min.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "3×5 min Z3 if 4 rounds blow up.",
               "advanced": "Hold Z3 — don't drift to Z4."
@@ -1172,8 +1172,8 @@
           },
           "notes": {
             "about": "Recovery Run = active flush. Deliberately slower than Easy Run.",
-            "week_context": "Recovery Run holds 30 min Wk4-9. Trims to 25 min in Wk10.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Recovery Run holds 30 min Week 4-9. Trims to 25 min in Week 10.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "Walk/jog mix.",
               "advanced": "Stay Z1 — resist pace creep."
@@ -1240,28 +1240,28 @@
           },
           "notes": {
             "about": "First Compromised session. Eases in: sled push at 25m (half race distance), sandbag at 75-85% race weight. Wall balls at race weight in R1 + R4 bookend.",
-            "week_context": "Wk5 D6 jumps to 5 rounds at full race weight + distance. Wk6 D6 is Half-Sim format (race-order stations 1-4).",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Week 5 D6 jumps to 5 rounds at full race weight + distance. Week 6 D6 is Half-Sim format (race-order stations 1-4).",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "3 rounds. Drop sled push distance to 12.5m.",
-              "advanced": "Hold prescription — Wk5 D6 ramps to full race distance."
+              "advanced": "Hold prescription — Week 5 D6 ramps to full race distance."
             },
             "substitutions": "KB swings (sled push), DB lunges (sandbag)."
           }
         }
       },
       "notes": {
-        "about": "Build Wk4 — intro. Tempo, Recovery Run, and Compromised Running added. Strength pushes to RPE 7-8. First Compromised session eases in with reduced sled distance and sandbag load.",
-        "week_context": "Wk4 introduces three new session types. Wk5 progresses each; Wk6 caps with first Half-Sim.",
-        "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8."
+        "about": "Build Week 4 — intro. Tempo, Recovery Run, and Compromised Running added. Strength pushes to RPE 7-8. First Compromised session eases in with reduced sled distance and sandbag load.",
+        "week_context": "Week 4 introduces three new session types. Week 5 progresses each; Week 6 caps with first Half-Sim.",
+        "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8."
       }
     },
     {
       "cycle_week": 5,
       "block_phase": "build",
       "block_week": 2,
-      "title": "Build — Wk5 (Progression)",
-      "summary": "Build progression. RPE pushes to 8. Compromised at full race weight + distance.",
+      "title": "Progression",
+      "summary": "Intensity climbs. Compromised sessions hit full race weight and race distance for the first time.",
       "session_count": 6,
       "sessions": {
         "d1": {
@@ -1308,8 +1308,8 @@
           },
           "notes": {
             "about": "RPE 8 on squat — settle in. Walking lunge volume up to 4 sets.",
-            "week_context": "Wk5 holds 5×5 RPE 8 squat. Wk6 drops reps to 5×3 at higher load.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Week 5 holds 5×5 RPE 8 squat. Week 6 drops reps to 5×3 at higher load.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "Stay RPE 7.",
               "advanced": "Hold RPE 8."
@@ -1344,7 +1344,7 @@
           "notes": {
             "about": "45 min Z2 — Build holds.",
             "week_context": "Easy Run main work holds 45 min through Build.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "Run/walk.",
               "advanced": "Stay Z2."
@@ -1396,8 +1396,8 @@
           },
           "notes": {
             "about": "RPE 8 settled. Farmers 3×100m at 75% race weight.",
-            "week_context": "Build upper progression Wk4-6.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Build upper progression Week 4-6.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "Stay RPE 7.",
               "advanced": "Hold RPE 8."
@@ -1451,8 +1451,8 @@
           },
           "notes": {
             "about": "Tempo volume bumps from 4×5 to 5×5.",
-            "week_context": "Wk5 5×5 → Wk6 4×6 (longer reps, fewer rounds).",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Week 5 5×5 → Week 6 4×6 (longer reps, fewer rounds).",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "4×5 if 5×5 fatigues form.",
               "advanced": "Hold Z3 — don't drift to Z4."
@@ -1496,8 +1496,8 @@
           },
           "notes": {
             "about": "Recovery Run holds 30 min main.",
-            "week_context": "Holds Wk4-9 then trims in Wk10.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Holds Week 4-9 then trims in Week 10.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "Walk/jog.",
               "advanced": "Stay Z1."
@@ -1566,8 +1566,8 @@
           },
           "notes": {
             "about": "First Compromised at full race weight + full race distance. Adds SkiErg under fatigue (closing v3.1 coverage gap).",
-            "week_context": "Wk6 D6 switches to Half-Sim format (race-order stations 1-4).",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Week 6 D6 switches to Half-Sim format (race-order stations 1-4).",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "4 rounds; sled push at 25m.",
               "advanced": "Hold per spec."
@@ -1577,17 +1577,17 @@
         }
       },
       "notes": {
-        "about": "Build Wk5 — progression. Strength settles at RPE 8. Compromised at full race weight + distance with SkiErg added.",
-        "week_context": "Wk5 sits between Build intro (Wk4) and Build peak (Wk6).",
-        "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8."
+        "about": "Build Week 5 — progression. Strength settles at RPE 8. Compromised at full race weight + distance with SkiErg added.",
+        "week_context": "Week 5 sits between Build intro (Week 4) and Build peak (Week 6).",
+        "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8."
       }
     },
     {
       "cycle_week": 6,
       "block_phase": "build",
       "block_week": 3,
-      "title": "Build — Wk6 (Peak — Half-Sim Stations 1-4)",
-      "summary": "Build peak. First Half-Sim covers race-order stations 1-4. RPE cap 8.",
+      "title": "Peak — Half-Sim Stations 1-4",
+      "summary": "First half-race simulation. Day 6 runs stations 1 through 4 in race order at race effort.",
       "session_count": 6,
       "sessions": {
         "d1": {
@@ -1634,11 +1634,11 @@
           },
           "notes": {
             "about": "Build peak — heavier load, lower reps on the squat. RPE 8 maintained.",
-            "week_context": "Wk6 caps Build strength. Wk7 deload drops load 15-20%.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Week 6 caps Build strength. Week 7 deload drops load 15-20%.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "Stay RPE 7.",
-              "advanced": "Hold RPE 8 — Wk7 deloads next."
+              "advanced": "Hold RPE 8 — Week 7 deloads next."
             },
             "substitutions": "DB squat if no barbell."
           }
@@ -1670,7 +1670,7 @@
           "notes": {
             "about": "Build peak Easy Run — 45 min Z2 holds.",
             "week_context": "Easy Run holds 45 min through Build.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "Run/walk.",
               "advanced": "Stay Z2."
@@ -1722,8 +1722,8 @@
           },
           "notes": {
             "about": "Build upper peak. Heavier press load.",
-            "week_context": "Wk6 caps Build upper. Wk7 deloads.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Week 6 caps Build upper. Week 7 deloads.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "Stay RPE 7.",
               "advanced": "Hold RPE 8."
@@ -1777,8 +1777,8 @@
           },
           "notes": {
             "about": "Longer Z3 reps to push lactate clearance.",
-            "week_context": "Wk6 caps Build tempo. Wk7 drops Tempo entirely.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Week 6 caps Build tempo. Week 7 drops Tempo entirely.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "3×5 min Z3.",
               "advanced": "Hold Z3."
@@ -1823,7 +1823,7 @@
           "notes": {
             "about": "Recovery Run before Half-Sim.",
             "week_context": "30 min Z1-low Z2 holds.",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "Walk/jog.",
               "advanced": "Stay Z1."
@@ -1889,8 +1889,8 @@
           },
           "notes": {
             "about": "First race rehearsal. Race-order stations 1-4 at full race weight and full station volume. Pacing + transition practice. FullRox strongly recommended.",
-            "week_context": "Wk8 D6 covers race-order stations 5-8 (Row, Farmers, Sandbag, Wall Balls). Wk10 D5 is Full Sim (all 8 stations).",
-            "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
+            "week_context": "Week 8 D6 covers race-order stations 5-8 (Row, Farmers, Sandbag, Wall Balls). Week 10 D5 is Full Sim (all 8 stations).",
+            "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8.",
             "scaling": {
               "beginner": "HalfRox version is the safe fallback; reduce sled load further if needed.",
               "advanced": "Hold race weight + race volume; resist racing the clock."
@@ -1900,29 +1900,29 @@
         }
       },
       "notes": {
-        "about": "Build Wk6 — peak. First Half-Sim (race-order stations 1-4). Strength reps drop to 5×3 at RPE 8.",
-        "week_context": "Wk6 caps Build. Wk7 Mini-Deload follows.",
-        "block_context": "Build block (Wk 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Wk6 Half-Sim covers race-order stations 1-4. RPE caps at 8."
+        "about": "Build Week 6 — peak. First Half-Sim (race-order stations 1-4). Strength reps drop to 5×3 at RPE 8.",
+        "week_context": "Week 6 caps Build. Week 7 Mini-Deload follows.",
+        "block_context": "Build block (Week 4-6): add intensity and race-specificity. Recovery Run, Tempo, Compromised Running introduced. Week 6 Half-Sim covers race-order stations 1-4. RPE caps at 8."
       }
     },
     {
       "cycle_week": 7,
       "block_phase": "peak",
       "block_week": 1,
-      "title": "Peak — Wk7 (Mini-Deload)",
-      "summary": "Mini-Deload. Volume cut ~25%, intensity ~20%. RPE cap 6. Compromised + Tempo dropped.",
+      "title": "Mini-Deload",
+      "summary": "Recovery week. Volume drops about a quarter, intensity backs off, and the hardest session types pause.",
       "session_count": 5,
       "sessions": {
         "d1": {
           "title": "Strength A (light)",
-          "stimulus": "Deload — reduce load 15-20% from Wk6. RPE 6.",
+          "stimulus": "Deload — reduce load 15-20% from Week 6. RPE 6.",
           "session_type": "strength_a",
           "full_rox": {
             "estimated_duration_minutes": 45,
             "structure": [
               {
                 "type": "strength_set",
-                "description": "A1. Back Squat: 4×5 @ RPE 6 (deload — reduce load 15-20% from Wk6)"
+                "description": "A1. Back Squat: 4×5 @ RPE 6 (deload — reduce load 15-20% from Week 6)"
               },
               {
                 "type": "strength_set",
@@ -1952,9 +1952,9 @@
             ]
           },
           "notes": {
-            "about": "Deload squat. Reduce load 15-20% from Wk6 — supercompensation week.",
-            "week_context": "Wk7 deload allows Wk8-9-10 peak stress.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "about": "Deload squat. Reduce load 15-20% from Week 6 — supercompensation week.",
+            "week_context": "Week 7 deload allows Week 8-9-10 peak stress.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Lighter still — RPE 5 acceptable.",
               "advanced": "Hold the cut. Don't undo the deload."
@@ -1988,8 +1988,8 @@
           },
           "notes": {
             "about": "Easy Run trims to 30 min for the deload week.",
-            "week_context": "Wk7 30 min → Wk8 47 min → Wk9 50 min (peak).",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "week_context": "Week 7 30 min → Week 8 47 min → Week 9 50 min (peak).",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Run/walk.",
               "advanced": "Stay Z2."
@@ -2036,9 +2036,9 @@
             ]
           },
           "notes": {
-            "about": "Deload upper. RPE 6 — pull back from Wk6 RPE 8.",
-            "week_context": "Wk7 deload before Wk8-9-10 peak.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "about": "Deload upper. RPE 6 — pull back from Week 6 RPE 8.",
+            "week_context": "Week 7 deload before Week 8-9-10 peak.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Lighter still.",
               "advanced": "Hold RPE 6."
@@ -2098,8 +2098,8 @@
           },
           "notes": {
             "about": "Technique EMOM uses the four highest-technique-density stations: wall balls, sled push, sandbag lunges, BBJ. Skill maintenance during deload.",
-            "week_context": "Wk7 only. Replaces Compromised Running for the deload week.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "week_context": "Week 7 only. Replaces Compromised Running for the deload week.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Lighter loads; cut sled distance to 5m.",
               "advanced": "Hold light loads — this is a skill session, not strength."
@@ -2153,8 +2153,8 @@
           },
           "notes": {
             "about": "Moderate Engine for active recovery without taxing recovery further.",
-            "week_context": "Engine appears Foundation + Wk7 only in v3.2.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "week_context": "Engine appears Foundation + Week 7 only in v3.2.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Stay Z2.",
               "advanced": "Hold low Z3 — don't push."
@@ -2164,17 +2164,17 @@
         }
       },
       "notes": {
-        "about": "Peak Wk7 — Mini-Deload. Volume cut ~25%, intensity ~20%. Compromised + Tempo dropped this week. Engine + Technique EMOM in their place. Allows supercompensation before Wk8-9-10 peak intensity.",
-        "week_context": "Wk7 deload bridges Build peak (Wk6) and Peak entry (Wk8).",
-        "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%."
+        "about": "Peak Week 7 — Mini-Deload. Volume cut ~25%, intensity ~20%. Compromised + Tempo dropped this week. Engine + Technique EMOM in their place. Allows supercompensation before Week 8-9-10 peak intensity.",
+        "week_context": "Week 7 deload bridges Build peak (Week 6) and Peak entry (Week 8).",
+        "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%."
       }
     },
     {
       "cycle_week": 8,
       "block_phase": "peak",
       "block_week": 2,
-      "title": "Peak — Wk8 (Half-Sim Stations 5-8)",
-      "summary": "Peak entry. Half-Sim covers race-order stations 5-8 (Row, Farmers, Sandbag, Wall Balls). RPE cap 8.",
+      "title": "Half-Sim Stations 5-8",
+      "summary": "Peak block opens with a half-simulation of stations 5–8: row, farmers carry, sandbag lunges, and wall balls.",
       "session_count": 6,
       "sessions": {
         "d1": {
@@ -2221,11 +2221,11 @@
           },
           "notes": {
             "about": "Post-deload return to RPE 8.",
-            "week_context": "Wk8 ramps; Wk9 is APEX (RPE 8-9, 5×3 squat).",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "week_context": "Week 8 ramps; Week 9 is APEX (RPE 8-9, 5×3 squat).",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Stay RPE 7.",
-              "advanced": "Hold RPE 8 — Wk9 pushes higher."
+              "advanced": "Hold RPE 8 — Week 9 pushes higher."
             },
             "substitutions": "DB hip thrust if no barbell."
           }
@@ -2256,8 +2256,8 @@
           },
           "notes": {
             "about": "Easy Run rebuilds to 47 min main work.",
-            "week_context": "Wk8 47 min → Wk9 50 min (peak).",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "week_context": "Week 8 47 min → Week 9 50 min (peak).",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Run/walk.",
               "advanced": "Stay Z2."
@@ -2308,9 +2308,9 @@
             ]
           },
           "notes": {
-            "about": "RPE 8 upper. Farmers volume builds toward race-weight Wk9.",
-            "week_context": "Wk8 80% farmers → Wk9 race-weight farmers.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "about": "RPE 8 upper. Farmers volume builds toward race-weight Week 9.",
+            "week_context": "Week 8 80% farmers → Week 9 race-weight farmers.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Stay RPE 7.",
               "advanced": "Hold RPE 8."
@@ -2363,9 +2363,9 @@
             ]
           },
           "notes": {
-            "about": "Tempo returns post-deload. Z3-Z4 — slightly higher intensity than Wk5.",
-            "week_context": "Wk8 5×5 → Wk9 6×5 Z4 (apex).",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "about": "Tempo returns post-deload. Z3-Z4 — slightly higher intensity than Week 5.",
+            "week_context": "Week 8 5×5 → Week 9 6×5 Z4 (apex).",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "4×5 min.",
               "advanced": "Hold Z3-Z4 ceiling."
@@ -2410,7 +2410,7 @@
           "notes": {
             "about": "Recovery Run before Half-Sim.",
             "week_context": "30 min Z1-low Z2 holds.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Walk/jog.",
               "advanced": "Stay Z1."
@@ -2476,8 +2476,8 @@
           },
           "notes": {
             "about": "Second Half-Sim covers race-order stations 5-8. Wall balls land in position 8 with race-fatigue context — first race-order exposure to the final station after accumulated Compromised fatigue. FullRox strongly recommended.",
-            "week_context": "Wk6 covered stations 1-4; Wk8 covers stations 5-8; Wk10 D5 is Full Sim (all 8).",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "week_context": "Week 6 covered stations 1-4; Week 8 covers stations 5-8; Week 10 D5 is Full Sim (all 8).",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "HalfRox is the safe fallback; reduce wall ball reps further if needed.",
               "advanced": "Hold full station volume on each — this is the most race-specific Half-Sim of the cycle."
@@ -2487,22 +2487,22 @@
         }
       },
       "notes": {
-        "about": "Peak Wk8 — Half-Sim covers race-order stations 5-8 (Row, Farmers, Sandbag, Wall Balls). Wall balls in position 8 give first race-fatigue exposure to the final station.",
-        "week_context": "Wk8 entry to Peak. Wk9 is APEX (RPE 8-9). Wk10 is Full Sim.",
-        "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%."
+        "about": "Peak Week 8 — Half-Sim covers race-order stations 5-8 (Row, Farmers, Sandbag, Wall Balls). Wall balls in position 8 give first race-fatigue exposure to the final station.",
+        "week_context": "Week 8 entry to Peak. Week 9 is APEX (RPE 8-9). Week 10 is Full Sim.",
+        "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%."
       }
     },
     {
       "cycle_week": 9,
       "block_phase": "peak",
       "block_week": 3,
-      "title": "Peak — Wk9 (APEX)",
-      "summary": "APEX — hardest week of the cycle. RPE pushes to 8-9. FullRox strongly recommended for all sessions.",
+      "title": "APEX",
+      "summary": "The hardest week of the cycle. Most users benefit from going full race-weight on every session.",
       "session_count": 6,
       "sessions": {
         "d1": {
           "title": "Strength A",
-          "stimulus": "Heaviest squat session of the cycle. Walking lunge accessory volume is moderately reduced (3×20 from earlier 4×30) to manage local quad fatigue accumulation across Wk8 D6 → Wk9 D1.",
+          "stimulus": "Heaviest squat session of the cycle. Walking lunge accessory volume is moderately reduced (3×20 from earlier 4×30) to manage local quad fatigue accumulation across Week 8 D6 → Week 9 D1.",
           "session_type": "strength_a",
           "full_rox": {
             "estimated_duration_minutes": 58,
@@ -2517,7 +2517,7 @@
               },
               {
                 "type": "strength_set",
-                "description": "B1. Walking Lunges: 3×20 steps loaded (reduced from 4×30 to manage Wk8 D6 → Wk9 D1 lunge fatigue layering)"
+                "description": "B1. Walking Lunges: 3×20 steps loaded (reduced from 4×30 to manage Week 8 D6 → Week 9 D1 lunge fatigue layering)"
               },
               {
                 "type": "strength_set",
@@ -2543,9 +2543,9 @@
             ]
           },
           "notes": {
-            "about": "APEX squat — heaviest session of the cycle. Walking lunge accessory deliberately reduced to protect Wk8 D6 → Wk9 D1 lunge fatigue layering.",
-            "week_context": "Wk9 caps strength stimulus. Wk10 reduces strength to allow Full Sim recovery.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "about": "APEX squat — heaviest session of the cycle. Walking lunge accessory deliberately reduced to protect Week 8 D6 → Week 9 D1 lunge fatigue layering.",
+            "week_context": "Week 9 caps strength stimulus. Week 10 reduces strength to allow Full Sim recovery.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Stay RPE 8 — leave 2 reps in reserve.",
               "advanced": "Hold RPE 9 — 1 rep in reserve, no misses."
@@ -2579,8 +2579,8 @@
           },
           "notes": {
             "about": "Easy Run peak — 50 min. Apex Z2 volume.",
-            "week_context": "Wk9 50 min is the cycle peak. Wk10 trims to 40 min.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "week_context": "Week 9 50 min is the cycle peak. Week 10 trims to 40 min.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Run/walk. Drop to 40 min if cumulative fatigue is high.",
               "advanced": "Stay Z2."
@@ -2632,8 +2632,8 @@
           },
           "notes": {
             "about": "APEX upper. Farmers at race weight for the first time.",
-            "week_context": "Wk9 caps upper. Wk11 holds race-weight farmers at reduced volume (2×80m).",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "week_context": "Week 9 caps upper. Week 11 holds race-weight farmers at reduced volume (2×80m).",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Stay RPE 8 — leave 2 reps in reserve.",
               "advanced": "Hold RPE 9 — no missed reps."
@@ -2687,8 +2687,8 @@
           },
           "notes": {
             "about": "APEX tempo — 30 min total threshold. The highest tempo volume of the cycle.",
-            "week_context": "Wk9 caps Z4 volume. Wk11 sharpens to 3×5 min Z4.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "week_context": "Week 9 caps Z4 volume. Week 11 sharpens to 3×5 min Z4.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "5×4 min Z3-Z4.",
               "advanced": "Hold Z4 — no drift to Z5."
@@ -2733,7 +2733,7 @@
           "notes": {
             "about": "Recovery Run is critical at APEX — don't compromise the dose.",
             "week_context": "Recovery Run holds 30 min through APEX.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Walk/jog.",
               "advanced": "Stay Z1."
@@ -2804,8 +2804,8 @@
           },
           "notes": {
             "about": "APEX Compromised. 6 rounds, race weight, with Row exposure added (closing v3.1 coverage gap). Sandbag lunges at half race distance per §9 to manage quad fatigue. Run target is goal race pace / high Z3 — don't turn it into 6km of threshold.",
-            "week_context": "Wk11 D5 sharpens this format down to 4 rounds at 800m at controlled effort.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "week_context": "Week 11 D5 sharpens this format down to 4 rounds at 800m at controlled effort.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "5 rounds. Sled distances at 25m. Sandbag at 37.5m.",
               "advanced": "Hold per spec — Z4 only if mechanics stay clean."
@@ -2815,22 +2815,22 @@
         }
       },
       "notes": {
-        "about": "Peak Wk9 — APEX. Hardest week of the cycle. Maximum stimulus across strength, tempo, and Compromised. FullRox strongly recommended for all sessions this week. Weekly running time peaks at ~150-190 min depending on athlete pace, typically landing ~160-180 min for most intermediate athletes.",
-        "week_context": "Wk9 caps cumulative stimulus. Wk10 reduces strength + adds Full Sim.",
-        "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%."
+        "about": "Peak Week 9 — APEX. Hardest week of the cycle. Maximum stimulus across strength, tempo, and Compromised. FullRox strongly recommended for all sessions this week. Weekly running time peaks at ~150-190 min depending on athlete pace, typically landing ~160-180 min for most intermediate athletes.",
+        "week_context": "Week 9 caps cumulative stimulus. Week 10 reduces strength + adds Full Sim.",
+        "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%."
       }
     },
     {
       "cycle_week": 10,
       "block_phase": "peak",
       "block_week": 4,
-      "title": "Peak — Wk10 (Full Simulation)",
-      "summary": "Full race simulation week. Volume reduced from Wk9 to allow recovery for the Sim. Sim runs at 80-85% race effort.",
+      "title": "Full Simulation",
+      "summary": "Full race simulation. Volume drops to allow recovery for the sim, which runs at about 80–85% race effort.",
       "session_count": 5,
       "sessions": {
         "d1": {
           "title": "Strength A (moderate, pre-Sim)",
-          "stimulus": "Pull back from Wk9 peak. RPE 7.",
+          "stimulus": "Pull back from Week 9 peak. RPE 7.",
           "session_type": "strength_a",
           "full_rox": {
             "estimated_duration_minutes": 50,
@@ -2867,9 +2867,9 @@
             ]
           },
           "notes": {
-            "about": "Pull strength back to RPE 7 to allow recovery for Wk10 D5 Full Sim.",
-            "week_context": "Wk10 D1-D3 are pre-Sim moderation; D5 is the capstone Sim.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "about": "Pull strength back to RPE 7 to allow recovery for Week 10 D5 Full Sim.",
+            "week_context": "Week 10 D1-D3 are pre-Sim moderation; D5 is the capstone Sim.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Stay RPE 6.",
               "advanced": "Hold RPE 7 — don't push."
@@ -2903,8 +2903,8 @@
           },
           "notes": {
             "about": "Easy Run pulls back to 40 min for pre-Sim recovery.",
-            "week_context": "Wk10 trim from Wk9 50 min peak.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "week_context": "Week 10 trim from Week 9 50 min peak.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Run/walk.",
               "advanced": "Stay Z2."
@@ -2914,7 +2914,7 @@
         },
         "d3": {
           "title": "Strength B (moderate, pre-Sim)",
-          "stimulus": "Pull back from Wk9 apex. RPE 7.",
+          "stimulus": "Pull back from Week 9 apex. RPE 7.",
           "session_type": "strength_b",
           "full_rox": {
             "estimated_duration_minutes": 50,
@@ -2952,8 +2952,8 @@
           },
           "notes": {
             "about": "Pre-Sim upper at RPE 7. Farmers reduce to 70% race weight for recovery margin.",
-            "week_context": "Wk10 D5 is the capstone Sim — pull back D1/D3 to support.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "week_context": "Week 10 D5 is the capstone Sim — pull back D1/D3 to support.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Stay RPE 6.",
               "advanced": "Hold RPE 7."
@@ -2998,7 +2998,7 @@
           "notes": {
             "about": "Pre-Sim Recovery Run trimmed to 25 min main work — reset before D5.",
             "week_context": "Last session before Full Sim.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
               "beginner": "Walk/jog.",
               "advanced": "Stay Z1."
@@ -3008,7 +3008,7 @@
         },
         "d5": {
           "title": "Full Simulation",
-          "stimulus": "Full race rehearsal at 80-85% race effort. Pacing, transitions, mental preparation. This is the capstone assessment of the cycle and the only session with no HalfRox option. If you genuinely cannot do the Full Sim, defer to Wk8's Half-Sim format and treat this week as deferred rather than truncated.",
+          "stimulus": "Full race rehearsal at 80-85% race effort. Pacing, transitions, mental preparation. This is the capstone assessment of the cycle and the only session with no HalfRox option. If you genuinely cannot do the Full Sim, defer to Week 8's Half-Sim format and treat this week as deferred rather than truncated.",
           "session_type": "simulation",
           "simulation_type": "full_sim",
           "full_rox": {
@@ -3046,17 +3046,17 @@
             "structure": [
               {
                 "type": "main",
-                "description": "No HalfRox. Full Sim is the capstone assessment of the cycle. If you genuinely cannot do the Full Sim, defer to Wk8's Half-Sim format and treat this week as deferred rather than truncated.",
+                "description": "No HalfRox. Full Sim is the capstone assessment of the cycle. If you genuinely cannot do the Full Sim, defer to Week 8's Half-Sim format and treat this week as deferred rather than truncated.",
                 "duration_minutes": 0
               }
             ]
           },
           "notes": {
             "about": "Capstone assessment of the cycle. All 8 stations + 8 runs at race weight, RPE 8 (not race effort — 80-85%). Capture splits and total time as benchmark for race day. No HalfRox option — defer the week if you can't do the Full Sim.",
-            "week_context": "Wk10 D5 is the cycle capstone. Wk11 begins race-prep sharpening.",
-            "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%.",
+            "week_context": "Week 10 D5 is the cycle capstone. Week 11 begins race-prep sharpening.",
+            "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%.",
             "scaling": {
-              "beginner": "Stay at 75-80% race effort. Sub Wk8 Half-Sim format if Full Sim is unrealistic.",
+              "beginner": "Stay at 75-80% race effort. Sub Week 8 Half-Sim format if Full Sim is unrealistic.",
               "advanced": "Hold 80-85% — resist racing the Sim. Race effort is reserved for race day."
             },
             "substitutions": "If a station is genuinely inaccessible, sub the closest equivalent (KB swings for sled push, DB carry for farmers, jumping squats for BBJ). Note: substitutions reduce the assessment value of this Sim."
@@ -3064,17 +3064,17 @@
         }
       },
       "notes": {
-        "about": "Peak Wk10 — Full Simulation. Strength + running pulled back from Wk9 to allow recovery for the capstone Sim. Sim runs at 80-85% race effort, all 8 stations, race weight throughout.",
-        "week_context": "Wk10 caps the Peak block. Wk11 begins race-prep sharpening.",
-        "block_context": "Peak block (Wk 7-10): highest stimulus block. Wk7 Mini-Deload allows Wk8-9-10 to deliver peak training stress. Wk8 Half-Sim covers race-order stations 5-8; Wk9 is APEX; Wk10 is Full Sim at 80-85%."
+        "about": "Peak Week 10 — Full Simulation. Strength + running pulled back from Week 9 to allow recovery for the capstone Sim. Sim runs at 80-85% race effort, all 8 stations, race weight throughout.",
+        "week_context": "Week 10 caps the Peak block. Week 11 begins race-prep sharpening.",
+        "block_context": "Peak block (Week 7-10): highest stimulus block. Week 7 Mini-Deload allows Week 8-9-10 to deliver peak training stress. Week 8 Half-Sim covers race-order stations 5-8; Week 9 is APEX; Week 10 is Full Sim at 80-85%."
       }
     },
     {
       "cycle_week": 11,
       "block_phase": "race_prep",
       "block_week": 1,
-      "title": "Race Prep — Wk11 (Sharpening)",
-      "summary": "Sharpening. Meaningful volume reduction with intensity maintained on key sessions. RPE cap 8.",
+      "title": "Sharpening",
+      "summary": "Volume drops meaningfully but intensity stays high on key sessions. Last hard week before the race.",
       "session_count": 5,
       "sessions": {
         "d1": {
@@ -3117,8 +3117,8 @@
           },
           "notes": {
             "about": "Sharpening squat — 4×3 RPE 8. Low volume preserves race-week recovery.",
-            "week_context": "Wk11 keeps strength sharp; Wk12 D3 drops to RPE 5 for race-week maintenance.",
-            "block_context": "Race Prep block (Wk 11-12): declining sessions. Wk11 sharpening (meaningful volume reduction with intensity maintained). Wk12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
+            "week_context": "Week 11 keeps strength sharp; Week 12 D3 drops to RPE 5 for race-week maintenance.",
+            "block_context": "Race Prep block (Week 11-12): declining sessions. Week 11 sharpening (meaningful volume reduction with intensity maintained). Week 12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
             "scaling": {
               "beginner": "Stay RPE 7.",
               "advanced": "Hold RPE 8 — no missed reps."
@@ -3152,8 +3152,8 @@
           },
           "notes": {
             "about": "Easy Run trims to 35 min for race-prep recovery.",
-            "week_context": "Wk11 35 min → Wk12 no Easy Run (race-week sessions are prescriptive).",
-            "block_context": "Race Prep block (Wk 11-12): declining sessions. Wk11 sharpening (meaningful volume reduction with intensity maintained). Wk12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
+            "week_context": "Week 11 35 min → Week 12 no Easy Run (race-week sessions are prescriptive).",
+            "block_context": "Race Prep block (Week 11-12): declining sessions. Week 11 sharpening (meaningful volume reduction with intensity maintained). Week 12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
             "scaling": {
               "beginner": "Run/walk.",
               "advanced": "Stay Z2."
@@ -3163,7 +3163,7 @@
         },
         "d3": {
           "title": "Strength B (sharpening)",
-          "stimulus": "Grip stays sharp at race weight. Volume reduced from Wk9 D3 to protect race-week recovery.",
+          "stimulus": "Grip stays sharp at race weight. Volume reduced from Week 9 D3 to protect race-week recovery.",
           "session_type": "strength_b",
           "full_rox": {
             "estimated_duration_minutes": 46,
@@ -3200,9 +3200,9 @@
             ]
           },
           "notes": {
-            "about": "Sharpening upper. Farmers at race weight, total volume cut 20% from Wk9 D3 (2×80m vs 2×100m) to preserve race-week recovery while keeping race-weight grip stimulus.",
-            "week_context": "Wk11 last race-weight farmers exposure before race day.",
-            "block_context": "Race Prep block (Wk 11-12): declining sessions. Wk11 sharpening (meaningful volume reduction with intensity maintained). Wk12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
+            "about": "Sharpening upper. Farmers at race weight, total volume cut 20% from Week 9 D3 (2×80m vs 2×100m) to preserve race-week recovery while keeping race-weight grip stimulus.",
+            "week_context": "Week 11 last race-weight farmers exposure before race day.",
+            "block_context": "Race Prep block (Week 11-12): declining sessions. Week 11 sharpening (meaningful volume reduction with intensity maintained). Week 12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
             "scaling": {
               "beginner": "Farmers at 80% race weight.",
               "advanced": "Hold race weight."
@@ -3224,7 +3224,7 @@
               },
               {
                 "type": "intervals",
-                "description": "3×5 min Z4 with 2 min easy. 15 min total tempo, descending taper from Wk9's 30 min.",
+                "description": "3×5 min Z4 with 2 min easy. 15 min total tempo, descending taper from Week 9's 30 min.",
                 "duration_minutes": 21
               },
               {
@@ -3255,9 +3255,9 @@
             ]
           },
           "notes": {
-            "about": "Threshold sharpening — only Z4 exposure of the week. Half of Wk9's threshold volume.",
-            "week_context": "Wk11 D4 is the only Z4 session this week. D5 Compromised stays at high-Z3 cap.",
-            "block_context": "Race Prep block (Wk 11-12): declining sessions. Wk11 sharpening (meaningful volume reduction with intensity maintained). Wk12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
+            "about": "Threshold sharpening — only Z4 exposure of the week. Half of Week 9's threshold volume.",
+            "week_context": "Week 11 D4 is the only Z4 session this week. D5 Compromised stays at high-Z3 cap.",
+            "block_context": "Race Prep block (Week 11-12): declining sessions. Week 11 sharpening (meaningful volume reduction with intensity maintained). Week 12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
             "scaling": {
               "beginner": "3×3 min Z4.",
               "advanced": "Hold Z4 — don't drift to Z5."
@@ -3324,8 +3324,8 @@
           },
           "notes": {
             "about": "Race-rhythm Compromised. NOT a second threshold session. Runs at goal race pace, RPE 7-8 max — explicit Z3 ceiling. Sled and sandbag distances at sub-race volumes for race-week recovery.",
-            "week_context": "Last Compromised exposure before race day. Wk12 has no Compromised.",
-            "block_context": "Race Prep block (Wk 11-12): declining sessions. Wk11 sharpening (meaningful volume reduction with intensity maintained). Wk12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
+            "week_context": "Last Compromised exposure before race day. Week 12 has no Compromised.",
+            "block_context": "Race Prep block (Week 11-12): declining sessions. Week 11 sharpening (meaningful volume reduction with intensity maintained). Week 12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
             "scaling": {
               "beginner": "3 rounds. Drop sled push to 12.5m.",
               "advanced": "Hold per spec — race rhythm, not threshold."
@@ -3335,17 +3335,17 @@
         }
       },
       "notes": {
-        "about": "Race Prep Wk11 — sharpening. Meaningful volume reduction with intensity maintained on key sessions. D4 is the only Z4 exposure this week; D5 is race-rhythm Compromised at controlled effort (high-Z3 cap).",
-        "week_context": "Wk11 sharpens; Wk12 is final taper.",
-        "block_context": "Race Prep block (Wk 11-12): declining sessions. Wk11 sharpening (meaningful volume reduction with intensity maintained). Wk12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh)."
+        "about": "Race Prep Week 11 — sharpening. Meaningful volume reduction with intensity maintained on key sessions. D4 is the only Z4 exposure this week; D5 is race-rhythm Compromised at controlled effort (high-Z3 cap).",
+        "week_context": "Week 11 sharpens; Week 12 is final taper.",
+        "block_context": "Race Prep block (Week 11-12): declining sessions. Week 11 sharpening (meaningful volume reduction with intensity maintained). Week 12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh)."
       }
     },
     {
       "cycle_week": 12,
       "block_phase": "race_prep",
       "block_week": 2,
-      "title": "Race Prep — Wk12 (Race Week)",
-      "summary": "Race week. Final sharp taper. Race -N labels are race-relative. Set race date in Settings.",
+      "title": "Race Week",
+      "summary": "Race week. Final taper before competition day. Make sure your race date is set in Settings.",
       "session_count": 4,
       "sessions": {
         "d1": {
@@ -3400,8 +3400,8 @@
           },
           "notes": {
             "about": "Race -6 (six days before race day). Light EMOM for movement maintenance — not a simulation. Sub-50% race weight; light loads only.",
-            "week_context": "Wk12 sequence: Race -6 EMOM → Race -4 Tempo touches → Race -3 light Strength → Race -2 shake-out → Race day.",
-            "block_context": "Race Prep block (Wk 11-12): declining sessions. Wk11 sharpening (meaningful volume reduction with intensity maintained). Wk12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
+            "week_context": "Week 12 sequence: Race -6 EMOM → Race -4 Tempo touches → Race -3 light Strength → Race -2 shake-out → Race day.",
+            "block_context": "Race Prep block (Week 11-12): declining sessions. Week 11 sharpening (meaningful volume reduction with intensity maintained). Week 12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
             "scaling": {
               "beginner": "12 min EMOM (3 rounds).",
               "advanced": "Hold light loads — race readiness over fatigue."
@@ -3456,7 +3456,7 @@
           "notes": {
             "about": "Race -4 (four days before race day). Brief race-pace exposure. 9 min total at goal race pace — sharp but minimal stimulus.",
             "week_context": "Last running intensity before race day.",
-            "block_context": "Race Prep block (Wk 11-12): declining sessions. Wk11 sharpening (meaningful volume reduction with intensity maintained). Wk12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
+            "block_context": "Race Prep block (Week 11-12): declining sessions. Week 11 sharpening (meaningful volume reduction with intensity maintained). Week 12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
             "scaling": {
               "beginner": "3×2 min at goal race pace.",
               "advanced": "Hold goal race pace exactly — don't push faster."
@@ -3505,7 +3505,7 @@
           "notes": {
             "about": "Race -3 (three days before race day). Movement maintenance — wake the nervous system without depleting it. RPE 5 = 4-5 reps in reserve. HalfRox = FullRox (already minimal).",
             "week_context": "Last strength session before race day.",
-            "block_context": "Race Prep block (Wk 11-12): declining sessions. Wk11 sharpening (meaningful volume reduction with intensity maintained). Wk12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
+            "block_context": "Race Prep block (Week 11-12): declining sessions. Week 11 sharpening (meaningful volume reduction with intensity maintained). Week 12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
             "scaling": {
               "beginner": "RPE 4 — even lighter.",
               "advanced": "Hold RPE 5 — discipline check."
@@ -3560,7 +3560,7 @@
           "notes": {
             "about": "Race -2 (two days before race day). Easy shake-out + brief strides at race pace. Loosen up; no stimulus accumulation.",
             "week_context": "Final session before race day. Race day is out of scope for v3.2.",
-            "block_context": "Race Prep block (Wk 11-12): declining sessions. Wk11 sharpening (meaningful volume reduction with intensity maintained). Wk12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
+            "block_context": "Race Prep block (Week 11-12): declining sessions. Week 11 sharpening (meaningful volume reduction with intensity maintained). Week 12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh).",
             "scaling": {
               "beginner": "Skip strides; 20 min Z1 only.",
               "advanced": "Hold 4×30 sec strides at race pace exactly — don't extend."
@@ -3570,9 +3570,9 @@
         }
       },
       "notes": {
-        "about": "Race Prep Wk12 — race week. Final sharp taper with very low total volume. Sessions use Race -N labels (Race -6, Race -4, Race -3, Race -2). The app prompts for race date and calculates calendar placement; non-racers can run the four sessions sequentially with rest days between, ignoring the labels. Race day is out of scope for v3.2.",
-        "week_context": "Wk12 is the final week. Race day is Race 0 — out of scope. Post-race recovery handled separately.",
-        "block_context": "Race Prep block (Wk 11-12): declining sessions. Wk11 sharpening (meaningful volume reduction with intensity maintained). Wk12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh)."
+        "about": "Race Prep Week 12 — race week. Final sharp taper with very low total volume. Sessions use Race -N labels (Race -6, Race -4, Race -3, Race -2). The app prompts for race date and calculates calendar placement; non-racers can run the four sessions sequentially with rest days between, ignoring the labels. Race day is out of scope for v3.2.",
+        "week_context": "Week 12 is the final week. Race day is Race 0 — out of scope. Post-race recovery handled separately.",
+        "block_context": "Race Prep block (Week 11-12): declining sessions. Week 11 sharpening (meaningful volume reduction with intensity maintained). Week 12 race week (final sharp taper, no full or partial multi-station simulations within final 7 days, race day fresh)."
       }
     }
   ]

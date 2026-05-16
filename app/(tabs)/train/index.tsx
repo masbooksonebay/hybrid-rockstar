@@ -1,28 +1,59 @@
-import { useRef, useState } from "react";
-import { Text, ScrollView, Pressable, StyleSheet, Animated, View } from "react-native";
+import { useEffect, useMemo, useState } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  Pressable,
+  StyleSheet,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import PagerView from "react-native-pager-view";
 import { useApp } from "../../../lib/context";
 import {
   BLOCK_LABELS,
-  CycleSession,
+  BlockPhase,
   CycleWeek,
   getCycle,
-  getSessionLabel,
   getWeekSessions,
 } from "../../../lib/cycle";
 import {
-  getCurrentWeek,
-  isSessionComplete,
+  CycleProgress,
+  getActiveWeek,
+  getNextUncompletedSession,
+  getWeekCompletion,
   startCycle,
   useCycleProgress,
 } from "../../../lib/cycleProgress";
 import { daysUntil } from "../../../lib/dates";
 import { spacing, borderRadius } from "../../../constants/theme";
 
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
+const COMPLETE_GREEN = "#34C759";
+
+// Per-block accent colors. /train is the only consumer (the old
+// BlockFlowIndicator that also used these was removed in Wave 3D revisions),
+// so the map lives here rather than in a shared module.
+const BLOCK_ACCENTS: Record<BlockPhase, string> = {
+  foundation: "#34C759",
+  build: "#00B7FF",
+  peak: "#FF9500",
+  race_prep: "#FF453A",
+};
+
+// Derive day number from JSON session key. Keys are "d1".."d6" by convention.
+// Falls back to the position-in-week index if the key isn't day-prefixed (it
+// always is today, but the fallback keeps render safe if data ever shifts).
+function dayNumberFromKey(key: string, fallbackIndex: number): number {
+  const m = /^d(\d+)$/.exec(key);
+  return m ? parseInt(m[1], 10) : fallbackIndex + 1;
+}
 
 export default function TrainScreen() {
   const { theme, settings } = useApp();
@@ -30,26 +61,80 @@ export default function TrainScreen() {
   const cycle = getCycle();
   const progress = useCycleProgress();
   const cycleStarted = progress.startDate != null;
-  const currentWeek = getCurrentWeek(progress.startDate) ?? 1;
-  const initialIdx = Math.max(0, Math.min(currentWeek - 1, cycle.weeks.length - 1));
 
-  const pagerRef = useRef<PagerView>(null);
-  const [activeIdx, setActiveIdx] = useState<number>(initialIdx);
+  // All hooks run unconditionally, before any early return — the pre-start
+  // branch below must not change the hook count between renders. On a cold
+  // launch, useCycleProgress() returns empty on the first render and the real
+  // value after the async load resolves; gating hooks behind cycleStarted
+  // would flip the hook count and crash ("rendered more hooks…").
+  const weekKeyIndex = useMemo(
+    () =>
+      cycle.weeks.map((w) => ({
+        cycle_week: w.cycle_week,
+        sessionKeys: getWeekSessions(w).map(({ key }) => key),
+      })),
+    [cycle]
+  );
 
-  const goTo = (idx: number) => {
-    if (idx < 0 || idx >= cycle.weeks.length) return;
-    pagerRef.current?.setPage(idx);
-  };
+  // Adaptive progression: race-date set + in the future → calendar week;
+  // otherwise → first week with any uncompleted session. Falls back to 1 for
+  // the pre-start render pass (cycleStarted=false branches out below anyway).
+  const currentWeek =
+    getActiveWeek(progress, settings.raceDate, weekKeyIndex) ?? 1;
+  const currentWeekData = cycle.weeks.find((w) => w.cycle_week === currentWeek);
+  const currentBlockPhase: BlockPhase = currentWeekData?.block_phase ?? "foundation";
 
-  const raceDays = settings.raceDate ? daysUntil(settings.raceDate) : null;
+  const upNext = useMemo(
+    () => getNextUncompletedSession(progress, weekKeyIndex, currentWeek),
+    [progress, weekKeyIndex, currentWeek]
+  );
 
+  // Under the leading-edge model, upNext is null iff currentWeek=12 and
+  // every session in Week 12 is logged complete. Orphan-incomplete sessions
+  // in past weeks are excluded by getNextUncompletedSession's scoping, so this
+  // derivation matches the user's perceived "end of cycle" state.
+  const cycleComplete = upNext === null;
+
+  // Resolve Up Next to a full session record (week + key + session payload)
+  // so the card can render title + route correctly. Null when complete or no
+  // uncompleted sessions remain.
+  const upNextSession = useMemo(() => {
+    if (!upNext) return null;
+    const w = cycle.weeks.find((wk) => wk.cycle_week === upNext.weekIndex);
+    if (!w) return null;
+    const sessions = getWeekSessions(w);
+    const idx = sessions.findIndex(({ key }) => key === upNext.sessionKey);
+    if (idx < 0) return null;
+    return {
+      week: w,
+      sessionKey: upNext.sessionKey,
+      session: sessions[idx].session,
+      dayNumber: dayNumberFromKey(upNext.sessionKey, idx),
+    };
+  }, [upNext, cycle]);
+
+  // Group cycle weeks under their parent blocks for the section render.
+  const grouped = useMemo(() => {
+    return cycle.block_structure.map((block) => ({
+      key: block.key as BlockPhase,
+      label: block.label,
+      weekNumbers: block.weeks,
+      weeks: cycle.weeks.filter((w) => w.block_phase === block.key),
+    }));
+  }, [cycle]);
+
+  // Pre-start view: keep the Start CTA per spec. Returned after all hooks so
+  // the hook count stays stable across the cold-launch empty→loaded transition.
   if (!cycleStarted) {
+    const raceDays = settings.raceDate ? daysUntil(settings.raceDate) : null;
     return (
       <SafeAreaView edges={["top"]} style={[styles.container, { backgroundColor: theme.background }]}>
-        <BrandHeader theme={theme} />
-        <ScrollView contentContainerStyle={styles.startWrap} keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={styles.preStartScroll}>
+          <Text style={[styles.cycleHeadline, { color: theme.text }]}>
+            12 weeks · 4 blocks
+          </Text>
           {raceDays !== null && raceDays >= 0 && (
-            <Text style={[styles.countdown, { color: theme.accent, marginBottom: spacing.lg }]}>
+            <Text style={[styles.countdown, { color: theme.accent }]}>
               {raceDays === 0 ? "Race day" : `${raceDays} day${raceDays === 1 ? "" : "s"} to race`}
             </Text>
           )}
@@ -64,236 +149,367 @@ export default function TrainScreen() {
             <View style={{ flex: 1 }}>
               <Text style={styles.startCtaTitle}>Start Cycle</Text>
               <Text style={styles.startCtaBody}>
-                Tap to begin Wk1 of HR Cycle 1 today. 12 weeks, ~5–6 sessions per week.
+                Tap to begin Week 1 of HR Cycle 1 today. 12 weeks, ~5–6 sessions per week.
               </Text>
             </View>
-          </Pressable>
-          <Pressable
-            onPress={() => router.push("/train/cycle")}
-            style={({ pressed }) => [
-              styles.cycleLink,
-              { borderColor: theme.border, opacity: pressed ? 0.7 : 1 },
-            ]}
-          >
-            <Text style={[styles.cycleLinkText, { color: theme.text }]}>
-              View full 12-week cycle
-            </Text>
-            <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
           </Pressable>
         </ScrollView>
       </SafeAreaView>
     );
   }
 
-  const activeWeek = cycle.weeks[activeIdx];
-  const offset = activeIdx - (currentWeek - 1);
-  const weekRange = formatCycleWeekRange(progress.startDate!, activeWeek.cycle_week);
-  let headerText: string;
-  if (offset === 0) headerText = `This Week (${weekRange})`;
-  else if (offset === -1) headerText = `Last Week (${weekRange})`;
-  else if (offset === 1) headerText = `Next Week (${weekRange})`;
-  else headerText = `Wk ${activeWeek.cycle_week} · ${weekRange}`;
-
-  const leftEnabled = activeIdx > 0;
-  const rightEnabled = activeIdx < cycle.weeks.length - 1;
+  const currentBlockLabel = BLOCK_LABELS[currentBlockPhase];
+  const raceDays = settings.raceDate ? daysUntil(settings.raceDate) : null;
 
   return (
     <SafeAreaView edges={["top"]} style={[styles.container, { backgroundColor: theme.background }]}>
-      <BrandHeader theme={theme} />
-
-      <View style={styles.eyebrowBlock}>
-        <View style={styles.eyebrowRow}>
-          <Pressable
-            onPress={() => goTo(activeIdx - 1)}
-            disabled={!leftEnabled}
-            hitSlop={12}
-            style={styles.chev}
+      <ScrollView contentContainerStyle={styles.scroll}>
+        <CycleStatusCard
+          currentWeek={currentWeek}
+          currentBlockPhase={currentBlockPhase}
+          currentBlockLabel={currentBlockLabel}
+          raceDays={raceDays}
+          weeks={cycle.weeks}
+        />
+        {cycleComplete ? (
+          <View
+            style={[
+              styles.upNextCard,
+              { backgroundColor: theme.card, borderColor: COMPLETE_GREEN },
+            ]}
           >
-            <Ionicons
-              name="chevron-back"
-              size={22}
-              color={leftEnabled ? theme.text : "transparent"}
-            />
-          </Pressable>
-          <Text style={[styles.eyebrow, { color: theme.text }]} numberOfLines={1}>
-            {headerText}
-          </Text>
-          <Pressable
-            onPress={() => goTo(activeIdx + 1)}
-            disabled={!rightEnabled}
-            hitSlop={12}
-            style={styles.chev}
-          >
-            <Ionicons
-              name="chevron-forward"
-              size={22}
-              color={rightEnabled ? theme.text : "transparent"}
-            />
-          </Pressable>
-        </View>
-        {raceDays !== null && raceDays >= 0 && (
-          <Text style={[styles.countdown, { color: theme.accent }]}>
-            {raceDays === 0 ? "Race day" : `${raceDays} day${raceDays === 1 ? "" : "s"} to race`}
-          </Text>
-        )}
-      </View>
-
-      <PagerView
-        ref={pagerRef}
-        style={styles.pager}
-        initialPage={initialIdx}
-        onPageSelected={(e) => setActiveIdx(e.nativeEvent.position)}
-      >
-        {cycle.weeks.map((week) => (
-          <View key={week.cycle_week} style={styles.page}>
-            <WeekPage week={week} />
+            <Ionicons name="trophy" size={22} color={COMPLETE_GREEN} />
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.upNextEyebrow, { color: COMPLETE_GREEN }]}>
+                CYCLE COMPLETE
+              </Text>
+              <Text style={[styles.upNextTitle, { color: theme.text }]}>
+                All {cycle.cycle_length_weeks} weeks done. Nice work.
+              </Text>
+            </View>
           </View>
+        ) : upNextSession ? (
+          <Pressable
+            onPress={() =>
+              router.push({
+                pathname: "/train/cycle/session",
+                params: {
+                  w: String(upNextSession.week.cycle_week),
+                  s: upNextSession.sessionKey,
+                },
+              })
+            }
+            style={({ pressed }) => [
+              styles.upNextCard,
+              {
+                backgroundColor: theme.card,
+                borderColor: theme.accent,
+                opacity: pressed ? 0.85 : 1,
+              },
+            ]}
+          >
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.upNextEyebrow, { color: theme.accent }]}>
+                UP NEXT · WEEK {upNextSession.week.cycle_week} · DAY {upNextSession.dayNumber}
+              </Text>
+              <Text style={[styles.upNextTitle, { color: theme.text }]} numberOfLines={2}>
+                {upNextSession.session.title}
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color={theme.textSecondary} />
+          </Pressable>
+        ) : null}
+
+        {grouped.map((block) => (
+          <BlockSection
+            key={block.key}
+            blockKey={block.key}
+            label={block.label}
+            weekNumbers={block.weekNumbers}
+            weeks={block.weeks}
+            isCurrent={block.key === currentBlockPhase}
+            currentWeek={currentWeek}
+            progress={progress}
+            onWeekTap={(w) =>
+              router.push({ pathname: "/train/cycle/week", params: { w: String(w) } })
+            }
+          />
         ))}
-      </PagerView>
+
+        <View style={{ height: 60 }} />
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
-function BrandHeader({ theme }: { theme: any }) {
+interface CycleStatusCardProps {
+  currentWeek: number;
+  currentBlockPhase: BlockPhase;
+  currentBlockLabel: string;
+  raceDays: number | null;
+  weeks: CycleWeek[];
+}
+
+function CycleStatusCard({
+  currentWeek,
+  currentBlockPhase,
+  currentBlockLabel,
+  raceDays,
+  weeks,
+}: CycleStatusCardProps) {
+  const { theme } = useApp();
+  const accent = BLOCK_ACCENTS[currentBlockPhase];
+
+  // Map every cycle week → its block accent so each dot picks up its phase
+  // color. Falls back to current accent if a week is missing (shouldn't happen
+  // with the bundled JSON, but keeps render safe).
+  const dotAccents = useMemo(() => {
+    return Array.from({ length: 12 }, (_, i) => {
+      const wkNum = i + 1;
+      const wk = weeks.find((w) => w.cycle_week === wkNum);
+      const phase = wk?.block_phase ?? currentBlockPhase;
+      return BLOCK_ACCENTS[phase];
+    });
+  }, [weeks, currentBlockPhase]);
+
+  const showRaceRow = raceDays !== null && raceDays >= 0;
+  const raceText =
+    raceDays === 0
+      ? "Race Day today"
+      : `Race Day in ${raceDays} day${raceDays === 1 ? "" : "s"}`;
+
   return (
-    <>
-      <View style={styles.brandHeader}>
-        <Text style={[styles.brandText, { color: theme.text }]}>HYBRID ROCKSTAR</Text>
+    <View
+      style={[
+        styles.statusCard,
+        { backgroundColor: theme.card, borderColor: theme.border },
+      ]}
+    >
+      <View style={styles.statusRow1}>
+        <Text style={[styles.statusPhase, { color: accent }]}>{currentBlockLabel}</Text>
+        <Text style={[styles.statusWeek, { color: theme.textSecondary }]}>
+          Week {currentWeek} of 12
+        </Text>
       </View>
-      <View style={[styles.brandLine, { backgroundColor: theme.accent }]} />
-    </>
+      <View style={styles.statusDots}>
+        {dotAccents.map((dotAccent, i) => {
+          const wkNum = i + 1;
+          const isCurrent = wkNum === currentWeek;
+          const isPast = wkNum < currentWeek;
+          return (
+            <View
+              key={wkNum}
+              style={[
+                styles.statusDot,
+                isCurrent && styles.statusDotCurrent,
+                isPast
+                  ? { backgroundColor: dotAccent, opacity: 0.6 }
+                  : isCurrent
+                  ? { backgroundColor: dotAccent, opacity: 1 }
+                  : {
+                      backgroundColor: "transparent",
+                      borderColor: dotAccent,
+                      borderWidth: 1.5,
+                      opacity: 0.55,
+                    },
+              ]}
+            />
+          );
+        })}
+      </View>
+      {showRaceRow && (
+        <Text style={[styles.statusRace, { color: theme.textSecondary }]}>
+          {raceText}
+        </Text>
+      )}
+    </View>
   );
 }
 
-function WeekPage({ week }: { week: CycleWeek }) {
+interface BlockSectionProps {
+  blockKey: BlockPhase;
+  label: string;
+  weekNumbers: number[];
+  weeks: CycleWeek[];
+  isCurrent: boolean;
+  currentWeek: number;
+  progress: CycleProgress;
+  onWeekTap: (cycleWeek: number) => void;
+}
+
+function BlockSection({
+  blockKey,
+  label,
+  weekNumbers,
+  weeks,
+  isCurrent,
+  currentWeek,
+  progress,
+  onWeekTap,
+}: BlockSectionProps) {
   const { theme } = useApp();
-  const router = useRouter();
-  const progress = useCycleProgress();
-  const sessions = getWeekSessions(week);
-  const blockLabel = BLOCK_LABELS[week.block_phase];
+  // All blocks share the same chevron affordance; only the default differs —
+  // current block expanded, others collapsed. Local state resets on remount.
+  const [expanded, setExpanded] = useState<boolean>(isCurrent);
+  // Belt-and-braces auto-expand: if this block becomes the current one (cold
+  // launch async-load race, or week tick advancing into a new phase), force it
+  // open. Doesn't fire when isCurrent is false, so the user's manual collapse
+  // of the current block during a session is preserved.
+  useEffect(() => {
+    if (isCurrent) setExpanded(true);
+  }, [isCurrent]);
+
+  const accent = BLOCK_ACCENTS[blockKey];
+  const firstWk = weekNumbers[0];
+  const lastWk = weekNumbers[weekNumbers.length - 1];
+
+  // Aggregate completion across the block — small "n/m" badge on collapsed
+  // sections gives a glanceable progress signal without expanding.
+  const blockCompletion = useMemo(() => {
+    let completed = 0;
+    let total = 0;
+    for (const w of weeks) {
+      const wkTotal = w.is_divergent
+        ? w.variants?.continuous.session_count ?? 0
+        : w.session_count ?? 0;
+      total += wkTotal;
+      const wc = getWeekCompletion(progress, w.cycle_week, wkTotal);
+      completed += wc.completed;
+    }
+    return { completed, total };
+  }, [weeks, progress]);
+
+  const toggle = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setExpanded((v) => !v);
+  };
 
   return (
-    <ScrollView contentContainerStyle={styles.pageContent}>
+    <View style={styles.blockSection}>
       <Pressable
-        onPress={() => router.push("/train/cycle")}
+        onPress={toggle}
         style={({ pressed }) => [
-          styles.cycleLink,
-          { borderColor: theme.border, opacity: pressed ? 0.7 : 1, marginBottom: spacing.md },
+          styles.blockHeaderRow,
+          { opacity: pressed ? 0.65 : 1 },
         ]}
       >
-        <Text style={[styles.cycleLinkText, { color: theme.text }]}>
-          View full 12-week cycle
-        </Text>
-        <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
-      </Pressable>
-
-      <View style={styles.weekHeader}>
-        <Text style={[styles.weekEyebrow, { color: theme.accent }]}>
-          {blockLabel.toUpperCase()} · WK{week.cycle_week}
-        </Text>
-        <Text style={[styles.weekTitle, { color: theme.text }]}>{week.title}</Text>
-      </View>
-
-      {sessions.map(({ key, session }, index) => (
-        <SessionCard
-          key={key}
-          dayNumber={index + 1}
-          sessionKey={key}
-          session={session}
-          completed={isSessionComplete(progress, week.cycle_week, key)}
-          onPress={() =>
-            router.push({
-              pathname: "/train/cycle/session",
-              params: { w: String(week.cycle_week), s: key },
-            })
-          }
+        <Ionicons
+          name={expanded ? "chevron-down" : "chevron-forward"}
+          size={14}
+          color={theme.textSecondary}
+          style={{ width: 14 }}
         />
-      ))}
-      <View style={{ height: 40 }} />
-    </ScrollView>
+        <View style={[styles.blockDot, { backgroundColor: accent }]} />
+        <Text style={[styles.blockHeader, { color: theme.text }]}>{label}</Text>
+        <Text style={[styles.blockHeaderMeta, { color: theme.textSecondary }]}>
+          Week {firstWk}–{lastWk}
+        </Text>
+        {!isCurrent && blockCompletion.completed > 0 && (
+          <Text style={[styles.blockCompletion, { color: accent }]}>
+            {blockCompletion.completed}/{blockCompletion.total}
+          </Text>
+        )}
+      </Pressable>
+      {expanded &&
+        weeks.map((w) => (
+          <WeekTile
+            key={w.cycle_week}
+            week={w}
+            currentWeek={currentWeek}
+            progress={progress}
+            onPress={() => onWeekTap(w.cycle_week)}
+          />
+        ))}
+    </View>
   );
 }
 
-interface SessionCardProps {
-  dayNumber: number;
-  sessionKey: string;
-  session: CycleSession;
-  completed: boolean;
+interface WeekTileProps {
+  week: CycleWeek;
+  currentWeek: number;
+  progress: CycleProgress;
   onPress: () => void;
 }
 
-function SessionCard({ dayNumber, sessionKey, session, completed, onPress }: SessionCardProps) {
+function WeekTile({ week, currentWeek, progress, onPress }: WeekTileProps) {
   const { theme } = useApp();
-  const scale = useState(new Animated.Value(1))[0];
-  const typeLabel = session.session_type
-    ? getSessionLabel(session.session_type).toUpperCase()
-    : sessionKey.replace(/_/g, " ").toUpperCase();
+  const accent = BLOCK_ACCENTS[week.block_phase];
 
-  const onPressIn = () => {
-    Animated.spring(scale, { toValue: 0.97, useNativeDriver: true, speed: 30, bounciness: 4 }).start();
-  };
-  const onPressOut = () => {
-    Animated.spring(scale, { toValue: 1, useNativeDriver: true, speed: 30, bounciness: 4 }).start();
-  };
+  const totalSessions = week.is_divergent
+    ? week.variants?.continuous.session_count ?? 0
+    : week.session_count ?? 0;
+  const completion = getWeekCompletion(progress, week.cycle_week, totalSessions);
+  // Three states derive from comparison to the user's leading edge. CURRENT
+  // takes precedence by construction (a week can be exactly one of these).
+  const isCurrent = week.cycle_week === currentWeek;
+  const isPast = week.cycle_week < currentWeek;
+
+  const sessionCountText = week.is_divergent
+    ? `${week.variants?.racer.session_count}/${week.variants?.continuous.session_count} (R/C)`
+    : `${completion.completed}/${completion.total}`;
 
   return (
-    <Animated.View style={{ transform: [{ scale }] }}>
-      <Pressable
-        onPress={onPress}
-        onPressIn={onPressIn}
-        onPressOut={onPressOut}
-        style={({ pressed }) => [
-          styles.card,
-          {
-            backgroundColor: theme.card,
-            borderColor: theme.border,
-            opacity: pressed ? 0.7 : completed ? 0.5 : 1,
-          },
-        ]}
-      >
-        <View style={styles.cardBody}>
-          <Text style={[styles.category, { color: theme.accent }]}>
-            DAY {dayNumber} · {typeLabel}
-          </Text>
-          <Text style={[styles.title, { color: theme.text }]}>{session.title}</Text>
-          <Text style={[styles.stimulus, { color: theme.textSecondary }]} numberOfLines={2}>
-            {session.stimulus}
-          </Text>
-          <Text style={[styles.duration, { color: theme.textSecondary }]}>
-            FullRox ~{session.full_rox.estimated_duration_minutes}m · HalfRox ~
-            {session.half_rox.estimated_duration_minutes}m
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.weekTile,
+        {
+          backgroundColor: theme.card,
+          borderColor: isCurrent ? accent : theme.border,
+          borderWidth: isCurrent ? 2 : 1,
+          opacity: pressed ? 0.85 : isPast ? 0.6 : 1,
+        },
+      ]}
+    >
+      <View style={styles.tileHeader}>
+        <Text style={[styles.weekHeading, { color: theme.text }]}>
+          Week {week.cycle_week} · {week.title}
+        </Text>
+        {isCurrent ? (
+          <View style={[styles.currentChip, { backgroundColor: accent }]}>
+            <Text style={styles.currentChipText}>CURRENT</Text>
+          </View>
+        ) : isPast ? (
+          <Ionicons
+            name="checkmark-circle"
+            size={20}
+            color={COMPLETE_GREEN}
+            style={styles.completeBadge}
+          />
+        ) : null}
+      </View>
+      <Text style={[styles.weekSummary, { color: theme.textSecondary }]}>
+        {week.summary}
+      </Text>
+      <View style={styles.tileFooter}>
+        <View style={styles.tileMetaRow}>
+          <Text style={[styles.tileMeta, { color: theme.textSecondary }]}>
+            {sessionCountText} sessions
           </Text>
         </View>
-        {completed && (
-          <View style={styles.check}>
-            <Ionicons name="checkmark-circle" size={28} color={theme.accent} />
+        {week.notes.collision_warning && (
+          <View style={styles.tileMetaRow}>
+            <Ionicons name="warning-outline" size={13} color="#FF9500" />
+            <Text style={[styles.tileMeta, { color: "#FF9500" }]}>
+              Collision warning
+            </Text>
           </View>
         )}
-      </Pressable>
-    </Animated.View>
+      </View>
+    </Pressable>
   );
-}
-
-function formatCycleWeekRange(startDateISO: string, cycleWeek: number): string {
-  const start = new Date(startDateISO);
-  const wkStart = new Date(start.getFullYear(), start.getMonth(), start.getDate());
-  wkStart.setDate(wkStart.getDate() + (cycleWeek - 1) * 7);
-  const wkEnd = new Date(wkStart);
-  wkEnd.setDate(wkStart.getDate() + 6);
-  const startLabel = `${MONTHS[wkStart.getMonth()]} ${wkStart.getDate()}`;
-  const endLabel =
-    wkStart.getMonth() === wkEnd.getMonth()
-      ? `${wkEnd.getDate()}`
-      : `${MONTHS[wkEnd.getMonth()]} ${wkEnd.getDate()}`;
-  return `${startLabel}–${endLabel}`;
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  brandHeader: { alignItems: "center", marginTop: spacing.sm, paddingBottom: spacing.sm },
-  brandText: { fontSize: 22, fontWeight: "900", letterSpacing: 4 },
-  brandLine: { width: "100%", height: 2, marginBottom: spacing.md },
-  startWrap: { padding: spacing.md, alignItems: "stretch" },
+  scroll: { padding: spacing.md, paddingTop: spacing.sm },
+  preStartScroll: { padding: spacing.md, paddingTop: spacing.lg, alignItems: "stretch" },
+  cycleHeadline: { fontSize: 22, fontWeight: "800", marginBottom: spacing.sm },
+  countdown: {
+    fontSize: 13,
+    fontWeight: "600",
+    marginBottom: spacing.lg,
+  },
   startCta: {
     flexDirection: "row",
     alignItems: "center",
@@ -304,40 +520,85 @@ const styles = StyleSheet.create({
   },
   startCtaTitle: { color: "#fff", fontSize: 17, fontWeight: "800", marginBottom: 2 },
   startCtaBody: { color: "rgba(255,255,255,0.85)", fontSize: 12, lineHeight: 17 },
-  cycleLink: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderWidth: 1,
-    borderRadius: borderRadius.sm,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm + 2,
-  },
-  cycleLinkText: { fontSize: 14, fontWeight: "700" },
-  eyebrowBlock: { paddingHorizontal: spacing.md, marginBottom: spacing.sm },
-  eyebrowRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  chev: { width: 32, height: 32, alignItems: "center", justifyContent: "center" },
-  eyebrow: { fontSize: 18, fontWeight: "600", flex: 1, textAlign: "center" },
-  countdown: { fontSize: 13, fontWeight: "600", marginTop: 2, textAlign: "center" },
-  pager: { flex: 1 },
-  page: { flex: 1 },
-  pageContent: { paddingHorizontal: spacing.md, paddingTop: spacing.xs, paddingBottom: spacing.md },
-  weekHeader: { marginBottom: spacing.md },
-  weekEyebrow: { fontSize: 11, fontWeight: "800", letterSpacing: 1.2, marginBottom: 4 },
-  weekTitle: { fontSize: 20, fontWeight: "800" },
-  card: {
-    flexDirection: "row",
-    alignItems: "center",
+  statusCard: {
     borderRadius: borderRadius.md,
     borderWidth: 1,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.md - 2,
+    padding: spacing.md,
     marginBottom: spacing.md,
   },
-  cardBody: { flex: 1 },
-  category: { fontSize: 11, fontWeight: "800", letterSpacing: 1.2, marginBottom: 4 },
-  title: { fontSize: 18, fontWeight: "700", marginBottom: 2 },
-  stimulus: { fontSize: 13, lineHeight: 18, marginBottom: spacing.sm },
-  duration: { fontSize: 11, fontWeight: "600" },
-  check: { marginLeft: spacing.sm, alignSelf: "center" },
+  statusRow1: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: "space-between",
+    marginBottom: spacing.sm + 2,
+  },
+  statusPhase: { fontSize: 21, fontWeight: "700" },
+  statusWeek: { fontSize: 13, fontWeight: "500" },
+  statusDots: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
+  statusDot: {
+    width: 9,
+    height: 9,
+    borderRadius: 4.5,
+  },
+  statusDotCurrent: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+  },
+  statusRace: {
+    fontSize: 13,
+    fontWeight: "500",
+    marginTop: spacing.sm,
+  },
+  upNextCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm + 2,
+    padding: spacing.md - 2,
+    borderRadius: borderRadius.md,
+    borderWidth: 1.5,
+    marginBottom: spacing.lg,
+  },
+  upNextEyebrow: { fontSize: 11, fontWeight: "800", letterSpacing: 1.2, marginBottom: 4 },
+  upNextTitle: { fontSize: 15, fontWeight: "700", lineHeight: 20 },
+  blockSection: { marginBottom: spacing.md },
+  blockHeaderRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingVertical: spacing.sm,
+    marginBottom: spacing.xs,
+  },
+  blockDot: { width: 10, height: 10, borderRadius: 5 },
+  blockHeader: { fontSize: 14, fontWeight: "800", letterSpacing: 0.5, flex: 1 },
+  blockHeaderMeta: { fontSize: 11, fontWeight: "600" },
+  blockCompletion: { fontSize: 11, fontWeight: "700", marginLeft: 6 },
+  weekTile: {
+    borderRadius: borderRadius.md,
+    padding: spacing.md - 2,
+    marginBottom: spacing.sm + 2,
+  },
+  tileHeader: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 8,
+    marginBottom: 6,
+  },
+  weekHeading: { fontSize: 15, fontWeight: "700", flex: 1, lineHeight: 20 },
+  currentChip: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 4,
+    marginTop: 2,
+  },
+  currentChipText: { fontSize: 9, fontWeight: "800", color: "#fff", letterSpacing: 0.5 },
+  completeBadge: { marginTop: 1 },
+  weekSummary: { fontSize: 12, lineHeight: 17, marginBottom: spacing.sm },
+  tileFooter: { flexDirection: "row", alignItems: "center", gap: spacing.md },
+  tileMetaRow: { flexDirection: "row", alignItems: "center", gap: 4 },
+  tileMeta: { fontSize: 11, fontWeight: "600" },
 });

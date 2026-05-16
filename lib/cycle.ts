@@ -182,21 +182,3 @@ export function sessionUsesStationWeights(session: CycleSession): boolean {
   );
 }
 
-export function blockMiniSummary(week: CycleWeek): string {
-  switch (week.cycle_week) {
-    case 7:
-      return "Mini-deload week";
-    case 8:
-      return "Half-Sim";
-    case 9:
-      return "APEX";
-    case 10:
-      return "Full Sim";
-    case 11:
-      return "Sharpening";
-    case 12:
-      return "Race week / structural deload";
-    default:
-      return week.summary;
-  }
-}

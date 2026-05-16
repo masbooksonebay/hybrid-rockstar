@@ -10,7 +10,6 @@ export default function CycleStackLayout() {
         contentStyle: { backgroundColor: theme.background },
       }}
     >
-      <Stack.Screen name="index" />
       <Stack.Screen name="week" />
       <Stack.Screen name="session" />
     </Stack>
