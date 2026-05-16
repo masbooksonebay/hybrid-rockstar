@@ -107,7 +107,7 @@ export default function CycleSessionScreen() {
     if (completed) {
       markSessionIncomplete(week.cycle_week, sessionKey);
     } else {
-      markSessionComplete(week.cycle_week, sessionKey);
+      markSessionComplete(week.cycle_week, sessionKey, version === "full" ? "full" : "half");
     }
   };
 

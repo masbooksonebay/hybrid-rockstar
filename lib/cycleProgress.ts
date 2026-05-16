@@ -2,6 +2,32 @@ import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { loadSettings } from "./store";
 import { rescheduleNotifications } from "./notifications";
+import { getCycle } from "./cycle";
+import {
+  loadAchievements,
+  markAchievementUnlocked,
+} from "./achievements/storage";
+import { checkUnlocks } from "./achievements/unlock";
+import { emitAchievementsUnlocked } from "./achievements/events";
+import {
+  isSessionComplete,
+  isWeekComplete,
+  isCycleComplete,
+  leadingEdgeWeek,
+} from "./cycleProgress.pure";
+import type {
+  CompletedSession,
+  CycleProgress,
+  SessionTier,
+} from "./cycleProgress.pure";
+export {
+  isSessionComplete,
+  isWeekComplete,
+  isCycleComplete,
+  leadingEdgeWeek,
+};
+export type { CompletedSession, CycleProgress, SessionTier };
+
 const STORAGE_KEYS = {
   startDate: "hr.cycle.startDate",
   cycleId: "hr.cycle.id",
@@ -11,18 +37,6 @@ const STORAGE_KEYS = {
 const CYCLE_ID = "hr-cycle-1";
 const CYCLE_LENGTH_WEEKS = 12;
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
-
-export interface CompletedSession {
-  weekIndex: number;
-  sessionKey: string;
-  completedAt: string;
-}
-
-export interface CycleProgress {
-  startDate: string | null;
-  cycleId: string | null;
-  completedSessions: CompletedSession[];
-}
 
 const EMPTY: CycleProgress = {
   startDate: null,
@@ -84,7 +98,8 @@ export async function resetCycle(): Promise<void> {
 
 export async function markSessionComplete(
   weekIndex: number,
-  sessionKey: string
+  sessionKey: string,
+  tier: SessionTier
 ): Promise<void> {
   const current = await load();
   const without = current.completedSessions.filter(
@@ -92,7 +107,7 @@ export async function markSessionComplete(
   );
   const next = [
     ...without,
-    { weekIndex, sessionKey, completedAt: new Date().toISOString() },
+    { weekIndex, sessionKey, completedAt: new Date().toISOString(), tier },
   ];
   await AsyncStorage.setItem(STORAGE_KEYS.completed, JSON.stringify(next));
   cache = { ...current, completedSessions: next };
@@ -101,6 +116,37 @@ export async function markSessionComplete(
   // remaining-sessions count (and switches to the "All sessions complete"
   // copy on the last completion of the week).
   await refreshNotification();
+  await runAchievementChecks(cache, tier);
+}
+
+async function runAchievementChecks(
+  progress: CycleProgress,
+  currentTier: SessionTier
+): Promise<void> {
+  try {
+    const store = await loadAchievements();
+    const cycle = getCycle();
+    const weeks = cycle.weeks.map((w) => ({
+      cycle_week: w.cycle_week,
+      sessionKeys: Object.keys(
+        w.is_divergent && w.variants ? w.variants.continuous.sessions : w.sessions ?? {}
+      ),
+    }));
+    const newlyUnlocked = checkUnlocks(store, {
+      cycleProgress: progress,
+      weeks,
+      sessions: progress.completedSessions,
+      currentTier,
+      now: new Date(),
+    });
+    if (newlyUnlocked.length === 0) return;
+    for (const id of newlyUnlocked) {
+      await markAchievementUnlocked(id);
+    }
+    emitAchievementsUnlocked(newlyUnlocked);
+  } catch {
+    // Achievement check failures must not surface in the completion UX.
+  }
 }
 
 export async function markSessionIncomplete(
@@ -125,66 +171,6 @@ async function refreshNotification(): Promise<void> {
   } catch {
     // Notification reschedule failures shouldn't surface in the completion UX.
   }
-}
-
-export function isSessionComplete(
-  progress: CycleProgress,
-  weekIndex: number,
-  sessionKey: string
-): boolean {
-  return progress.completedSessions.some(
-    (s) => s.weekIndex === weekIndex && s.sessionKey === sessionKey
-  );
-}
-
-// True when every sessionKey in `week` is in `progress.completedSessions`.
-// `total > 0` guard avoids tagging an empty-data week as trivially complete.
-export function isWeekComplete(
-  progress: CycleProgress,
-  week: { cycle_week: number; sessionKeys: string[] }
-): boolean {
-  if (week.sessionKeys.length === 0) return false;
-  return week.sessionKeys.every((key) =>
-    isSessionComplete(progress, week.cycle_week, key)
-  );
-}
-
-// Self-paced mode: pick the week the user is at the "leading edge" of.
-//   1. No sessions logged anywhere → week 1.
-//   2. Otherwise find the highest-numbered week H with at least one completed
-//      session.
-//      - If H is fully complete and H < 12 → return H + 1.
-//      - If H is fully complete and H = 12 → return 12 (capped).
-//      - If H has unfinished sessions → return H.
-// Skips-ahead naturally: a user marking one session in Week 3 with nothing
-// in Weeks 1-2 lands at Week 3 (the engaged frontier), not Week 1 (the lowest
-// gap). Unmarking the last engaged session collapses back to Week 1.
-export function leadingEdgeWeek(
-  progress: CycleProgress,
-  weeks: Array<{ cycle_week: number; sessionKeys: string[] }>
-): number {
-  const ordered = [...weeks].sort((a, b) => a.cycle_week - b.cycle_week);
-  const lastIndex = ordered.length - 1;
-  if (lastIndex < 0) return 1;
-  let highestEngaged: { cycle_week: number; sessionKeys: string[] } | null = null;
-  for (let i = lastIndex; i >= 0; i--) {
-    const w = ordered[i];
-    const anyDone = w.sessionKeys.some((k) =>
-      isSessionComplete(progress, w.cycle_week, k)
-    );
-    if (anyDone) {
-      highestEngaged = w;
-      break;
-    }
-  }
-  if (!highestEngaged) return ordered[0].cycle_week;
-  if (isWeekComplete(progress, highestEngaged)) {
-    return Math.min(
-      ordered[lastIndex].cycle_week,
-      highestEngaged.cycle_week + 1
-    );
-  }
-  return highestEngaged.cycle_week;
 }
 
 // CURRENT week is always the user's leading edge in their completion log,
@@ -255,22 +241,6 @@ export function getNextUncompletedSession(
     }
   }
   return null;
-}
-
-// UNUSED after Phase 5+6 FIX 3 — TrainScreen now derives "cycle complete"
-// from `upNext === null` so the cycle-complete card renders correctly under
-// the scoped Up Next walk (orphan incompletes in past weeks shouldn't block
-// the end-of-cycle state). Kept until the next cleanup pass per spec.
-export function isCycleComplete(
-  progress: CycleProgress,
-  weeks: Array<{ cycle_week: number; sessionKeys: string[] }>
-): boolean {
-  for (const w of weeks) {
-    for (const key of w.sessionKeys) {
-      if (!isSessionComplete(progress, w.cycle_week, key)) return false;
-    }
-  }
-  return true;
 }
 
 export function useCycleProgress(): CycleProgress {
