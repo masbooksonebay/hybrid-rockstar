@@ -8,6 +8,7 @@ import { AppProvider, useApp } from "../lib/context";
 import { getCycleProgress } from "../lib/cycleProgress";
 import { rescheduleNotifications } from "../lib/notifications";
 import { UnlockToast } from "../components/achievements/UnlockToast";
+import { ReviewPromptTrigger } from "../components/achievements/ReviewPromptTrigger";
 
 // Foreground behavior for an arriving notification while the app is open.
 // Banner + list visible, sound on, no badge — matches the spec.
@@ -43,6 +44,7 @@ function Inner() {
         <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
       </Stack>
       <UnlockToast />
+      <ReviewPromptTrigger />
     </View>
   );
 }
