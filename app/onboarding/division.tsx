@@ -8,6 +8,7 @@ import {
   HeaderRow,
   OptionPill,
   PrimaryButton,
+  SecondaryButton,
 } from "../../components/onboarding/Chrome";
 
 // Division → format + tier mapping. Six options cover every real Hyrox race
@@ -81,8 +82,9 @@ export default function Division() {
         <PrimaryButton
           label="Continue"
           disabled={selected == null}
-          onPress={() => router.push("/onboarding/race-date")}
+          onPress={() => router.push("/onboarding/cycle-start")}
         />
+        <SecondaryButton label="Skip" onPress={() => router.push("/onboarding/cycle-start")} />
       </View>
     </SafeAreaView>
   );
@@ -94,5 +96,5 @@ const styles = StyleSheet.create({
   heading: { fontSize: 28, fontWeight: "800", marginBottom: spacing.sm },
   sub: { fontSize: 15, lineHeight: 21, marginBottom: spacing.lg },
   options: { gap: spacing.sm + 4 },
-  footer: { paddingHorizontal: spacing.lg, paddingBottom: spacing.md },
+  footer: { paddingHorizontal: spacing.lg, paddingBottom: spacing.md, gap: spacing.xs },
 });

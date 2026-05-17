@@ -76,11 +76,9 @@ export default function TrainScreen() {
     [cycle]
   );
 
-  // Adaptive progression: race-date set + in the future → calendar week;
-  // otherwise → first week with any uncompleted session. Falls back to 1 for
-  // the pre-start render pass (cycleStarted=false branches out below anyway).
-  const currentWeek =
-    getActiveWeek(progress, settings.raceDate, weekKeyIndex) ?? 1;
+  // Active week is the user's leading edge in completion log. Falls back to 1
+  // for the pre-start render pass (cycleStarted=false branches out below).
+  const currentWeek = getActiveWeek(progress, weekKeyIndex) ?? 1;
   const currentWeekData = cycle.weeks.find((w) => w.cycle_week === currentWeek);
   const currentBlockPhase: BlockPhase = currentWeekData?.block_phase ?? "foundation";
 

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -18,11 +18,14 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Swipeable } from "react-native-gesture-handler";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { useApp } from "../../lib/context";
-import { spacing, borderRadius } from "../../constants/theme";
-import { formatRelativeDate } from "../../lib/dates";
-import DoneKeyboardToolbar, { KEYBOARD_DONE_ID } from "../../components/DoneKeyboardToolbar";
-import { NumericInputWithDone } from "../../components/common/NumericInputWithDone";
+import { useFocusEffect } from "expo-router";
+import { useApp } from "../../../lib/context";
+import { spacing, borderRadius } from "../../../constants/theme";
+import { formatRelativeDate } from "../../../lib/dates";
+import DoneKeyboardToolbar, { KEYBOARD_DONE_ID } from "../../../components/DoneKeyboardToolbar";
+import { NumericInputWithDone } from "../../../components/common/NumericInputWithDone";
+import { AchievementsSection } from "../../../components/achievements/AchievementsSection";
+import { clearUnread } from "../../../lib/achievements/unread";
 
 interface LogEntry {
   id: string;
@@ -64,6 +67,12 @@ export default function LogScreen() {
       if (undoTimer.current) clearTimeout(undoTimer.current);
     };
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      clearUnread();
+    }, [])
+  );
 
   const persist = async (next: LogEntry[]) => {
     setEntries(next);
@@ -164,6 +173,7 @@ export default function LogScreen() {
           keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="handled"
         >
+          <AchievementsSection />
           {!loaded ? null : filtered.length === 0 ? (
             <Text style={[styles.empty, { color: theme.textSecondary }]}>No workouts logged yet. Tap + to add one.</Text>
           ) : (

@@ -171,11 +171,11 @@ export default function Pace() {
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={[styles.container, { backgroundColor: theme.background }]}>
-      <HeaderRow step={4} onBack={() => router.back()} />
+      <HeaderRow step={3} onBack={() => router.back()} />
       <View style={styles.body}>
         <Text style={[styles.heading, { color: theme.text }]}>What's your current 1km pace?</Text>
         <Text style={[styles.sub, { color: theme.textSecondary }]}>
-          Optional — helps Coach Rob with running advice. You can add this later in Settings.
+          Optional — used to tailor running pacing advice. You can add this later in Settings.
         </Text>
 
         <Text style={[styles.unitLabel, { color: theme.textTertiary }]}>minutes : seconds per km</Text>

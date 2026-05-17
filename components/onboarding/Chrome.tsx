@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/context";
 import { spacing, borderRadius } from "../../constants/theme";
 
-const TOTAL_STEPS = 5;
+const TOTAL_STEPS = 4;
 
 export function OnboardingProgress({ step }: { step: number }) {
   const { theme } = useApp();

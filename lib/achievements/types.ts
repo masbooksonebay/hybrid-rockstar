@@ -8,7 +8,7 @@ export type AchievementId =
   | "consistency"
   | "comeback"
   | "full_send"
-  | "half_strike";
+  | "half_send";
 
 export interface AchievementDefinition {
   id: AchievementId;

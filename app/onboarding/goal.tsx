@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import { useApp } from "../../lib/context";
 import { Goal } from "../../lib/store";
 import { spacing } from "../../constants/theme";
-import { HeaderRow, OptionPill, PrimaryButton } from "../../components/onboarding/Chrome";
+import { HeaderRow, OptionPill, PrimaryButton, SecondaryButton } from "../../components/onboarding/Chrome";
 
 const OPTIONS: { key: Goal; label: string }[] = [
   { key: "finish_strong", label: "Finish strong" },
@@ -17,11 +17,11 @@ export default function GoalScreen() {
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={[styles.container, { backgroundColor: theme.background }]}>
-      <HeaderRow step={3} onBack={() => router.back()} />
+      <HeaderRow step={2} onBack={() => router.back()} />
       <ScrollView contentContainerStyle={styles.body} keyboardShouldPersistTaps="handled">
         <Text style={[styles.heading, { color: theme.text }]}>What's your goal?</Text>
         <Text style={[styles.sub, { color: theme.textSecondary }]}>
-          Coach Rob will tailor advice to this.
+          Helps personalize your training program.
         </Text>
         <View style={styles.options}>
           {OPTIONS.map((opt) => (
@@ -40,6 +40,7 @@ export default function GoalScreen() {
           disabled={settings.goal == null}
           onPress={() => router.push("/onboarding/pace")}
         />
+        <SecondaryButton label="Skip" onPress={() => router.push("/onboarding/pace")} />
       </View>
     </SafeAreaView>
   );
@@ -51,5 +52,5 @@ const styles = StyleSheet.create({
   heading: { fontSize: 28, fontWeight: "800", marginBottom: spacing.sm },
   sub: { fontSize: 15, lineHeight: 21, marginBottom: spacing.lg },
   options: { gap: spacing.sm + 4 },
-  footer: { paddingHorizontal: spacing.lg, paddingBottom: spacing.md },
+  footer: { paddingHorizontal: spacing.lg, paddingBottom: spacing.md, gap: spacing.xs },
 });

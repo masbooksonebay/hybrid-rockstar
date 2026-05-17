@@ -186,14 +186,14 @@ describe("full_send", () => {
   });
 });
 
-describe("half_strike", () => {
+describe("half_send", () => {
   it("does not unlock on a full-only history", () => {
     const result = checkUnlocks(FRESH_STORE, ctx([session(1, "d1", 0, "full")]));
-    assert.ok(!result.includes("half_strike"));
+    assert.ok(!result.includes("half_send"));
   });
   it("unlocks on first half session", () => {
     const result = checkUnlocks(FRESH_STORE, ctx([session(1, "d1", 0, "half")]));
-    assert.ok(result.includes("half_strike"));
+    assert.ok(result.includes("half_send"));
   });
 });
 

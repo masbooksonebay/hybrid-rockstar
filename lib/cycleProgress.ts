@@ -9,6 +9,7 @@ import {
 } from "./achievements/storage";
 import { checkUnlocks } from "./achievements/unlock";
 import { emitAchievementsUnlocked } from "./achievements/events";
+import { incrementUnread } from "./achievements/unread";
 import {
   isSessionComplete,
   isWeekComplete,
@@ -143,6 +144,7 @@ async function runAchievementChecks(
     for (const id of newlyUnlocked) {
       await markAchievementUnlocked(id);
     }
+    await incrementUnread(newlyUnlocked.length);
     emitAchievementsUnlocked(newlyUnlocked);
   } catch {
     // Achievement check failures must not surface in the completion UX.
@@ -173,13 +175,11 @@ async function refreshNotification(): Promise<void> {
   }
 }
 
-// CURRENT week is always the user's leading edge in their completion log,
-// regardless of race-date presence. Race date drives the countdown display
-// elsewhere but is no longer an input here. `raceDate` kept in the signature
-// so existing callers don't need a signature update.
+// CURRENT week is always the user's leading edge in their completion log.
+// Race date is intentionally not an input — it drives countdown copy elsewhere
+// but never the active-week calculation.
 export function getActiveWeek(
   progress: CycleProgress,
-  _raceDate: string | null,
   weeks: Array<{ cycle_week: number; sessionKeys: string[] }>
 ): number | null {
   if (!progress.startDate) return null;

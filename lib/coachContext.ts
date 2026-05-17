@@ -50,8 +50,7 @@ export function getCurrentCoachContext(
     cycle_week: w.cycle_week,
     sessionKeys: getWeekSessions(w).map(({ key }) => key),
   }));
-  const currentWeek =
-    getActiveWeek(progress, settings.raceDate, weekKeyIndex) ?? 1;
+  const currentWeek = getActiveWeek(progress, weekKeyIndex) ?? 1;
   const week = cycle.weeks.find((w) => w.cycle_week === currentWeek);
   if (!week) return { ...base, cycleVersion: cycle.cycle_version };
 

@@ -27,7 +27,7 @@ export function buildNotificationBody(
     cycle_week: w.cycle_week,
     sessionKeys: getWeekSessions(w).map(({ key }) => key),
   }));
-  const currentWeek = getActiveWeek(progress, settings.raceDate, weekKeyIndex);
+  const currentWeek = getActiveWeek(progress, weekKeyIndex);
   if (currentWeek == null) {
     // getActiveWeek returns null only when startDate is missing (handled above)
     // or unparseable — treat as pre-cycle.

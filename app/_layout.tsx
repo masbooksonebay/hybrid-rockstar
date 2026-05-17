@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { View } from "react-native";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -6,6 +7,7 @@ import * as Notifications from "expo-notifications";
 import { AppProvider, useApp } from "../lib/context";
 import { getCycleProgress } from "../lib/cycleProgress";
 import { rescheduleNotifications } from "../lib/notifications";
+import { UnlockToast } from "../components/achievements/UnlockToast";
 
 // Foreground behavior for an arriving notification while the app is open.
 // Banner + list visible, sound on, no badge — matches the spec.
@@ -34,13 +36,14 @@ function Inner() {
   }, [settings.notificationsEnabled, settings.notificationsTime]);
 
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <StatusBar style={isDark ? "light" : "dark"} />
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.background } }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
       </Stack>
-    </>
+      <UnlockToast />
+    </View>
   );
 }
 

@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useApp } from "../../lib/context";
 import { RACE_SEQUENCE, RaceSegment } from "../../constants/race";
@@ -65,7 +66,7 @@ const GOAL_INFO_BODY =
   "We estimate your required splits using a 60/40 run-to-station ratio:\n\n• 60% of your goal time is distributed across the 8 km of running\n• 40% of your goal time is distributed across the 8 stations (average)\n• ~3-5 minutes are reserved for transitions between stations\n\nThese are rough targets to help you plan your race. Individual station times vary significantly based on your strengths — for example, strong rowers typically finish rowing faster than average, while wall balls often take longer for most athletes. Use per-station overrides in the race order list to adjust.\n\nDefault station weights and run distances are based on your division in Settings.";
 
 export default function RaceScreen() {
-  const { theme, settings } = useApp();
+  const { theme, settings, updateSettings } = useApp();
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("predict");
 
@@ -82,6 +83,7 @@ export default function RaceScreen() {
   const [predictInfoOpen, setPredictInfoOpen] = useState(false);
   const [goalInfoOpen, setGoalInfoOpen] = useState(false);
   const [movementInfoId, setMovementInfoId] = useState<string | null>(null);
+  const [racePickerOpen, setRacePickerOpen] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -249,6 +251,25 @@ export default function RaceScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
+      {!settings.raceDate && (
+        <TouchableOpacity
+          style={[styles.setRaceCard, { backgroundColor: theme.card, borderColor: theme.border }]}
+          onPress={() => setRacePickerOpen(true)}
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel="Set your race date"
+        >
+          <Ionicons name="calendar-outline" size={24} color={theme.accent} />
+          <View style={styles.setRaceTextCol}>
+            <Text style={[styles.setRaceTitle, { color: theme.text }]}>Set Your Race Date</Text>
+            <Text style={[styles.setRaceSub, { color: theme.textSecondary }]}>
+              Unlock countdown and race-day features.
+            </Text>
+          </View>
+          <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
+        </TouchableOpacity>
+      )}
+
       <View style={[styles.modeRow, { borderColor: theme.border }]}>
         <TouchableOpacity style={[styles.modeBtn, mode === "predict" && { backgroundColor: theme.accent }]} onPress={() => setMode("predict")}>
           <Text style={[styles.modeText, { color: mode === "predict" ? "#fff" : theme.textSecondary }]}>Target Time</Text>
@@ -507,6 +528,33 @@ export default function RaceScreen() {
         onClose={() => setMovementInfoId(null)}
       />
 
+      <Modal
+        visible={racePickerOpen}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={() => setRacePickerOpen(false)}
+      >
+        <View style={[styles.modal, { backgroundColor: theme.background }]}>
+          <View style={styles.modalHeader}>
+            <Text style={[styles.modalTitle, { color: theme.text }]}>Next Race Date</Text>
+            <TouchableOpacity onPress={() => setRacePickerOpen(false)}>
+              <Text style={[styles.modalDone, { color: theme.accent }]}>Done</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.modalPickerWrap}>
+            <DateTimePicker
+              value={settings.raceDate ? new Date(settings.raceDate) : new Date()}
+              mode="date"
+              display={Platform.OS === "ios" ? "inline" : "default"}
+              themeVariant="dark"
+              onChange={(_e, d) => {
+                if (d) updateSettings({ raceDate: d.toISOString() });
+              }}
+            />
+          </View>
+        </View>
+      </Modal>
+
     </View>
   );
 }
@@ -659,6 +707,22 @@ function SegmentEditModal({ seg, ctx, divisionSet, existing, theme, onSave, onRe
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  setRaceCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm + 4,
+    padding: spacing.md,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+    marginHorizontal: spacing.md,
+    marginTop: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  setRaceTextCol: { flex: 1 },
+  setRaceTitle: { fontSize: 17, fontWeight: "600", marginBottom: 2 },
+  setRaceSub: { fontSize: 13 },
+  modalDone: { fontSize: 16, fontWeight: "600" },
+  modalPickerWrap: { paddingHorizontal: spacing.md, paddingTop: spacing.sm },
   modeRow: { flexDirection: "row", marginHorizontal: spacing.md, marginTop: spacing.sm, borderRadius: borderRadius.sm, borderWidth: 1, overflow: "hidden" },
   modeBtn: { flex: 1, alignItems: "center", paddingVertical: spacing.sm + 4 },
   modeText: { fontSize: 13, fontWeight: "700" },

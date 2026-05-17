@@ -89,7 +89,7 @@ function passes_full_send(ctx: UnlockContext): boolean {
   return ctx.sessions.some((s) => s.tier === "full");
 }
 
-function passes_half_strike(ctx: UnlockContext): boolean {
+function passes_half_send(ctx: UnlockContext): boolean {
   return ctx.sessions.some((s) => s.tier === "half");
 }
 
@@ -103,7 +103,7 @@ const PREDICATES: Record<AchievementId, (ctx: UnlockContext) => boolean> = {
   consistency: passes_consistency,
   comeback: passes_comeback,
   full_send: passes_full_send,
-  half_strike: passes_half_strike,
+  half_send: passes_half_send,
 };
 
 export function checkUnlocks(
