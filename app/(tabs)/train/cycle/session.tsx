@@ -9,6 +9,9 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
@@ -21,7 +24,7 @@ if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental
 }
 
 const TIER_EXPLAINER_BODY =
-  "Both tiers cover all 8 Hyrox stations across the cycle. FullRox sessions run about twice as long as HalfRox — pick based on how much time you have per session.";
+  "Both tiers cover all 8 stations across the cycle. FullRox sessions run about twice as long as HalfRox — pick based on how much time you have per session.";
 
 const RPE_BODY =
   "Rate of Perceived Exertion. A 1-10 self-rated effort scale used throughout strength and conditioning programming. RPE 6 = moderate, could keep going indefinitely. RPE 7 = hard, 3-4 reps in reserve on lifts. RPE 8 = very hard, 1-2 reps in reserve. RPE 9 = barely complete, 0-1 reps left. RPE 10 = maximum, no reps left.";
@@ -44,6 +47,12 @@ import {
 import { spacing, borderRadius } from "../../../../constants/theme";
 import { SegmentButton } from "../../../../components/train/SegmentButton";
 import { CollisionCallout } from "../../../../components/train/CollisionCallout";
+import {
+  LogEntry,
+  programmedEntryId,
+  upsertActivityEntry,
+} from "../../../../lib/activityLog";
+import DoneKeyboardToolbar, { KEYBOARD_DONE_ID } from "../../../../components/DoneKeyboardToolbar";
 
 function dayNumberFromKey(key: string, fallbackIndex: number): number {
   const m = /^d(\d+)$/.exec(key);
@@ -103,12 +112,54 @@ export default function CycleSessionScreen() {
   const progress = useCycleProgress();
   const completed = isSessionComplete(progress, week.cycle_week, sessionKey);
 
+  const [notesSheetOpen, setNotesSheetOpen] = useState(false);
+  const [sheetNotes, setSheetNotes] = useState("");
+  // Cache the tier at moment-of-completion so the post-sheet entry write
+  // uses what was active when the user tapped, not whatever the user later
+  // toggles the segmented control to while the sheet is open.
+  const [completedTier, setCompletedTier] = useState<"full" | "half">("full");
+
   const onToggleComplete = () => {
     if (completed) {
       markSessionIncomplete(week.cycle_week, sessionKey);
-    } else {
-      markSessionComplete(week.cycle_week, sessionKey, version === "full" ? "full" : "half");
+      return;
     }
+    const tier: "full" | "half" = version === "full" ? "full" : "half";
+    markSessionComplete(week.cycle_week, sessionKey, tier);
+    setCompletedTier(tier);
+    setSheetNotes("");
+    setNotesSheetOpen(true);
+  };
+
+  const writeProgrammedEntry = async (notes: string) => {
+    const entry: LogEntry = {
+      id: programmedEntryId(week.cycle_week, sessionKey),
+      date: new Date().toISOString(),
+      type: "programmed",
+      sessionKey,
+      weekIndex: week.cycle_week,
+      sessionName: session.title,
+      tier: completedTier,
+      notes,
+    };
+    try {
+      await upsertActivityEntry(entry);
+    } catch {
+      // Activity-log write failures shouldn't block the completion flow —
+      // the cycle-progress side already persisted in markSessionComplete.
+    }
+  };
+
+  const onSheetSkip = async () => {
+    setNotesSheetOpen(false);
+    await writeProgrammedEntry("");
+    router.replace("/train");
+  };
+
+  const onSheetSave = async () => {
+    setNotesSheetOpen(false);
+    await writeProgrammedEntry(sheetNotes.trim());
+    router.replace("/train");
   };
 
   return (
@@ -295,6 +346,61 @@ export default function CycleSessionScreen() {
           </Pressable>
         </Pressable>
       </Modal>
+
+      {/* Post-completion notes sheet — fires after Mark Complete (not after
+          Mark Incomplete). Skip and Save both create the activity entry;
+          Skip leaves notes empty. Auto-routes back to /train after either. */}
+      <Modal
+        visible={notesSheetOpen}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={onSheetSkip}
+      >
+        <KeyboardAvoidingView
+          style={[styles.sheetContainer, { backgroundColor: theme.background }]}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+        >
+          <View style={styles.sheetHeader}>
+            <Text style={[styles.sheetTitle, { color: theme.text }]}>Workout Complete</Text>
+          </View>
+          <ScrollView contentContainerStyle={styles.sheetBody} keyboardShouldPersistTaps="handled">
+            <Text style={[styles.sheetSessionName, { color: theme.textSecondary }]}>
+              {session.title}
+            </Text>
+            <TextInput
+              style={[
+                styles.sheetNotesInput,
+                {
+                  backgroundColor: theme.inputBg,
+                  borderColor: theme.border,
+                  color: theme.text,
+                },
+              ]}
+              placeholder="How did it go? (optional)"
+              placeholderTextColor={theme.textSecondary}
+              multiline
+              value={sheetNotes}
+              onChangeText={setSheetNotes}
+              inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
+            />
+            <View style={styles.sheetButtonRow}>
+              <TouchableOpacity
+                style={[styles.sheetSkipBtn, { borderColor: theme.border }]}
+                onPress={onSheetSkip}
+              >
+                <Text style={[styles.sheetSkipText, { color: theme.textSecondary }]}>Skip</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.sheetSaveBtn, { backgroundColor: theme.accent }]}
+                onPress={onSheetSave}
+              >
+                <Text style={styles.sheetSaveText}>Save</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+          <DoneKeyboardToolbar />
+        </KeyboardAvoidingView>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -461,6 +567,46 @@ const LABEL_FOR_STEP: Record<string, string> = {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   notFound: { flex: 1, alignItems: "center", justifyContent: "center" },
+  sheetContainer: { flex: 1 },
+  sheetHeader: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.sm,
+  },
+  sheetTitle: { fontSize: 22, fontWeight: "800" },
+  sheetBody: { paddingHorizontal: spacing.lg, paddingBottom: spacing.lg },
+  sheetSessionName: {
+    fontSize: 14,
+    marginBottom: spacing.md,
+  },
+  sheetNotesInput: {
+    borderWidth: 1,
+    borderRadius: borderRadius.sm,
+    padding: spacing.md - 2,
+    fontSize: 15,
+    minHeight: 120,
+    textAlignVertical: "top",
+  },
+  sheetButtonRow: {
+    flexDirection: "row",
+    gap: spacing.sm,
+    marginTop: spacing.lg,
+  },
+  sheetSkipBtn: {
+    flex: 1,
+    borderRadius: borderRadius.sm,
+    paddingVertical: 16,
+    alignItems: "center",
+    borderWidth: 1,
+  },
+  sheetSkipText: { fontSize: 16, fontWeight: "600" },
+  sheetSaveBtn: {
+    flex: 1,
+    borderRadius: borderRadius.sm,
+    paddingVertical: 16,
+    alignItems: "center",
+  },
+  sheetSaveText: { color: "#fff", fontSize: 16, fontWeight: "700" },
   topBar: {
     flexDirection: "row",
     alignItems: "center",

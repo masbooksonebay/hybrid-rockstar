@@ -15,7 +15,6 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Swipeable } from "react-native-gesture-handler";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useFocusEffect } from "expo-router";
@@ -26,18 +25,8 @@ import DoneKeyboardToolbar, { KEYBOARD_DONE_ID } from "../../../components/DoneK
 import { NumericInputWithDone } from "../../../components/common/NumericInputWithDone";
 import { AchievementsSection } from "../../../components/achievements/AchievementsSection";
 import { clearUnread } from "../../../lib/achievements/unread";
+import { LogEntry, loadActivityLog, saveActivityLog } from "../../../lib/activityLog";
 
-interface LogEntry {
-  id: string;
-  date: string;
-  activity: string;
-  activityOther?: string;
-  duration: string;
-  distanceKm?: string;
-  notes: string;
-}
-
-const LOG_KEY = "hr_log";
 const ACTIVITIES = ["Strength", "Running", "Engine", "Simulation", "EMOM / Technique", "Race", "Other"] as const;
 type Activity = (typeof ACTIVITIES)[number];
 
@@ -53,30 +42,32 @@ export default function LogScreen() {
   const undoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const swipeRefs = useRef<Map<string, Swipeable>>(new Map());
 
+  // Refresh on focus so programmed entries auto-created by the
+  // Mark-Complete flow (in session.tsx) show up when the user navigates here.
+  useFocusEffect(
+    useCallback(() => {
+      let cancelled = false;
+      loadActivityLog().then((parsed) => {
+        if (cancelled) return;
+        setEntries(parsed.map(migrateEntry));
+        setLoaded(true);
+      });
+      clearUnread();
+      return () => {
+        cancelled = true;
+      };
+    }, [])
+  );
+
   useEffect(() => {
-    AsyncStorage.getItem(LOG_KEY).then((raw) => {
-      if (raw) {
-        try {
-          const parsed = JSON.parse(raw) as LogEntry[];
-          setEntries(parsed.map(migrateEntry));
-        } catch {}
-      }
-      setLoaded(true);
-    });
     return () => {
       if (undoTimer.current) clearTimeout(undoTimer.current);
     };
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      clearUnread();
-    }, [])
-  );
-
   const persist = async (next: LogEntry[]) => {
     setEntries(next);
-    await AsyncStorage.setItem(LOG_KEY, JSON.stringify(next));
+    await saveActivityLog(next);
   };
 
   const handleSave = (entry: LogEntry) => {
@@ -93,6 +84,11 @@ export default function LogScreen() {
     const idx = entries.findIndex((e) => e.id === id);
     if (idx < 0) return;
     const removed = entries[idx];
+    // Programmed entries are tied to cycle progress — uncomplete via the
+    // session detail screen instead. The LogRow renderer suppresses the
+    // swipe affordance for programmed entries, so this guard is belt-and-
+    // braces against a future regression.
+    if (removed.type === "programmed") return;
     const next = [...entries.slice(0, idx), ...entries.slice(idx + 1)];
     persist(next);
     swipeRefs.current.get(id)?.close();
@@ -130,8 +126,9 @@ export default function LogScreen() {
     if (!q) return entries;
     return entries.filter(
       (e) =>
-        e.activity.toLowerCase().includes(q) ||
+        (e.activity ?? "").toLowerCase().includes(q) ||
         (e.activityOther ?? "").toLowerCase().includes(q) ||
+        (e.sessionName ?? "").toLowerCase().includes(q) ||
         e.notes.toLowerCase().includes(q)
     );
   }, [entries, search]);
@@ -153,7 +150,7 @@ export default function LogScreen() {
           <Ionicons name="search" size={18} color={theme.textSecondary} />
           <TextInput
             style={[styles.searchInput, { color: theme.text }]}
-            placeholder="Search log..."
+            placeholder="Search activity..."
             placeholderTextColor={theme.textSecondary}
             value={search}
             onChangeText={setSearch}
@@ -175,7 +172,7 @@ export default function LogScreen() {
         >
           <AchievementsSection />
           {!loaded ? null : filtered.length === 0 ? (
-            <Text style={[styles.empty, { color: theme.textSecondary }]}>No workouts logged yet. Tap + to add one.</Text>
+            <Text style={[styles.empty, { color: theme.textSecondary }]}>No activity yet. Complete a workout or tap + to add an entry.</Text>
           ) : (
             filtered.map((e) => (
               <LogRow
@@ -226,16 +223,22 @@ export default function LogScreen() {
   );
 }
 
-function migrateEntry(e: LogEntry & { type?: string }): LogEntry {
-  if (!e.activity && e.type) {
-    const known = ACTIVITIES.find((a) => a.toLowerCase() === e.type!.toLowerCase());
+function migrateEntry(e: LogEntry): LogEntry {
+  // Programmed entries (Mark-Complete origin) pass through untouched.
+  if (e.type === "programmed") return e;
+  // Legacy migration: very old rows stored activity in a `type` field; the
+  // current shape uses `activity`. Default missing activity to "Other".
+  const legacy = e as LogEntry & { type?: string };
+  if (!e.activity && legacy.type && legacy.type !== "ad-hoc") {
+    const known = ACTIVITIES.find((a) => a.toLowerCase() === legacy.type!.toLowerCase());
     return {
       ...e,
+      type: "ad-hoc",
       activity: known ?? "Other",
-      activityOther: known ? undefined : e.type,
+      activityOther: known ? undefined : legacy.type,
     };
   }
-  return { ...e, activity: e.activity ?? "Other" };
+  return { ...e, type: "ad-hoc", activity: e.activity ?? "Other" };
 }
 
 interface LogRowProps {
@@ -247,9 +250,51 @@ interface LogRowProps {
 
 function LogRow({ entry, onPress, onDelete, registerRef }: LogRowProps) {
   const { theme } = useApp();
-  const activityLabel = entry.activity === "Other" && entry.activityOther ? entry.activityOther : entry.activity;
+  const isProgrammed = entry.type === "programmed";
   const dateLabel = formatRelativeDate(entry.date);
-  const durationLabel = entry.duration ? `${entry.duration} min` : "";
+
+  let title: string;
+  let suffix: string;
+  if (isProgrammed) {
+    title = entry.sessionName ?? "Programmed Session";
+    suffix = entry.tier === "full" ? "FullRox" : entry.tier === "half" ? "HalfRox" : "";
+  } else {
+    title =
+      entry.activity === "Other" && entry.activityOther
+        ? entry.activityOther
+        : entry.activity ?? "";
+    suffix = entry.duration ? `${entry.duration} min` : "";
+  }
+
+  const rowContent = (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.row,
+        { backgroundColor: theme.card, borderColor: theme.border, opacity: pressed ? 0.7 : 1 },
+      ]}
+    >
+      <View style={styles.rowMain}>
+        <View style={styles.rowTopLine}>
+          <Text style={[styles.rowActivity, { color: theme.text }]} numberOfLines={1}>
+            {title}
+            {suffix ? <Text style={[styles.rowDuration, { color: theme.accent }]}>{"  · " + suffix}</Text> : null}
+          </Text>
+          <Text style={[styles.rowDate, { color: theme.textSecondary }]}>{dateLabel}</Text>
+        </View>
+        {entry.notes ? (
+          <Text style={[styles.rowNotes, { color: theme.textSecondary }]} numberOfLines={1}>
+            {entry.notes}
+          </Text>
+        ) : null}
+      </View>
+    </Pressable>
+  );
+
+  // Programmed entries can't be deleted from here — uncompletion lives in
+  // the session detail screen (Mark Incomplete). Render the row bare without
+  // the Swipeable wrapper so the swipe affordance doesn't suggest otherwise.
+  if (isProgrammed) return rowContent;
 
   const renderRightActions = (_progress: Animated.AnimatedInterpolation<number>, dragX: Animated.AnimatedInterpolation<number>) => {
     const translateX = dragX.interpolate({ inputRange: [-100, 0], outputRange: [0, 100], extrapolate: "clamp" });
@@ -278,28 +323,7 @@ function LogRow({ entry, onPress, onDelete, registerRef }: LogRowProps) {
       rightThreshold={40}
       friction={1.5}
     >
-      <Pressable
-        onPress={onPress}
-        style={({ pressed }) => [
-          styles.row,
-          { backgroundColor: theme.card, borderColor: theme.border, opacity: pressed ? 0.7 : 1 },
-        ]}
-      >
-        <View style={styles.rowMain}>
-          <View style={styles.rowTopLine}>
-            <Text style={[styles.rowActivity, { color: theme.text }]} numberOfLines={1}>
-              {activityLabel}
-              {durationLabel ? <Text style={[styles.rowDuration, { color: theme.accent }]}>{"  · " + durationLabel}</Text> : null}
-            </Text>
-            <Text style={[styles.rowDate, { color: theme.textSecondary }]}>{dateLabel}</Text>
-          </View>
-          {entry.notes ? (
-            <Text style={[styles.rowNotes, { color: theme.textSecondary }]} numberOfLines={1}>
-              {entry.notes}
-            </Text>
-          ) : null}
-        </View>
-      </Pressable>
+      {rowContent}
     </Swipeable>
   );
 }
@@ -310,8 +334,96 @@ interface LogFormProps {
   onSave: (entry: LogEntry) => void;
 }
 
+function ProgrammedNotesEditor({
+  initial,
+  onClose,
+  onSave,
+}: {
+  initial: LogEntry;
+  onClose: () => void;
+  onSave: (entry: LogEntry) => void;
+}) {
+  const { theme } = useApp();
+  const [notes, setNotes] = useState(initial.notes ?? "");
+  const dateLabel = new Date(initial.date).toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+  const tierLabel = initial.tier === "full" ? "FullRox" : initial.tier === "half" ? "HalfRox" : null;
+
+  const handleSave = () => {
+    onSave({ ...initial, notes: notes.trim() });
+  };
+
+  return (
+    <KeyboardAvoidingView
+      style={[styles.modal, { backgroundColor: theme.background }]}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
+      <View style={styles.modalHeader}>
+        <Text style={[styles.modalTitle, { color: theme.text }]}>Session Notes</Text>
+        <TouchableOpacity onPress={onClose}>
+          <Ionicons name="close" size={28} color={theme.text} />
+        </TouchableOpacity>
+      </View>
+      <ScrollView contentContainerStyle={styles.form} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
+        <Text style={[styles.label, { color: theme.textSecondary }]}>SESSION</Text>
+        <Text style={[styles.readonlyValue, { color: theme.text }]}>
+          {initial.sessionName ?? "Programmed Session"}
+        </Text>
+
+        <Text style={[styles.label, { color: theme.textSecondary }]}>DATE</Text>
+        <Text style={[styles.readonlyValue, { color: theme.text }]}>{dateLabel}</Text>
+
+        {tierLabel && (
+          <>
+            <Text style={[styles.label, { color: theme.textSecondary }]}>TIER</Text>
+            <Text style={[styles.readonlyValue, { color: theme.text }]}>{tierLabel}</Text>
+          </>
+        )}
+
+        <Text style={[styles.label, { color: theme.textSecondary }]}>NOTES</Text>
+        <TextInput
+          style={[styles.input, styles.notesInput, { backgroundColor: theme.inputBg, borderColor: theme.border, color: theme.text }]}
+          placeholder="How did it go?"
+          placeholderTextColor={theme.textSecondary}
+          multiline
+          value={notes}
+          onChangeText={setNotes}
+          inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
+        />
+
+        <TouchableOpacity
+          style={[styles.saveBtn, { backgroundColor: theme.accent }]}
+          onPress={handleSave}
+        >
+          <Text style={styles.saveBtnText}>Save</Text>
+        </TouchableOpacity>
+        <View style={{ height: 60 }} />
+      </ScrollView>
+      <DoneKeyboardToolbar />
+    </KeyboardAvoidingView>
+  );
+}
+
 function LogForm({ initial, onClose, onSave }: LogFormProps) {
   const { theme } = useApp();
+  const isProgrammed = initial?.type === "programmed";
+
+  // Programmed-entry edit view: notes-only. Date, session name, and tier are
+  // read-only — they're set at Mark-Complete time and shouldn't drift here.
+  if (isProgrammed && initial) {
+    return (
+      <ProgrammedNotesEditor
+        initial={initial}
+        onClose={onClose}
+        onSave={onSave}
+      />
+    );
+  }
+
   const [activity, setActivity] = useState<Activity | "">((initial?.activity as Activity) ?? "");
   const [activityOther, setActivityOther] = useState(initial?.activityOther ?? "");
   const [date, setDate] = useState<Date>(initial ? new Date(initial.date) : new Date());
@@ -328,6 +440,7 @@ function LogForm({ initial, onClose, onSave }: LogFormProps) {
     const entry: LogEntry = {
       id: initial?.id ?? Date.now().toString(36),
       date: date.toISOString(),
+      type: "ad-hoc",
       activity,
       activityOther: activity === "Other" ? activityOther.trim() || undefined : undefined,
       duration: duration.trim(),
@@ -343,7 +456,7 @@ function LogForm({ initial, onClose, onSave }: LogFormProps) {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <View style={styles.modalHeader}>
-        <Text style={[styles.modalTitle, { color: theme.text }]}>{initial ? "Edit Workout" : "Log Workout"}</Text>
+        <Text style={[styles.modalTitle, { color: theme.text }]}>{initial ? "Edit Activity" : "Log Activity"}</Text>
         <TouchableOpacity onPress={onClose}>
           <Ionicons name="close" size={28} color={theme.text} />
         </TouchableOpacity>
@@ -504,6 +617,7 @@ const styles = StyleSheet.create({
   modalTitle: { fontSize: 22, fontWeight: "800" },
   form: { padding: spacing.lg },
   label: { fontSize: 12, fontWeight: "600", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: spacing.xs, marginTop: spacing.md },
+  readonlyValue: { fontSize: 15, fontWeight: "500" },
   input: { borderWidth: 1, borderRadius: borderRadius.sm, padding: spacing.md - 2, fontSize: 15 },
   notesInput: { minHeight: 80, textAlignVertical: "top" },
   activityWrap: { flexDirection: "row", flexWrap: "wrap", gap: 6 },

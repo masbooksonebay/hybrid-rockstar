@@ -46,7 +46,7 @@
     "easy_run": "Easy Run",
     "recovery_run": "Recovery Run",
     "tempo_run": "Tempo Run",
-    "hyrox_movement_pattern": "Hyrox Movement Pattern",
+    "hyrox_movement_pattern": "Movement Pattern",
     "engine": "Engine",
     "compromised_running": "Compromised Running",
     "simulation": "Simulation",
@@ -227,7 +227,7 @@
           }
         },
         "d4": {
-          "title": "Hyrox Movement Pattern",
+          "title": "Movement Pattern",
           "stimulus": "Learn all 8 stations at light load. Movement standards focus. Stations programmed at 25-60% of race volume/load, 1-2 sets each.",
           "session_type": "hyrox_movement_pattern",
           "full_rox": {
@@ -503,7 +503,7 @@
           }
         },
         "d4": {
-          "title": "Hyrox Movement Pattern",
+          "title": "Movement Pattern",
           "stimulus": "8-station rotation at 65-70% race weight + brief race-weight sled focus block. Note on RPE: the race-weight sled focus block briefly exceeds the Week 2 RPE 7 cap. This is intentional — a controlled, technique-focused first exposure to race-weight handling. Total dose is 3×12.5m at full race weight with ample rest, which is below race-station distance and below race-fatigue context.",
           "session_type": "hyrox_movement_pattern",
           "full_rox": {
@@ -800,7 +800,7 @@
           }
         },
         "d4": {
-          "title": "Hyrox Movement Pattern",
+          "title": "Movement Pattern",
           "stimulus": "Full 8-station rotation, one exposure per station. Most stations at partial race volume; sled push/pull at full race distance with reduced load (turf-marking precludes clean partial sled distance below 25m).",
           "session_type": "hyrox_movement_pattern",
           "full_rox": {

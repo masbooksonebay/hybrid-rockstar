@@ -59,12 +59,12 @@ TRAINING GUIDANCE:
 
 HYBRID ROCKSTAR PROGRAMMING FRAMEWORK
 
-Hybrid Rockstar programs Hyrox training in 12-week sequenced cycles. Design principles:
+Hybrid Rockstar programs race-style training in 12-week sequenced cycles. Design principles:
 
 PROGRAMMING ASSUMPTIONS:
 - Sessions are sequenced (Day 1, Day 2, Day 3, etc.). Users complete them in order at their own pace. Race week (Week 12) uses race-relative labels (Race -6, Race -4, Race -3, Race -2).
 - No collision avoidance — the program handles fatigue management through sequencing. Users don't think about which sessions stack.
-- Targets intermediate-to-advanced athletes preparing for a real Hyrox race. Default RPE 7-8 with peaks at 8-9 in apex weeks.
+- Targets intermediate-to-advanced athletes preparing for a real race. Default RPE 7-8 with peaks at 8-9 in apex weeks.
 - Scaling and substitution guidance lives in per-session disclosures, not the default presentation.
 - Single race week structure (Week 12). Non-racers can use Week 12 sessions as maintenance volume sequentially with rest days, ignoring Race -N labels.
 - Industry-standard 10-14 day taper. Week 11 is sharpening (volume reduction, intensity maintained). Week 12 is final taper (sharp drop, no full or partial multi-station simulations within the final 7 days).
@@ -78,7 +78,7 @@ PROGRAMMING ASSUMPTIONS:
 - Tempo Run — Threshold work (Z3-Z4)
 - Compromised Running — Run + station combinations under fatigue (most race-specific)
 - Engine — Aerobic capacity outside running (rower, ski, bike)
-- Hyrox Movement Pattern — Full station rotation at moderate load, technique focus
+- Movement Pattern — Full station rotation at moderate load, technique focus
 - Simulation — Race rehearsal (Half-Sim Week 6 stations 1-4, Half-Sim Week 8 stations 5-8, Full Sim Week 10 at 80-85% race effort)
 - Continuous Light EMOM — Week 12 race-week sharpening
 - Technique EMOM — Week 7 deload session

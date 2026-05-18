@@ -40,6 +40,11 @@ function Inner() {
     <View style={{ flex: 1 }}>
       <StatusBar style={isDark ? "light" : "dark"} />
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.background } }}>
+        {/* index MUST be listed explicitly. Without this, expo-router falls
+            back to the first registered screen as the initial route and the
+            hasCompletedOnboarding gate in app/index.tsx never runs — fresh
+            installs land on /train instead of /onboarding/welcome. */}
+        <Stack.Screen name="index" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
       </Stack>

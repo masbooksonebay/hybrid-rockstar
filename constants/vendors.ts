@@ -79,7 +79,7 @@ export const CATEGORIES: Category[] = [
       {
         slug: "northern-spirit",
         name: "NorthernSpirit",
-        tagline: "Hyrox-native technical apparel",
+        tagline: "Race-day technical apparel",
         url: "https://northernspirit.co",
         officialPartner: false,
         status: "active",

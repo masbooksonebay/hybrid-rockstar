@@ -9,7 +9,7 @@
     "newArchEnabled": false,
     "scheme": "hybridrockstar",
     "splash": {
-      "image": "./assets/app-icon-1024.png",
+      "image": "./assets/app-icon-mark.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },

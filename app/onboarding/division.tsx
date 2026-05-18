@@ -11,7 +11,7 @@ import {
   SecondaryButton,
 } from "../../components/onboarding/Chrome";
 
-// Division → format + tier mapping. Six options cover every real Hyrox race
+// Division → format + tier mapping. Six options cover every real race
 // format. Each tap writes format + tier atomically so Doubles users land in
 // Settings with their tier already set.
 type DivisionKey =

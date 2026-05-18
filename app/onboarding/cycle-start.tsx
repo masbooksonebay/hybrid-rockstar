@@ -5,7 +5,7 @@ import { useRouter } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useApp } from "../../lib/context";
 import { spacing } from "../../constants/theme";
-import { HeaderRow, PrimaryButton } from "../../components/onboarding/Chrome";
+import { HeaderRow, PrimaryButton, SecondaryButton } from "../../components/onboarding/Chrome";
 
 function addDays(d: Date, n: number): Date {
   const x = new Date(d);
@@ -61,6 +61,7 @@ export default function CycleStart() {
       </View>
       <View style={styles.footer}>
         <PrimaryButton label="Continue" onPress={onContinue} />
+        <SecondaryButton label="Skip for now" onPress={() => router.push("/onboarding/goal")} />
       </View>
     </SafeAreaView>
   );
@@ -72,5 +73,5 @@ const styles = StyleSheet.create({
   heading: { fontSize: 28, fontWeight: "800", marginBottom: spacing.sm },
   sub: { fontSize: 15, lineHeight: 21, marginBottom: spacing.md },
   pickerWrap: { marginTop: spacing.sm },
-  footer: { paddingHorizontal: spacing.lg, paddingBottom: spacing.md },
+  footer: { paddingHorizontal: spacing.lg, paddingBottom: spacing.md, gap: spacing.xs },
 });
