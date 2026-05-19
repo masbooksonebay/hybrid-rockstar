@@ -17,7 +17,7 @@ export default function GoalScreen() {
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={[styles.container, { backgroundColor: theme.background }]}>
-      <HeaderRow step={2} onBack={() => router.back()} />
+      <HeaderRow step={1} onBack={() => router.back()} />
       <ScrollView contentContainerStyle={styles.body} keyboardShouldPersistTaps="handled">
         <Text style={[styles.heading, { color: theme.text }]}>What's your goal?</Text>
         <Text style={[styles.sub, { color: theme.textSecondary }]}>

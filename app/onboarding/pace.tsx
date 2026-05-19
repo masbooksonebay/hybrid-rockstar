@@ -171,7 +171,7 @@ export default function Pace() {
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={[styles.container, { backgroundColor: theme.background }]}>
-      <HeaderRow step={3} onBack={() => router.back()} />
+      <HeaderRow step={2} onBack={() => router.back()} />
       <View style={styles.body}>
         <Text style={[styles.heading, { color: theme.text }]}>What's your current 1km pace?</Text>
         <Text style={[styles.sub, { color: theme.textSecondary }]}>

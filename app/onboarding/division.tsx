@@ -82,9 +82,9 @@ export default function Division() {
         <PrimaryButton
           label="Continue"
           disabled={selected == null}
-          onPress={() => router.push("/onboarding/cycle-start")}
+          onPress={() => router.push("/onboarding/goal")}
         />
-        <SecondaryButton label="Skip" onPress={() => router.push("/onboarding/cycle-start")} />
+        <SecondaryButton label="Skip" onPress={() => router.push("/onboarding/goal")} />
       </View>
     </SafeAreaView>
   );

@@ -9,9 +9,6 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
-  TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
@@ -52,7 +49,6 @@ import {
   programmedEntryId,
   upsertActivityEntry,
 } from "../../../../lib/activityLog";
-import DoneKeyboardToolbar, { KEYBOARD_DONE_ID } from "../../../../components/DoneKeyboardToolbar";
 
 function dayNumberFromKey(key: string, fallbackIndex: number): number {
   const m = /^d(\d+)$/.exec(key);
@@ -112,26 +108,15 @@ export default function CycleSessionScreen() {
   const progress = useCycleProgress();
   const completed = isSessionComplete(progress, week.cycle_week, sessionKey);
 
-  const [notesSheetOpen, setNotesSheetOpen] = useState(false);
-  const [sheetNotes, setSheetNotes] = useState("");
-  // Cache the tier at moment-of-completion so the post-sheet entry write
-  // uses what was active when the user tapped, not whatever the user later
-  // toggles the segmented control to while the sheet is open.
-  const [completedTier, setCompletedTier] = useState<"full" | "half">("full");
-
-  const onToggleComplete = () => {
+  const onToggleComplete = async () => {
     if (completed) {
       markSessionIncomplete(week.cycle_week, sessionKey);
       return;
     }
     const tier: "full" | "half" = version === "full" ? "full" : "half";
     markSessionComplete(week.cycle_week, sessionKey, tier);
-    setCompletedTier(tier);
-    setSheetNotes("");
-    setNotesSheetOpen(true);
-  };
-
-  const writeProgrammedEntry = async (notes: string) => {
+    // Auto-create the programmed Activity entry with empty notes. Users can
+    // add notes later via Edit on the Activity tab (ProgrammedNotesEditor).
     const entry: LogEntry = {
       id: programmedEntryId(week.cycle_week, sessionKey),
       date: new Date().toISOString(),
@@ -139,8 +124,8 @@ export default function CycleSessionScreen() {
       sessionKey,
       weekIndex: week.cycle_week,
       sessionName: session.title,
-      tier: completedTier,
-      notes,
+      tier,
+      notes: "",
     };
     try {
       await upsertActivityEntry(entry);
@@ -148,17 +133,6 @@ export default function CycleSessionScreen() {
       // Activity-log write failures shouldn't block the completion flow —
       // the cycle-progress side already persisted in markSessionComplete.
     }
-  };
-
-  const onSheetSkip = async () => {
-    setNotesSheetOpen(false);
-    await writeProgrammedEntry("");
-    router.replace("/train");
-  };
-
-  const onSheetSave = async () => {
-    setNotesSheetOpen(false);
-    await writeProgrammedEntry(sheetNotes.trim());
     router.replace("/train");
   };
 
@@ -347,60 +321,6 @@ export default function CycleSessionScreen() {
         </Pressable>
       </Modal>
 
-      {/* Post-completion notes sheet — fires after Mark Complete (not after
-          Mark Incomplete). Skip and Save both create the activity entry;
-          Skip leaves notes empty. Auto-routes back to /train after either. */}
-      <Modal
-        visible={notesSheetOpen}
-        animationType="slide"
-        presentationStyle="pageSheet"
-        onRequestClose={onSheetSkip}
-      >
-        <KeyboardAvoidingView
-          style={[styles.sheetContainer, { backgroundColor: theme.background }]}
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-        >
-          <View style={styles.sheetHeader}>
-            <Text style={[styles.sheetTitle, { color: theme.text }]}>Workout Complete</Text>
-          </View>
-          <ScrollView contentContainerStyle={styles.sheetBody} keyboardShouldPersistTaps="handled">
-            <Text style={[styles.sheetSessionName, { color: theme.textSecondary }]}>
-              {session.title}
-            </Text>
-            <TextInput
-              style={[
-                styles.sheetNotesInput,
-                {
-                  backgroundColor: theme.inputBg,
-                  borderColor: theme.border,
-                  color: theme.text,
-                },
-              ]}
-              placeholder="How did it go? (optional)"
-              placeholderTextColor={theme.textSecondary}
-              multiline
-              value={sheetNotes}
-              onChangeText={setSheetNotes}
-              inputAccessoryViewID={Platform.OS === "ios" ? KEYBOARD_DONE_ID : undefined}
-            />
-            <View style={styles.sheetButtonRow}>
-              <TouchableOpacity
-                style={[styles.sheetSkipBtn, { borderColor: theme.border }]}
-                onPress={onSheetSkip}
-              >
-                <Text style={[styles.sheetSkipText, { color: theme.textSecondary }]}>Skip</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.sheetSaveBtn, { backgroundColor: theme.accent }]}
-                onPress={onSheetSave}
-              >
-                <Text style={styles.sheetSaveText}>Save</Text>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-          <DoneKeyboardToolbar />
-        </KeyboardAvoidingView>
-      </Modal>
     </SafeAreaView>
   );
 }
@@ -567,46 +487,6 @@ const LABEL_FOR_STEP: Record<string, string> = {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   notFound: { flex: 1, alignItems: "center", justifyContent: "center" },
-  sheetContainer: { flex: 1 },
-  sheetHeader: {
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.sm,
-  },
-  sheetTitle: { fontSize: 22, fontWeight: "800" },
-  sheetBody: { paddingHorizontal: spacing.lg, paddingBottom: spacing.lg },
-  sheetSessionName: {
-    fontSize: 14,
-    marginBottom: spacing.md,
-  },
-  sheetNotesInput: {
-    borderWidth: 1,
-    borderRadius: borderRadius.sm,
-    padding: spacing.md - 2,
-    fontSize: 15,
-    minHeight: 120,
-    textAlignVertical: "top",
-  },
-  sheetButtonRow: {
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.lg,
-  },
-  sheetSkipBtn: {
-    flex: 1,
-    borderRadius: borderRadius.sm,
-    paddingVertical: 16,
-    alignItems: "center",
-    borderWidth: 1,
-  },
-  sheetSkipText: { fontSize: 16, fontWeight: "600" },
-  sheetSaveBtn: {
-    flex: 1,
-    borderRadius: borderRadius.sm,
-    paddingVertical: 16,
-    alignItems: "center",
-  },
-  sheetSaveText: { color: "#fff", fontSize: 16, fontWeight: "700" },
   topBar: {
     flexDirection: "row",
     alignItems: "center",
