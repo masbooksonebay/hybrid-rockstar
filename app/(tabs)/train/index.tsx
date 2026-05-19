@@ -8,11 +8,7 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
-  Alert,
-  Modal,
-  TouchableOpacity,
 } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -65,31 +61,6 @@ export default function TrainScreen() {
   const cycle = getCycle();
   const progress = useCycleProgress();
   const cycleStarted = progress.startDate != null;
-  // Pre-cycle "Choose date" picker — hooks must run unconditionally, so this
-  // state lives at the top even though the picker only renders in the
-  // !cycleStarted branch.
-  const [startDatePickerOpen, setStartDatePickerOpen] = useState(false);
-  const [startDatePick, setStartDatePick] = useState<Date>(new Date());
-
-  const promptStartCycle = () => {
-    Alert.alert(
-      "Start cycle",
-      "Begin Week 1 today, or choose a different start date.",
-      [
-        { text: "Start today", isPreferred: true, onPress: () => startCycle() },
-        { text: "Choose date…", onPress: () => {
-          setStartDatePick(new Date());
-          setStartDatePickerOpen(true);
-        }},
-        { text: "Cancel", style: "cancel" },
-      ]
-    );
-  };
-
-  const confirmChosenDate = () => {
-    setStartDatePickerOpen(false);
-    startCycle(startDatePick);
-  };
 
   // All hooks run unconditionally, before any early return — the pre-start
   // branch below must not change the hook count between renders. On a cold
@@ -166,7 +137,7 @@ export default function TrainScreen() {
             </Text>
           )}
           <Pressable
-            onPress={promptStartCycle}
+            onPress={() => startCycle(new Date())}
             style={({ pressed }) => [
               styles.startCta,
               { backgroundColor: theme.accent, opacity: pressed ? 0.85 : 1 },
@@ -176,41 +147,11 @@ export default function TrainScreen() {
             <View style={{ flex: 1 }}>
               <Text style={styles.startCtaTitle}>Start Cycle</Text>
               <Text style={styles.startCtaBody}>
-                Tap to begin Week 1 of HR Cycle 1. 12 weeks, ~5–6 sessions per week.
+                Tap to begin Week 1 of HR Cycle 1 today. 12 weeks, ~5–6 sessions per week.
               </Text>
             </View>
           </Pressable>
         </ScrollView>
-
-        <Modal
-          visible={startDatePickerOpen}
-          animationType="slide"
-          presentationStyle="pageSheet"
-          onRequestClose={() => setStartDatePickerOpen(false)}
-        >
-          <View style={[styles.pickerModal, { backgroundColor: theme.background }]}>
-            <View style={styles.pickerHeader}>
-              <TouchableOpacity onPress={() => setStartDatePickerOpen(false)}>
-                <Text style={[styles.pickerCancel, { color: theme.textSecondary }]}>Cancel</Text>
-              </TouchableOpacity>
-              <Text style={[styles.pickerTitle, { color: theme.text }]}>Choose start date</Text>
-              <TouchableOpacity onPress={confirmChosenDate}>
-                <Text style={[styles.pickerDone, { color: theme.accent }]}>Start</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={{ paddingHorizontal: spacing.md }}>
-              <DateTimePicker
-                value={startDatePick}
-                mode="date"
-                display={Platform.OS === "ios" ? "inline" : "default"}
-                themeVariant="dark"
-                onChange={(_e, d) => {
-                  if (d) setStartDatePick(d);
-                }}
-              />
-            </View>
-          </View>
-        </Modal>
       </SafeAreaView>
     );
   }
@@ -577,19 +518,6 @@ const styles = StyleSheet.create({
   },
   startCtaTitle: { color: "#fff", fontSize: 17, fontWeight: "800", marginBottom: 2 },
   startCtaBody: { color: "rgba(255,255,255,0.85)", fontSize: 12, lineHeight: 17 },
-  pickerModal: { flex: 1 },
-  pickerHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm + 2,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "rgba(255,255,255,0.1)",
-  },
-  pickerCancel: { fontSize: 16, fontWeight: "500" },
-  pickerTitle: { fontSize: 16, fontWeight: "700" },
-  pickerDone: { fontSize: 16, fontWeight: "700" },
   statusCard: {
     borderRadius: borderRadius.md,
     borderWidth: 1,
