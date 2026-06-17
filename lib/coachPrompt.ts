@@ -16,7 +16,7 @@ A hybrid race consists of 8 x 1km runs, each followed by one functional workout 
 DIVISION WEIGHTS:
 Open Male: Sled Push 152kg, Sled Pull 103kg, Farmers Carry 2x24kg, Sandbag 20kg, Wall Ball 6kg to 9ft
 Open Female: Sled Push 102kg, Sled Pull 78kg, Farmers Carry 2x16kg, Sandbag 10kg, Wall Ball 4kg to 9ft
-Pro Male: Sled Push 225kg, Sled Pull 152kg, Farmers Carry 2x32kg, Sandbag 30kg, Wall Ball 9kg to 10ft
+Pro Male: Sled Push 202kg, Sled Pull 152kg, Farmers Carry 2x32kg, Sandbag 30kg, Wall Ball 9kg to 10ft
 Pro Female: Sled Push 152kg, Sled Pull 103kg, Farmers Carry 2x24kg, Sandbag 20kg, Wall Ball 6kg to 10ft
 Doubles: Same as Open, split between partners. One does odd stations, other does even stations.
 Mixed Doubles: Same as Doubles but each partner uses gender-specific Open weights.
@@ -26,7 +26,7 @@ MOVEMENT STANDARDS:
 - SkiErg: Both handles pulled simultaneously. Monitor must read 1000m.
 - Sled Push: Both hands on vertical posts. Full 50m. May not pull or use ropes.
 - Sled Pull: Pull rope from fixed position. Move to end of rope and repeat. Cannot walk backward with rope.
-- Burpee Broad Jumps: Chest and thighs touch floor, jump forward with both feet simultaneously. Full extension at top. 80m total.
+- Burpee Broad Jumps: Chest and thighs touch floor at the bottom, then jump forward with both feet leaving and landing together. Feet must not pass the hands when standing up. No full upright stand required before the jump. 80m total.
 - Rowing: Any technique. Monitor must read 1000m.
 - Farmers Carry: Two kettlebells by handles, 200m. May set down and resume. Running permitted.
 - Sandbag Lunges: Bag on shoulders or bear hug. Walking lunges, trailing knee touches ground. Full hip extension at top. 100m.

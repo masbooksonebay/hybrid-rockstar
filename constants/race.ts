@@ -39,7 +39,7 @@ export interface DivisionWeights {
 export const WEIGHTS: Record<string, DivisionWeights> = {
   "Open Male": { sledPush: "152kg", sledPull: "103kg", farmersCarry: "2x24kg", sandbagLunges: "20kg", wallBalls: "6kg", wallBallHeight: "9ft" },
   "Open Female": { sledPush: "102kg", sledPull: "78kg", farmersCarry: "2x16kg", sandbagLunges: "10kg", wallBalls: "4kg", wallBallHeight: "9ft" },
-  "Pro Male": { sledPush: "225kg", sledPull: "152kg", farmersCarry: "2x32kg", sandbagLunges: "30kg", wallBalls: "9kg", wallBallHeight: "10ft" },
+  "Pro Male": { sledPush: "202kg", sledPull: "152kg", farmersCarry: "2x32kg", sandbagLunges: "30kg", wallBalls: "9kg", wallBallHeight: "10ft" },
   "Pro Female": { sledPush: "152kg", sledPull: "103kg", farmersCarry: "2x24kg", sandbagLunges: "20kg", wallBalls: "6kg", wallBallHeight: "10ft" },
   "Doubles Male": { sledPush: "152kg", sledPull: "103kg", farmersCarry: "2x24kg", sandbagLunges: "20kg", wallBalls: "6kg", wallBallHeight: "9ft" },
   "Doubles Female": { sledPush: "102kg", sledPull: "78kg", farmersCarry: "2x16kg", sandbagLunges: "10kg", wallBalls: "4kg", wallBallHeight: "9ft" },

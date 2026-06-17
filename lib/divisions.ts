@@ -20,7 +20,7 @@ interface PerGenderWeight {
 
 const SLED_PUSH: Record<"open" | "pro", PerGenderWeight> = {
   open: { male: { primary: "152kg" }, female: { primary: "102kg" } },
-  pro: { male: { primary: "202kg" }, female: { primary: "132kg" } },
+  pro: { male: { primary: "202kg" }, female: { primary: "152kg" } },
 };
 
 const SLED_PULL: Record<"open" | "pro", PerGenderWeight> = {

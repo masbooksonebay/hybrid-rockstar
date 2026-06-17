@@ -30,7 +30,7 @@ export const RULES: RuleSection[] = [
       { heading: "Distance", body: "50 meters on a track." },
       { heading: "Movement standard", body: "Push the sled with both hands on the vertical posts. The sled must cross the finish line completely. Athletes may not pull the sled or use ropes." },
       { heading: "Open weights", body: "Male: 152kg total sled weight. Female: 102kg total sled weight." },
-      { heading: "Pro weights", body: "Male: 225kg total sled weight. Female: 152kg total sled weight." },
+      { heading: "Pro weights", body: "Male: 202kg total sled weight. Female: 152kg total sled weight." },
     ],
   },
   {
@@ -46,7 +46,7 @@ export const RULES: RuleSection[] = [
     title: "Station 4: Burpee Broad Jumps",
     items: [
       { heading: "Distance", body: "80 meters total." },
-      { heading: "Movement standard", body: "From standing, drop to the ground with chest and thighs touching the floor. Push up, then jump forward with both feet leaving the ground simultaneously. Each rep must show full extension at the top and chest-to-floor contact at the bottom. Landing must be with both feet." },
+      { heading: "Movement standard", body: "Drop to the ground so chest and thighs touch the floor at the bottom. Push back up and jump forward, with both feet leaving and landing together (parallel — no staggered or shuffled steps). When standing up, your feet must not pass the position where your hands were placed. You do not need to come to a full upright stand before jumping." },
       { heading: "Weights", body: "Bodyweight only. No external load." },
     ],
   },
