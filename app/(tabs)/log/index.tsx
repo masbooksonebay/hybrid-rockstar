@@ -474,7 +474,7 @@ function LogForm({ initial, onClose, onSave }: LogFormProps) {
               ]}
               onPress={() => setActivity(a)}
             >
-              <Text style={[styles.activityPillText, { color: activity === a ? "#fff" : theme.text }]}>{a}</Text>
+              <Text style={[styles.activityPillText, { color: activity === a ? "#000" : theme.text }]}>{a}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -629,5 +629,5 @@ const styles = StyleSheet.create({
   durationInput: { flex: 1 },
   unitLabel: { fontSize: 14, fontWeight: "600" },
   saveBtn: { borderRadius: borderRadius.sm, paddingVertical: 16, alignItems: "center", marginTop: spacing.lg },
-  saveBtnText: { color: "#fff", fontSize: 17, fontWeight: "700" },
+  saveBtnText: { color: "#000", fontSize: 17, fontWeight: "700" },
 });

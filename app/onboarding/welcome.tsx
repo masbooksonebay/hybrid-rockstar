@@ -5,7 +5,8 @@ import { useApp } from "../../lib/context";
 import { spacing } from "../../constants/theme";
 import { PrimaryButton } from "../../components/onboarding/Chrome";
 
-const ICON_SIZE = 88;
+const ICON_SIZE = 96;
+const BRAND_YELLOW = "#FFED00";
 
 export default function Welcome() {
   const { theme } = useApp();
@@ -16,19 +17,29 @@ export default function Welcome() {
       {/* Top spacer pushes content to ~28% from the top of the safe area. */}
       <View style={styles.topSpacer} />
       <View style={styles.body}>
-        {/* app-icon-mark.png is a transparent-bg variant of app-icon-1024.png,
-            generated offline so the mark floats on theme.background with no
-            tile. The original app-icon-1024.png is still used for app.json's
-            launch icon + splash. */}
+        {/* New black/#FFED00 HYBRID brand tile (white wordmark + yellow
+            underline). The asset is a square black tile, so the rounded corners
+            + hairline border below render it as an app tile on the dark hero —
+            mirroring the website hero badge. */}
         <Image
-          source={require("../../assets/app-icon-mark.png")}
+          source={require("../../assets/app-icon-hybrid-1024.png")}
           style={styles.icon}
-          resizeMode="contain"
+          resizeMode="cover"
         />
         <View style={styles.headingBlock}>
-          <Text style={[styles.lineWelcome, { color: theme.text }]}>Welcome</Text>
-          <Text style={[styles.lineTo, { color: theme.textSecondary }]}>to</Text>
-          <Text style={[styles.lineBrand, { color: theme.accent }]}>Hybrid Rockstar</Text>
+          {/* Brand wordmark + HYROX TRAINING subtitle, matching the website
+              hero: Roboto Mono, uppercase, letter-spaced; wordmark in brand
+              yellow, subtitle in white. RN has no word-spacing, so the gap is
+              approximated via letterSpacing; numberOfLines/adjustsFontSizeToFit
+              keep it on one line across device widths. */}
+          <Text
+            style={styles.wordmark}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+          >
+            Hybrid Rockstar
+          </Text>
+          <Text style={styles.subtitleBrand}>HYROX Training</Text>
         </View>
         <Text style={[styles.sub, { color: theme.textSecondary }]}>
           Let's set up your race prep. Your answers help us personalize your training advice.
@@ -54,31 +65,31 @@ const styles = StyleSheet.create({
   icon: {
     width: ICON_SIZE,
     height: ICON_SIZE,
-    marginBottom: 40,
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.09)",
+    marginBottom: 36,
   },
   headingBlock: {
     alignItems: "center",
     marginBottom: 28,
   },
-  lineWelcome: {
-    fontSize: 32,
-    fontWeight: "500",
-    lineHeight: 36,
+  wordmark: {
+    fontFamily: "RobotoMono_400Regular",
+    fontSize: 34,
+    color: BRAND_YELLOW,
+    letterSpacing: 2,
+    textTransform: "uppercase",
     textAlign: "center",
   },
-  lineTo: {
-    fontSize: 18,
-    fontWeight: "300",
-    lineHeight: 24,
+  subtitleBrand: {
+    fontFamily: "RobotoMono_400Regular",
+    fontSize: 14,
+    color: "#FFFFFF",
+    letterSpacing: 2,
+    textTransform: "uppercase",
     textAlign: "center",
-    marginVertical: 2,
-  },
-  lineBrand: {
-    fontSize: 44,
-    fontWeight: "800",
-    lineHeight: 48,
-    letterSpacing: -0.8,
-    textAlign: "center",
+    marginTop: 12,
   },
   sub: {
     fontSize: 16,

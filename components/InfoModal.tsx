@@ -60,5 +60,5 @@ const styles = StyleSheet.create({
   body: { fontSize: 15, lineHeight: 22 },
   footer: { paddingHorizontal: spacing.lg, paddingBottom: spacing.md, paddingTop: spacing.sm },
   cta: { paddingVertical: 14, borderRadius: borderRadius.md, alignItems: "center" },
-  ctaText: { color: "#fff", fontSize: 16, fontWeight: "700" },
+  ctaText: { color: "#000", fontSize: 16, fontWeight: "700" },
 });

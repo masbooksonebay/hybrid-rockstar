@@ -75,7 +75,7 @@ export function PrimaryButton({
         },
       ]}
     >
-      <Text style={[styles.primaryText, { color: disabled ? theme.textTertiary : "#fff" }]}>
+      <Text style={[styles.primaryText, { color: disabled ? theme.textTertiary : "#000" }]}>
         {label}
       </Text>
     </Pressable>
@@ -122,7 +122,7 @@ export function OptionPill({
       <Text
         style={[
           styles.optionPillText,
-          { color: active ? "#fff" : theme.text },
+          { color: active ? "#000" : theme.text },
         ]}
       >
         {label}

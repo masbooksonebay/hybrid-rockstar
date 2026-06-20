@@ -212,7 +212,7 @@ export default function CoachScreen() {
               )}
               {messages.map((m, i) => (
                 <View key={i} style={[styles.bubble, m.role === "user" ? { backgroundColor: theme.userBubble, alignSelf: "flex-end" } : { backgroundColor: theme.aiBubble, alignSelf: "flex-start", borderWidth: 1, borderColor: theme.border }]}>
-                  <Text style={[styles.bubbleText, { color: m.role === "user" ? "#fff" : theme.text }]}>{m.content}</Text>
+                  <Text style={[styles.bubbleText, { color: m.role === "user" ? "#000" : theme.text }]}>{m.content}</Text>
                 </View>
               ))}
               {loading && (
@@ -249,7 +249,7 @@ export default function CoachScreen() {
                 accessibilityLabel="Send message"
                 accessibilityRole="button"
               >
-                <Ionicons name="arrow-up" size={18} color="#FFFFFF" />
+                <Ionicons name="arrow-up" size={18} color="#000000" />
               </TouchableOpacity>
             </View>
           </View>

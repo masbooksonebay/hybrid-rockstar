@@ -15,7 +15,7 @@ export function SegmentButton({ label, active, onPress }: Props) {
       onPress={onPress}
       style={[styles.btn, active && { backgroundColor: theme.accent }]}
     >
-      <Text style={[styles.text, { color: active ? "#fff" : theme.textSecondary }]}>
+      <Text style={[styles.text, { color: active ? "#000" : theme.textSecondary }]}>
         {label}
       </Text>
     </Pressable>

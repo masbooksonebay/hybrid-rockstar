@@ -260,12 +260,12 @@ export default function CycleSessionScreen() {
             <Ionicons
               name={completed ? "checkmark-circle" : "checkmark-circle-outline"}
               size={20}
-              color={completed ? theme.accent : "#fff"}
+              color={completed ? theme.accent : "#000"}
             />
             <Text
               style={[
                 styles.completeBtnText,
-                { color: completed ? theme.accent : "#fff" },
+                { color: completed ? theme.accent : "#000" },
               ]}
             >
               {completed ? "Completed" : "Mark complete"}
@@ -564,7 +564,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: spacing.xs,
   },
-  explainerGotItText: { color: "#fff", fontSize: 15, fontWeight: "700" },
+  explainerGotItText: { color: "#000", fontSize: 15, fontWeight: "700" },
   stepsBlock: { marginBottom: spacing.sm },
   stepRow: {
     paddingVertical: spacing.sm + 2,

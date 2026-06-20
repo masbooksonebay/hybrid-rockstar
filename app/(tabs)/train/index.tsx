@@ -143,7 +143,7 @@ export default function TrainScreen() {
               { backgroundColor: theme.accent, opacity: pressed ? 0.85 : 1 },
             ]}
           >
-            <Ionicons name="play-circle" size={26} color="#fff" />
+            <Ionicons name="play-circle" size={26} color="#000" />
             <View style={{ flex: 1 }}>
               <Text style={styles.startCtaTitle}>Start Cycle</Text>
               <Text style={styles.startCtaBody}>
@@ -516,8 +516,8 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.md,
     marginBottom: spacing.md,
   },
-  startCtaTitle: { color: "#fff", fontSize: 17, fontWeight: "800", marginBottom: 2 },
-  startCtaBody: { color: "rgba(255,255,255,0.85)", fontSize: 12, lineHeight: 17 },
+  startCtaTitle: { color: "#000", fontSize: 17, fontWeight: "800", marginBottom: 2 },
+  startCtaBody: { color: "rgba(0,0,0,0.85)", fontSize: 12, lineHeight: 17 },
   statusCard: {
     borderRadius: borderRadius.md,
     borderWidth: 1,

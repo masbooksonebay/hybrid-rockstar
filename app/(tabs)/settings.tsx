@@ -193,7 +193,7 @@ export default function SettingsScreen() {
                     ]}
                     onPress={() => updateSettings({ themeMode: m.v })}
                   >
-                    <Text style={[styles.pillText, { color: active ? "#fff" : theme.text }]}>{m.label}</Text>
+                    <Text style={[styles.pillText, { color: active ? "#000" : theme.text }]}>{m.label}</Text>
                   </TouchableOpacity>
                 );
               })}
@@ -427,7 +427,7 @@ function PillRow({
               ]}
               onPress={() => onChange(o)}
             >
-              <Text style={[styles.pillText, { color: active ? "#fff" : theme.text }]}>{o}</Text>
+              <Text style={[styles.pillText, { color: active ? "#000" : theme.text }]}>{o}</Text>
             </TouchableOpacity>
           );
         })}

@@ -256,10 +256,10 @@ export default function RaceScreen() {
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <View style={[styles.modeRow, { borderColor: theme.border }]}>
         <TouchableOpacity style={[styles.modeBtn, mode === "predict" && { backgroundColor: theme.accent }]} onPress={() => setMode("predict")}>
-          <Text style={[styles.modeText, { color: mode === "predict" ? "#fff" : theme.textSecondary }]}>Target Time</Text>
+          <Text style={[styles.modeText, { color: mode === "predict" ? "#000" : theme.textSecondary }]}>Target Time</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.modeBtn, mode === "goal" && { backgroundColor: theme.accent }]} onPress={() => setMode("goal")}>
-          <Text style={[styles.modeText, { color: mode === "goal" ? "#fff" : theme.textSecondary }]}>Target Splits</Text>
+          <Text style={[styles.modeText, { color: mode === "goal" ? "#000" : theme.textSecondary }]}>Target Splits</Text>
         </TouchableOpacity>
       </View>
 
@@ -733,7 +733,7 @@ const styles = StyleSheet.create({
   unitLabel: { fontSize: 15, fontWeight: "600" },
   helpText: { fontSize: 11, marginTop: 4 },
   saveBtn: { borderRadius: borderRadius.sm, paddingVertical: 16, alignItems: "center", marginTop: spacing.lg },
-  saveBtnText: { color: "#fff", fontSize: 17, fontWeight: "700" },
+  saveBtnText: { color: "#000", fontSize: 17, fontWeight: "700" },
   resetBtn: { borderRadius: borderRadius.sm, paddingVertical: 14, alignItems: "center", marginTop: spacing.sm, borderWidth: 1 },
   resetBtnText: { fontSize: 14, fontWeight: "600" },
 });
