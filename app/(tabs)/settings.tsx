@@ -194,19 +194,6 @@ export default function SettingsScreen() {
       {/* PRIVACY */}
       <Section title="Privacy" theme={theme}>
         <Card theme={theme}>
-          <Row theme={theme} divider>
-            <View style={{ flex: 1, paddingRight: spacing.md }}>
-              <Text style={[styles.rowLabel, { color: theme.text }]}>Anonymous tap analytics</Text>
-              <Text style={[styles.rowSub, { color: theme.textTertiary }]}>
-                Helps us improve the app. Data stays on your device.
-              </Text>
-            </View>
-            <Switch
-              value={settings.analyticsEnabled}
-              onValueChange={(v) => updateSettings({ analyticsEnabled: v })}
-              trackColor={{ true: theme.accent, false: theme.border }}
-            />
-          </Row>
           <Row theme={theme} onPress={onOpenPrivacy}>
             <Text style={[styles.rowLabel, { color: theme.text }]}>Privacy Policy</Text>
             <Ionicons name="open-outline" size={18} color={theme.textSecondary} />

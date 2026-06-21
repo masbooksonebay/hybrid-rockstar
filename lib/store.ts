@@ -12,7 +12,6 @@ export interface Settings {
   raceDate: string | null;
   notificationsEnabled: boolean;
   notificationsTime: string;
-  analyticsEnabled: boolean;
   hasCompletedOnboarding: boolean;
   cycleStartDate: string | null;
   paceSecondsPerKm: number | null;
@@ -28,7 +27,6 @@ export const DEFAULT_SETTINGS: Settings = {
   raceDate: null,
   notificationsEnabled: false,
   notificationsTime: "07:00",
-  analyticsEnabled: true,
   // Every install (App Store or TestFlight upgrade) onboards exactly once.
   // No grandfathering — existing persisted settings will lack this field and
   // fall back to false via the spread merge in loadSettings().
