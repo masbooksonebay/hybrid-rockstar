@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useFonts, RobotoMono_400Regular, RobotoMono_700Bold } from "@expo-google-fonts/roboto-mono";
+import { useFonts, BarlowCondensed_700Bold } from "@expo-google-fonts/barlow-condensed";
 import * as Notifications from "expo-notifications";
 import { AppProvider, useApp } from "../lib/context";
 import { getCycleProgress } from "../lib/cycleProgress";
@@ -56,10 +56,10 @@ function Inner() {
 }
 
 export default function RootLayout() {
-  // Roboto Mono backs the brand wordmark (welcome screen) to match the website
-  // hero. Gate the tree on load so glyphs don't pop in; black matches the
-  // splash background so there's no flash.
-  const [fontsLoaded] = useFonts({ RobotoMono_400Regular, RobotoMono_700Bold });
+  // Barlow Condensed Bold backs the brand wordmark + subtitle (welcome screen)
+  // only — everything else stays on the system font. Gate the tree on load so
+  // glyphs don't pop in; black matches the splash background so there's no flash.
+  const [fontsLoaded] = useFonts({ BarlowCondensed_700Bold });
   if (!fontsLoaded) {
     return <View style={{ flex: 1, backgroundColor: "#000" }} />;
   }

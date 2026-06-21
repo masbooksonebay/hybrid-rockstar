@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     marginBottom: 28,
   },
   wordmark: {
-    fontFamily: "RobotoMono_400Regular",
+    fontFamily: "BarlowCondensed_700Bold",
     fontSize: 34,
     color: BRAND_YELLOW,
     letterSpacing: 2,
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   subtitleBrand: {
-    fontFamily: "RobotoMono_400Regular",
+    fontFamily: "BarlowCondensed_700Bold",
     fontSize: 14,
     color: "#FFFFFF",
     letterSpacing: 2,
