@@ -17,7 +17,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import * as StoreReview from "expo-store-review";
 import * as Notifications from "expo-notifications";
 import { useApp } from "../../lib/context";
-import { Format, Tier, ThemeMode } from "../../lib/store";
+import { Format, Tier } from "../../lib/store";
 import { spacing, borderRadius } from "../../constants/theme";
 import { useCycleProgress } from "../../lib/cycleProgress";
 import { rescheduleNotifications } from "../../lib/notifications";
@@ -109,10 +109,6 @@ export default function SettingsScreen() {
     Linking.openURL("https://hybridrockstar.shop/privacy").catch(() => {});
   };
 
-  const themeModes: { v: ThemeMode; label: string }[] = [
-    { v: "light", label: "Light" },
-    { v: "dark", label: "Dark" },
-  ];
 
   return (
     <ScrollView style={[styles.container, { backgroundColor: theme.background }]} contentContainerStyle={styles.content}>
@@ -175,33 +171,6 @@ export default function SettingsScreen() {
         </Card>
       </Section>
 
-      {/* APPEARANCE */}
-      <Section title="Appearance" theme={theme}>
-        <Card theme={theme}>
-          <View style={styles.pillRow}>
-            <Text style={[styles.rowLabel, { color: theme.text, marginBottom: spacing.sm }]}>Theme</Text>
-            <View style={styles.pills}>
-              {themeModes.map((m) => {
-                const active = settings.themeMode === m.v;
-                return (
-                  <TouchableOpacity
-                    key={m.v}
-                    style={[
-                      styles.pill,
-                      { borderColor: theme.border },
-                      active && { backgroundColor: theme.accent, borderColor: theme.accent },
-                    ]}
-                    onPress={() => updateSettings({ themeMode: m.v })}
-                  >
-                    <Text style={[styles.pillText, { color: active ? "#000" : theme.text }]}>{m.label}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          </View>
-        </Card>
-      </Section>
-
       {/* NOTIFICATIONS */}
       <Section title="Notifications" theme={theme}>
         <Card theme={theme}>
@@ -229,7 +198,7 @@ export default function SettingsScreen() {
             <View style={{ flex: 1, paddingRight: spacing.md }}>
               <Text style={[styles.rowLabel, { color: theme.text }]}>Anonymous tap analytics</Text>
               <Text style={[styles.rowSub, { color: theme.textTertiary }]}>
-                Helps us improve Shop recommendations. Data stays on your device.
+                Helps us improve the app. Data stays on your device.
               </Text>
             </View>
             <Switch

@@ -12,20 +12,6 @@ export const darkTheme = {
   aiBubble: "#1a1a1a",
 };
 
-export const lightTheme = {
-  background: "#FFFFFF",
-  card: "#F5F5F5",
-  accent: "#FFED00",
-  text: "#000000",
-  textSecondary: "#3C3C43",
-  textTertiary: "#8E8E93",
-  border: "#E0E0E0",
-  tabBar: "#F8F8F8",
-  inputBg: "#F0F0F0",
-  userBubble: "#FFED00",
-  aiBubble: "#F0F0F0",
-};
-
 export type Theme = typeof darkTheme;
 export const spacing = { xs: 4, sm: 8, md: 16, lg: 24, xl: 32 };
 export const borderRadius = { sm: 8, md: 12, lg: 16 };

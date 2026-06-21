@@ -24,7 +24,6 @@ export default function TabLayout() {
           <Ionicons name={focused ? "document-text" : "document-text-outline"} size={size} color={color} />
         </TabIconWithPulse>
       ) }} />
-      <Tabs.Screen name="shop" options={{ title: "Shop", tabBarIcon: ({ color, size, focused }) => <Ionicons name={focused ? "bag" : "bag-outline"} size={size} color={color} /> }} />
       <Tabs.Screen name="settings" options={{ title: "Settings", tabBarIcon: ({ color, size, focused }) => <Ionicons name={focused ? "settings" : "settings-outline"} size={size} color={color} /> }} />
     </Tabs>
   );

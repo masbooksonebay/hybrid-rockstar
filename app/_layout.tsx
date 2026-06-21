@@ -23,7 +23,7 @@ Notifications.setNotificationHandler({
 });
 
 function Inner() {
-  const { theme, isDark, settings } = useApp();
+  const { theme, settings } = useApp();
 
   // On every app open, refresh the scheduled notification so its body reflects
   // current cycle progress. No-op if notifications are disabled (the helper
@@ -39,7 +39,7 @@ function Inner() {
 
   return (
     <View style={{ flex: 1 }}>
-      <StatusBar style={isDark ? "light" : "dark"} />
+      <StatusBar style="light" />
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.background } }}>
         {/* index MUST be listed explicitly. Without this, expo-router falls
             back to the first registered screen as the initial route and the

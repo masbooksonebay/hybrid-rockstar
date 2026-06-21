@@ -1,12 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export type ThemeMode = "light" | "dark";
 export type Format = "Individual" | "Doubles" | "Mixed Doubles" | "Relay";
 export type Tier = "Open" | "Pro";
 export type Goal = "finish_strong" | "compete_for_time";
 
 export interface Settings {
-  themeMode: ThemeMode;
   format: Format | null;
   tier: Tier | null;
   gender: string | null;
@@ -23,7 +21,6 @@ export interface Settings {
 }
 
 export const DEFAULT_SETTINGS: Settings = {
-  themeMode: "dark",
   format: null,
   tier: null,
   gender: null,
@@ -62,15 +59,8 @@ export async function saveSettings(s: Settings): Promise<void> {
   await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
 }
 
-function migrate(s: Settings & { darkMode?: boolean; division?: string }): Settings {
+function migrate(s: Settings & { division?: string }): Settings {
   const out: Settings = { ...DEFAULT_SETTINGS, ...s };
-  // Legacy "system" / "automatic" theme values silently collapse to "dark".
-  if ((out.themeMode as string) !== "light" && (out.themeMode as string) !== "dark") {
-    out.themeMode = "dark";
-  }
-  if (out.themeMode == null && typeof s.darkMode === "boolean") {
-    out.themeMode = s.darkMode ? "dark" : "light";
-  }
   if (out.format == null && typeof s.division === "string") {
     if (s.division === "Open" || s.division === "Pro") {
       out.format = "Individual";

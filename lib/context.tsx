@@ -1,18 +1,16 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { Settings, DEFAULT_SETTINGS, loadSettings, saveSettings } from "./store";
-import { darkTheme, lightTheme, Theme } from "../constants/theme";
+import { darkTheme, Theme } from "../constants/theme";
 
 interface AppCtx {
   settings: Settings;
   theme: Theme;
-  isDark: boolean;
   updateSettings: (s: Partial<Settings>) => void;
 }
 
 const Ctx = createContext<AppCtx>({
   settings: DEFAULT_SETTINGS,
   theme: darkTheme,
-  isDark: true,
   updateSettings: () => {},
 });
 
@@ -36,10 +34,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  const isDark = settings.themeMode === "dark";
-  const theme = isDark ? darkTheme : lightTheme;
+  // Dark is the only theme — the app is permanently dark-mode.
+  const theme = darkTheme;
 
   if (!loaded) return null;
 
-  return <Ctx.Provider value={{ settings, theme, isDark, updateSettings }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ settings, theme, updateSettings }}>{children}</Ctx.Provider>;
 }

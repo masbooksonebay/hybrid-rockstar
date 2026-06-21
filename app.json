@@ -15,6 +15,7 @@
     },
     "ios": {
       "supportsTablet": false,
+      "userInterfaceStyle": "dark",
       "bundleIdentifier": "com.hybridrockstar.app",
       "icon": "./assets/app-icon-hybrid-1024.png",
       "infoPlist": {
